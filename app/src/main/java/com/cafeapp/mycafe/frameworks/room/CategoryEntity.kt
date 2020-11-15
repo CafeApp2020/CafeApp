@@ -6,18 +6,19 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 
 // Для хранения категорий в базе данных
-@Entity( indices = arrayOf(Index(value = arrayOf("id"), unique = true)))
+@Entity(indices = arrayOf(Index(value = arrayOf("id"), unique = true)))
 class CategoryEntity (
-    @field:PrimaryKey(autoGenerate = true)
-    @field:ColumnInfo(name = "id")
-    var id: Long,
-
     @field:ColumnInfo(name = "name")
-    var name: String?,
+    var name: String,
 
     @field:ColumnInfo(name = "description")
-    var description: String?,
+    var description: String,
 
     @field:ColumnInfo(name = "imagepath")
-    var imagepath: String?
+    var imagepath: String
 )
+{
+    @field:PrimaryKey(autoGenerate = true)
+    @field:ColumnInfo(name = "id")
+    var id: Long = 0
+}

@@ -5,9 +5,10 @@ import androidx.room.RoomDatabase
 import com.less.repository.db.room.CategoryDao
 import com.less.repository.db.room.CategoryEntity
 import com.less.repository.db.room.DishesDao
+import com.less.repository.db.room.DishesEntity
 
-@Database(entities = arrayOf(CategoryEntity::class, DishesDao::class), version = 1, exportSchema = false)
+@Database(entities = arrayOf(CategoryEntity::class, DishesEntity::class), version = 1, exportSchema = false)
 abstract class CafeDataBase : RoomDatabase() {
-    abstract fun categoryDao(): CategoryDao
-    abstract fun dishesDao(): DishesDao
+     open abstract fun categoryDao(): CategoryDao
+     open abstract fun dishesDao(): DishesDao
 }
