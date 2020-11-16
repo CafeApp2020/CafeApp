@@ -4,20 +4,26 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import com.cafeapp.mycafe.R
-import com.cafeapp.mycafe.interface_adapters.viewmodels.CategoryListViewModel
+import com.cafeapp.mycafe.interface_adapters.adapters.CategoryListRVAdapter
+import com.cafeapp.mycafe.interface_adapters.viewmodels.categories.CategoryListViewModel
 import com.cafeapp.mycafe.use_case.utils.MsgState
 import com.cafeapp.mycafe.use_case.utils.SharedMsg
 import com.cafeapp.mycafe.use_case.utils.SharedViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.less.repository.db.room.DishesEntity
+import kotlinx.android.synthetic.main.fragment_categorylist.view.*
+import kotlinx.android.synthetic.main.fragment_dishesadd.*
 
 // // Экран для отображения категорий блюд
 class CategoryListFragment : Fragment() {
     private lateinit var categoryListViewModel: CategoryListViewModel
+    private lateinit var adapter: CategoryListRVAdapter
+
     private val sharedModel by lazy {
         activity?.let { ViewModelProvider(it).get(SharedViewModel::class.java) }
     }
@@ -27,18 +33,17 @@ class CategoryListFragment : Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        categoryListViewModel =
-                ViewModelProvider(this).get(CategoryListViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_categorylist, container, false)
-        val textView: TextView = root.findViewById(R.id.text_dishmenu)
-        categoryListViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })
+        adapter = CategoryListRVAdapter()
 
-        val addCategoryFab : FloatingActionButton = root.findViewById(R.id.add_category_fab)
-        addCategoryFab.setOnClickListener {
-          sharedModel?.select(SharedMsg(MsgState.ADDCATEGORY, -1))
-        }
+        /*categoryListViewModel.categoryViewState.observe(viewLifecycleOwner, {
+            if(it.categories != null){
+                adapter.data = it.categories
+            }
+        })*/
+
+        root.recyclerView.layoutManager = GridLayoutManager(activity, 2)
+        root.recyclerView.adapter = adapter
 
         return root
     }

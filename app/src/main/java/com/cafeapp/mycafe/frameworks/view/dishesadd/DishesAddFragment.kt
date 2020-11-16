@@ -12,11 +12,9 @@ import com.cafeapp.mycafe.R
 import com.cafeapp.mycafe.interface_adapters.viewmodels.dishes.DishesAddViewModel
 import com.cafeapp.mycafe.use_case.utils.MsgState
 import com.cafeapp.mycafe.use_case.utils.SharedViewModel
-import com.google.android.material.textfield.TextInputEditText
 import com.less.repository.db.room.DishesEntity
 import kotlinx.android.synthetic.main.fragment_dishesadd.*
 import org.koin.androidx.scope.currentScope
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 // Экран для добавления/редактирования блюда
 class DishesAddFragment : Fragment() {
