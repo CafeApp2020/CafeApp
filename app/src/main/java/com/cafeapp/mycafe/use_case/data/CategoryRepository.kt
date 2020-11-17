@@ -14,8 +14,12 @@ class CategoryRepository(val dataSource: ICategoryDataSource): ICategoryReposito
         return dataSource.saveCategory(category)
     }
 
-    override fun loadCategory(categoryId: Int): Single<CategoryResult> {
+    override fun loadCategory(categoryId: Long): Single<CategoryEntity> {
         return dataSource.loadCategory(categoryId)
+    }
+
+    override fun updateCategory(categoryEntity: CategoryEntity): Completable {
+        return dataSource.updateCategory(categoryEntity)
     }
 
     override fun deleteCategory(category: CategoryEntity): Completable {

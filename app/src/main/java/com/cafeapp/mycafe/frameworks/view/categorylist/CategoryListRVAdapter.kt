@@ -1,5 +1,6 @@
 package com.cafeapp.mycafe.frameworks.view.categorylist
 
+import android.app.PendingIntent.getActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,8 +10,9 @@ import com.cafeapp.mycafe.frameworks.picasso.setImage
 import com.less.repository.db.room.CategoryEntity
 import kotlinx.android.synthetic.main.category_view_holder.view.*
 
-class CategoryListRVAdapter() : RecyclerView.Adapter<CategoryListRVAdapter.CategoryViewHolder>() {
-
+// пердаем адаптеру лямду getIdFunct, которая отрабатывает в CategoryListFragment при нажатии на категорию
+class CategoryListRVAdapter(val getIdFunct: (Long) -> Unit) : RecyclerView.Adapter<CategoryListRVAdapter.CategoryViewHolder>() {
+    var currentPos: Long =-1
     var data : List<CategoryEntity?>? = mutableListOf()
         set(value){
             field = value
@@ -22,7 +24,7 @@ class CategoryListRVAdapter() : RecyclerView.Adapter<CategoryListRVAdapter.Categ
                     R.layout.category_view_holder,
                     parent,
                     false
-            ))
+            ), getIdFunct)
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
         data?.get(position)?.let { holder.bind(it) }
@@ -30,11 +32,14 @@ class CategoryListRVAdapter() : RecyclerView.Adapter<CategoryListRVAdapter.Categ
 
     override fun getItemCount(): Int = data!!.size
 
-    class CategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+    class CategoryViewHolder(itemView: View, val getIdFunct: (Long) -> Unit) : RecyclerView.ViewHolder(itemView){
 
         fun bind(data : CategoryEntity) = with(itemView){
+            itemView.setOnClickListener{
+                getIdFunct(data.id)
+            }
             name.text = data.name
-            setImage(data.imagepath, image)
+            if (data.imagepath.length>0)
+                setImage(data.imagepath, image)}
         }
-    }
-}
+  }

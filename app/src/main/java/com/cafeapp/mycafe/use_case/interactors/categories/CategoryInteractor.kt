@@ -15,8 +15,12 @@ class CategoryInteractor(val repository: ICategoryRepository) : ICategoryInterac
         return repository.saveCategory(category)
     }
 
-    override fun loadCategory(categoryId: Int): Single<CategoryResult> {
+    override fun loadCategory(categoryId: Long): Single<CategoryEntity> {
         return repository.loadCategory(categoryId)
+    }
+
+    override fun updateCategory(categoryEntity: CategoryEntity): Completable {
+        return repository.updateCategory(categoryEntity)
     }
 
     override fun deleteCategory(category: CategoryEntity): Completable {

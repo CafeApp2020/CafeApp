@@ -7,5 +7,6 @@ class CategoryAddViewState(val category: CategoryEntity? = null,
                            val delOk:Boolean=false,
                            val delError:Throwable?=null,
                            val saveOk:Boolean=false,
+                           val loadOk:Boolean=false,
                            val saveErr:Throwable?=null) {
 }

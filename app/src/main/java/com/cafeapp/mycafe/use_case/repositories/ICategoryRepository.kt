@@ -8,6 +8,7 @@ import io.reactivex.Single
 interface ICategoryRepository {
     fun getAllCategory(): Single<List<CategoryEntity?>?>?
     fun saveCategory(category: CategoryEntity): Single<Long>?
-    fun loadCategory(categoryId: Int): Single<CategoryResult>
+    fun loadCategory(categoryId: Long): Single<CategoryEntity>
+    fun updateCategory(categoryEntity: CategoryEntity): Completable
     fun deleteCategory(category: CategoryEntity): Completable
 }

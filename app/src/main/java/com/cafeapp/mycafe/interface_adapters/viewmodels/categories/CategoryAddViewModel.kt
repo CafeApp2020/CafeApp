@@ -15,16 +15,53 @@ class CategoryAddViewModel(val categoryInteractor: ICategoryInteractor) : ViewMo
     val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
     fun saveCategory(savecategory: CategoryEntity){
+       if (savecategory.id>0)
+           editableCategorySave(savecategory)
+       else
+           addNewCategory(savecategory)
+    }
+
+    fun editableCategorySave(savecategory: CategoryEntity) {
+        compositeDisposable.add(
+                categoryInteractor.updateCategory(savecategory)!!
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                {
+                                    modifyCategoryViewState.value = CategoryAddViewState(category = savecategory, saveOk = true)
+                                },
+                                { error ->
+                                    modifyCategoryViewState.value = CategoryAddViewState(saveErr = error, saveOk = false)
+                                })
+        )
+    }
+
+    fun addNewCategory(savecategory: CategoryEntity) {
         compositeDisposable.add(
                 categoryInteractor.saveCategory(savecategory)!!
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(
                                 {
-                                 modifyCategoryViewState.value = CategoryAddViewState(category = savecategory, saveOk = true)
+                                    modifyCategoryViewState.value = CategoryAddViewState(category = savecategory, saveOk = true)
                                 },
                                 { error ->
                                     modifyCategoryViewState.value = CategoryAddViewState(saveErr = error, saveOk = false)
+                                })
+        )
+  }
+
+    fun loadCategory(category_id: Long) {
+        compositeDisposable.add(
+                categoryInteractor.loadCategory(category_id)!!
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                {
+                                    modifyCategoryViewState.value = CategoryAddViewState(category = it, loadOk = true)
+                                },
+                                { error ->
+                                    modifyCategoryViewState.value = CategoryAddViewState(saveErr = error, loadOk = false)
                                 })
         )
     }

@@ -1,6 +1,5 @@
 package com.cafeapp.mycafe.frameworks.room
 
-import com.cafeapp.mycafe.use_case.data.CategoryResult
 import com.cafeapp.mycafe.use_case.data.ICategoryDataSource
 import com.less.repository.db.room.CategoryDao
 import com.less.repository.db.room.CategoryEntity
@@ -16,8 +15,12 @@ class RoomCategoryDataSource(val categoryDao: CategoryDao): ICategoryDataSource 
         return categoryDao.insert(category)
     }
 
-    override fun loadCategory(categoryId: Int): Single<CategoryResult> {
-        TODO("Not yet implemented")
+    override fun loadCategory(categoryId: Long): Single<CategoryEntity> {
+        return categoryDao.getCategory(categoryId)
+    }
+
+    override fun updateCategory(categoryEntity: CategoryEntity): Completable {
+        return categoryDao.update(categoryEntity)
     }
 
     override fun deleteCategory(category: CategoryEntity): Completable {

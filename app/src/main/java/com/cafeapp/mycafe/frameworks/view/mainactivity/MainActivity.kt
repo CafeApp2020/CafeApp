@@ -48,6 +48,7 @@ class MainActivity : AppCompatActivity() {
              MsgState.ADDCATEGORY -> navController.navigate(R.id.nav_categoryadd)  // открываем фрагмент добавления/редактирования категории
              MsgState.ADDDISH -> navController.navigate(R.id.nav_dishesadd)    // открываем фрагмент добавления/редактирования блюда
              MsgState.DISHESLIST -> navController.navigate(R.id.nav_disheslist)    // открываем фрагмент со списком блюд
+             MsgState.CATEGORYLISTOPEN -> navController.navigate(R.id.nav_categorylist) // открываем фрагмент со списком категорий
           }
         })
     }
