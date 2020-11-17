@@ -2,6 +2,8 @@ package com.cafeapp.mycafe.application
 
 import android.app.Application
 import com.prof.dz.frameworks.koin.application
+import com.prof.dz.frameworks.koin.categoryListViewModel
+import com.prof.dz.frameworks.koin.categoryViewModel
 import com.prof.dz.frameworks.koin.dishViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
@@ -11,7 +13,7 @@ class CafeApp : Application()  {
        super.onCreate()
        startKoin {
             androidContext(this@CafeApp)
-            modules(listOf(application, dishViewModel))
+            modules(listOf(application, dishViewModel, categoryListViewModel, categoryViewModel))
        }
     }
 }

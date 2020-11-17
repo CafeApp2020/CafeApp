@@ -6,13 +6,13 @@ import io.reactivex.Single
 @Dao
 interface CategoryDao {
     @Query("SELECT * FROM CategoryEntity")
-    open fun all(): Single<List<CategoryEntity?>?>?
+    fun all(): Single<List<CategoryEntity?>?>?
 
     @Query("SELECT * FROM CategoryEntity where id=:category_id")
-    suspend fun getCategory(category_id: Long): List<CategoryEntity>
+    fun getCategory(category_id: Long): Single<List<CategoryEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    open fun insert(dishes: CategoryEntity?): Single<Long>?
+    fun insert(dishes: CategoryEntity?): Single<Long>?
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertAll(entities: List<CategoryEntity>)
