@@ -16,4 +16,7 @@
     <string name="table_title">Столы</string>
     <string name="dishesadd_title">Добавление блюда</string>
     <string name="saveok_title">Запись сохранена в базе данных</string>
+    <string name="description">Примечание</string>
+    <string name="save_category">Сохранение категории</string>
+    <string name="category_name">Название категории</string>
 </resources>

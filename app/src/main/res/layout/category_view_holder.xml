@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
-        android:layout_height="200dp"
-        android:layout_margin="8dp">
+        android:layout_height="@dimen/category_card_height"
+        android:layout_margin="@dimen/category_card_margin"
+        android:padding="@dimen/category_card_padding">
 
         <TextView
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:layout_marginTop="8dp"/>
+            android:textSize="@dimen/category_name_card_text_size"
+            android:textStyle="bold"/>
 
         <ImageView
             android:id="@+id/image"
@@ -25,4 +24,4 @@
 
     </androidx.cardview.widget.CardView>
 
-</LinearLayout>
+</FrameLayout>

@@ -20,7 +20,7 @@
             android:id="@+id/dishNameTIT"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="Название категории" />
+            android:hint="@string/category_name" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -35,7 +35,7 @@
             android:id="@+id/descriptionTIT"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="Примечание" />
+            android:hint="@string/description" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -45,10 +45,10 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="28dp"
-        android:layout_gravity="right"
-        android:clickable="true"
+        android:layout_gravity="end"
         android:src="@android:drawable/ic_menu_save"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="@string/save_category" />
 
 </LinearLayout>
