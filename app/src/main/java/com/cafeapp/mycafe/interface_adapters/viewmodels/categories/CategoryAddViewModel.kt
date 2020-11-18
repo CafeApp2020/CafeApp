@@ -1,8 +1,10 @@
 package com.cafeapp.mycafe.interface_adapters.viewmodels.categories
 
+import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.cafeapp.mycafe.R
 import com.cafeapp.mycafe.use_case.interactors.categories.ICategoryInteractor
 import com.less.repository.db.room.CategoryEntity
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -68,5 +70,17 @@ class CategoryAddViewModel(val categoryInteractor: ICategoryInteractor) : ViewMo
 
     override fun onCleared() {
         compositeDisposable.clear()
+    }
+
+    fun getColorFromButton(view: View) : Int{
+        return when(view.id){
+            R.id.yellow_button -> 1;
+            R.id.green_button -> 2;
+            R.id.pink_button -> 3;
+            R.id.red_button -> 4;
+            R.id.blue_button -> 5;
+            R.id.violet_button -> 6;
+            else -> 0;
+        }
     }
 }
