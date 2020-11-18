@@ -4,10 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.cafeapp.mycafe.R
 import com.cafeapp.mycafe.interface_adapters.viewmodels.categories.CategoryAddViewModel
@@ -16,13 +14,13 @@ import com.cafeapp.mycafe.use_case.utils.SharedMsg
 import com.cafeapp.mycafe.use_case.utils.SharedViewModel
 import com.less.repository.db.room.CategoryEntity
 import kotlinx.android.synthetic.main.fragment_addcategory.*
-import kotlinx.android.synthetic.main.fragment_disheslist.view.*
 import org.koin.androidx.scope.currentScope
 
 // Экран для добавления/редактирования категорий
 class CategoryAddFragment : Fragment() {
     var currentCategoryId: Long = -1L
     val categoryAddViewModel: CategoryAddViewModel by currentScope.inject()
+    private var color: Int = 0
     private val sharedModel by lazy {
         activity?.let { ViewModelProvider(it).get(SharedViewModel::class.java) }
     }
@@ -64,11 +62,16 @@ class CategoryAddFragment : Fragment() {
                         } else currentCategoryId = -1L
             }
         })
+
         return root
     }
 
     fun loadEditableCategory(category_id: Long) {
         categoryAddViewModel.loadCategory(category_id)
+    }
+
+    val clicklistener = View.OnClickListener { view ->
+        setColor(view)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -78,10 +81,24 @@ class CategoryAddFragment : Fragment() {
                     name = categoryNameTIT.text.toString(),
                     description = descriptionTIT.text.toString(),
                     imagepath = "",
+                    color = color
             )
             if (currentCategoryId>0)
              category.id=currentCategoryId
             categoryAddViewModel.saveCategory(category)
         }
+
+        white_button.setOnClickListener(clicklistener)
+        yellow_button.setOnClickListener(clicklistener)
+        pink_button.setOnClickListener(clicklistener)
+        red_button.setOnClickListener(clicklistener)
+        green_button.setOnClickListener(clicklistener)
+        blue_button.setOnClickListener(clicklistener)
+        violet_button.setOnClickListener(clicklistener)
+
+    }
+
+    fun setColor(view: View){
+        color = categoryAddViewModel.getColorFromButton(view)
     }
 }

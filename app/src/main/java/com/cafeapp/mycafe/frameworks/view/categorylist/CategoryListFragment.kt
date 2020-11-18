@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -13,7 +12,6 @@ import com.cafeapp.mycafe.interface_adapters.viewmodels.categories.CategoryListV
 import com.cafeapp.mycafe.use_case.utils.MsgState
 import com.cafeapp.mycafe.use_case.utils.SharedMsg
 import com.cafeapp.mycafe.use_case.utils.SharedViewModel
-import kotlinx.android.synthetic.main.fragment_categorylist.*
 import kotlinx.android.synthetic.main.fragment_categorylist.view.*
 import org.koin.androidx.scope.currentScope
 
@@ -42,7 +40,7 @@ class CategoryListFragment() : Fragment() {
             }
         })
 
-        root.categoryListRV.layoutManager = GridLayoutManager(activity, 2)
+        root.categoryListRV.layoutManager = GridLayoutManager(activity, 3)
         root.categoryListRV.adapter = adapter
 
         root.addCategoryFab.setOnClickListener {

@@ -1,12 +1,12 @@
 package com.cafeapp.mycafe.frameworks.view.categorylist
 
-import android.app.PendingIntent.getActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.cafeapp.mycafe.R
 import com.cafeapp.mycafe.frameworks.picasso.setImage
+import com.cafeapp.mycafe.frameworks.view.categoryadd.getColorInt
 import com.less.repository.db.room.CategoryEntity
 import kotlinx.android.synthetic.main.category_view_holder.view.*
 
@@ -39,6 +39,7 @@ class CategoryListRVAdapter(val getIdFunct: (Long) -> Unit) : RecyclerView.Adapt
                 getIdFunct(data.id)
             }
             name.text = data.name
+            setBackgroundColor(data.getColorInt(context))
             if (data.imagepath.length>0)
                 setImage(data.imagepath, image)}
         }

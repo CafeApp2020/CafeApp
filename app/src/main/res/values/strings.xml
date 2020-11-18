@@ -23,4 +23,5 @@
     <string name="price">Цена</string>
     <string name="dish_name">Название блюда</string>
     <string name="dish">Блюдо</string>
+    <string name="category_picture_description">Category picture</string>
 </resources>
