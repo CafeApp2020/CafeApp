@@ -6,12 +6,14 @@ import com.cafeapp.mycafe.frameworks.room.RoomCategoryDataSource
 import com.cafeapp.mycafe.frameworks.room.RoomDishDataSource
 import com.cafeapp.mycafe.frameworks.view.categoryadd.CategoryAddFragment
 import com.cafeapp.mycafe.frameworks.view.categorylist.CategoryListFragment
+import com.cafeapp.mycafe.frameworks.view.dish.DishFragment
 import com.cafeapp.mycafe.frameworks.view.dishesadd.DishesAddFragment
 import com.cafeapp.mycafe.frameworks.view.dishlist.DishListFragment
 import com.cafeapp.mycafe.interface_adapters.viewmodels.categories.CategoryAddViewModel
 import com.cafeapp.mycafe.interface_adapters.viewmodels.categories.CategoryListViewModel
-import com.cafeapp.mycafe.interface_adapters.viewmodels.dishes.DishesAddViewModel
-import com.cafeapp.mycafe.interface_adapters.viewmodels.dishes.DishListViewModel
+import com.cafeapp.mycafe.interface_adapters.viewmodels.dishes.dish.DishViewModel
+import com.cafeapp.mycafe.interface_adapters.viewmodels.dishes.dishesadd.DishesAddViewModel
+import com.cafeapp.mycafe.interface_adapters.viewmodels.dishes.dishlist.DishListViewModel
 import com.cafeapp.mycafe.use_case.data.CategoryRepository
 import com.cafeapp.mycafe.use_case.data.DishRepository
 import com.cafeapp.mycafe.use_case.data.ICategoryDataSource
@@ -56,9 +58,16 @@ val dishListViewModel = module {
     }
 }
 
-val dishViewModel = module {
+val dishAddViewModel = module {
     scope(named<DishesAddFragment>()) {
         scoped<IDishInteractor> { DishInteractor(get()) }
         scoped { DishesAddViewModel(get()) }
+    }
+}
+
+val dishViewModel = module {
+    scope(named<DishFragment>()) {
+        scoped<IDishInteractor> { DishInteractor(get()) }
+        scoped { DishViewModel(get()) }
     }
 }

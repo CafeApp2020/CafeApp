@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.cafeapp.mycafe.R
-import com.cafeapp.mycafe.interface_adapters.viewmodels.dishes.DishesAddViewModel
+import com.cafeapp.mycafe.interface_adapters.viewmodels.dishes.dishesadd.DishesAddViewModel
 import com.cafeapp.mycafe.use_case.utils.MsgState
 import com.cafeapp.mycafe.use_case.utils.SharedViewModel
 import com.less.repository.db.room.DishesEntity

@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.cafeapp.mycafe.R
-import com.cafeapp.mycafe.interface_adapters.viewmodels.dishes.DishListViewModel
+import com.cafeapp.mycafe.interface_adapters.viewmodels.dishes.dishlist.DishListViewModel
 import com.cafeapp.mycafe.use_case.utils.MsgState
 import com.cafeapp.mycafe.use_case.utils.SharedMsg
 import com.cafeapp.mycafe.use_case.utils.SharedViewModel
@@ -34,8 +34,8 @@ class DishListFragment : Fragment() {
 
         initRecyclerView(root)
 
-        dishListViewModel.dishListViewStateToObserve.observe(viewLifecycleOwner, { data ->
-            data.dishList?.let { dishList ->
+        dishListViewModel.dishListViewStateToObserve.observe(viewLifecycleOwner, { state ->
+            state.dishList?.let { dishList ->
                 dishListAdapter.data = dishList
             }
         })
@@ -55,7 +55,9 @@ class DishListFragment : Fragment() {
     }
 
     private fun initRecyclerView(root: View) {
-        dishListAdapter = DishListRVAdapter()
+        dishListAdapter = DishListRVAdapter { id ->
+            sharedModel?.select(SharedMsg(MsgState.DISH, id))
+        }
 
         root.dishlist_recyclerview.apply {
             adapter = dishListAdapter

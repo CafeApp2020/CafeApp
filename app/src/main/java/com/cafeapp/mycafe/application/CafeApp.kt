@@ -16,6 +16,7 @@ class CafeApp : Application() {
                     categoryListViewModel,
                     categoryViewModel,
                     dishListViewModel,
+                    dishAddViewModel,
                     dishViewModel
                 )
             )

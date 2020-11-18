@@ -1,6 +1,5 @@
 package com.cafeapp.mycafe.use_case.repositories
 
-import com.cafeapp.mycafe.use_case.data.CategoryResult
 import com.less.repository.db.room.CategoryEntity
 import io.reactivex.Completable
 import io.reactivex.Single

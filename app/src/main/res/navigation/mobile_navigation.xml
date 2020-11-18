@@ -40,4 +40,10 @@
         android:name="com.cafeapp.mycafe.frameworks.view.dishlist.DishListFragment"
         android:label="Список блюд"
         tools:layout="@layout/fragment_disheslist" />
+
+    <fragment
+        android:id="@+id/nav_dish"
+        android:name="com.cafeapp.mycafe.frameworks.view.dish.DishFragment"
+        android:label="@string/dish"
+        tools:layout="@layout/fragment_dish" />
 </navigation>

@@ -1,4 +1,4 @@
-package com.cafeapp.mycafe.interface_adapters.viewmodels.dishes
+package com.cafeapp.mycafe.interface_adapters.viewmodels.dishes.dishlist
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -7,7 +7,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-class DishListViewModel(val interactor: IDishInteractor) : ViewModel() {
+class DishListViewModel(private val interactor: IDishInteractor) : ViewModel() {
     private val compositeDisposable = CompositeDisposable()
     private val mutableDishListViewState = MutableLiveData<DishListViewState>()
 

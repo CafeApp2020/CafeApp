@@ -11,6 +11,9 @@ interface DishesDao {
     @Query("SELECT * FROM DishesEntity where category_id=:category_id")
     open fun getDishList(category_id: Long): Single<List<DishesEntity?>?>?
 
+    @Query("SELECT * FROM DishesEntity where id=:dishId")
+    open fun getDish(dishId: Long): Single<DishesEntity>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     open fun insert(dishes: DishesEntity?): Single<Long>?
 

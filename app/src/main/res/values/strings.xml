@@ -19,5 +19,9 @@
     <string name="description">Примечание</string>
     <string name="save_category">Сохранение категории</string>
     <string name="category_name">Название категории</string>
+    <string name="weight">Вес</string>
+    <string name="price">Цена</string>
+    <string name="dish_name">Название блюда</string>
+    <string name="dish">Блюдо</string>
     <string name="category_picture_description">Category picture</string>
 </resources>
