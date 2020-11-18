@@ -4,8 +4,9 @@ package com.cafeapp.mycafe.use_case.utils
 enum class MsgState {
     ADDCATEGORY, // открыть окно добавления/редактирования новой категории
     ADDDISH, //  открыть окно добавления/редактрования блюда
+    CATEGORYLISTOPEN,  //   открываем окно со списком категорий
     DISHESLIST, // открыть окно списка блюд
-    CATEGORYLISTOPEN  //   открываем окно со списком категорий
+    DISH // открываем окно с блюдом
 }
 
 // SharedMsg используется для обмена сообщениями между фрагментами.

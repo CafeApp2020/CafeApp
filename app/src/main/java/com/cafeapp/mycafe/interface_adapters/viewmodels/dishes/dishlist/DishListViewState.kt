@@ -1,4 +1,4 @@
-package com.cafeapp.mycafe.interface_adapters.viewmodels.dishes
+package com.cafeapp.mycafe.interface_adapters.viewmodels.dishes.dishlist
 
 import com.less.repository.db.room.DishesEntity
 

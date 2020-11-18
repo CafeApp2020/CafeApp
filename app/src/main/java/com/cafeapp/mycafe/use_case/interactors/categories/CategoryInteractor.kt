@@ -1,6 +1,5 @@
 package com.cafeapp.mycafe.use_case.interactors.categories
 
-import com.cafeapp.mycafe.use_case.data.CategoryResult
 import com.cafeapp.mycafe.use_case.repositories.ICategoryRepository
 import com.less.repository.db.room.CategoryEntity
 import io.reactivex.Completable

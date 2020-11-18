@@ -9,19 +9,19 @@ import com.cafeapp.mycafe.frameworks.picasso.setImage
 import com.less.repository.db.room.DishesEntity
 import kotlinx.android.synthetic.main.dishlist_recyclerview_item.view.*
 
-class DishListRVAdapter : RecyclerView.Adapter<DishListRVAdapter.ViewHolder>() {
+class DishListRVAdapter(val getIdFunc: (Long) -> Unit) :
+    RecyclerView.Adapter<DishListRVAdapter.ViewHolder>() {
     var data: List<DishesEntity?>? = mutableListOf()
         set(value) {
             field = value
             notifyDataSetChanged()
         }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(
-            LayoutInflater.from(parent.context)
-                .inflate(R.layout.dishlist_recyclerview_item, parent, false)
-        )
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(
+        LayoutInflater.from(parent.context).inflate(
+            R.layout.dishlist_recyclerview_item, parent, false
+        ), getIdFunc
+    )
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         data?.get(position).let { holder.bind(it!!) }
@@ -29,7 +29,8 @@ class DishListRVAdapter : RecyclerView.Adapter<DishListRVAdapter.ViewHolder>() {
 
     override fun getItemCount(): Int = data!!.size
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(itemView: View, val getIdFunc: (Long) -> Unit) :
+        RecyclerView.ViewHolder(itemView) {
         fun bind(data: DishesEntity) = with(itemView) {
             dish_name_textview.text = data.name
             dish_price_textview.text = data.price.toString()
@@ -43,6 +44,10 @@ class DishListRVAdapter : RecyclerView.Adapter<DishListRVAdapter.ViewHolder>() {
 
             if (imagePath.isNotEmpty()) {
                 setImage(imagePath, dish_image_imageview)
+            }
+
+            setOnClickListener {
+                getIdFunc(data.id)
             }
         }
     }
