@@ -6,7 +6,8 @@ import io.reactivex.Completable
 import io.reactivex.Single
 
 interface IDishInteractor {
-    fun saveDish(dish: DishesEntity): Single<Long>?
-    fun loadDish(dishId: Int): Single<DishResult>
     fun deleteDish(dish: DishesEntity): Completable
+    fun getData(category_id: Long): Single<List<DishesEntity?>?>?
+    fun loadDish(dishId: Int): Single<DishResult>
+    fun saveDish(dish: DishesEntity): Single<Long>?
 }

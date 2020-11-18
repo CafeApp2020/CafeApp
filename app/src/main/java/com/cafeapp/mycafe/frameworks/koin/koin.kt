@@ -7,9 +7,11 @@ import com.cafeapp.mycafe.frameworks.room.RoomDishDataSource
 import com.cafeapp.mycafe.frameworks.view.categoryadd.CategoryAddFragment
 import com.cafeapp.mycafe.frameworks.view.categorylist.CategoryListFragment
 import com.cafeapp.mycafe.frameworks.view.dishesadd.DishesAddFragment
+import com.cafeapp.mycafe.frameworks.view.dishlist.DishListFragment
 import com.cafeapp.mycafe.interface_adapters.viewmodels.categories.CategoryAddViewModel
 import com.cafeapp.mycafe.interface_adapters.viewmodels.categories.CategoryListViewModel
 import com.cafeapp.mycafe.interface_adapters.viewmodels.dishes.DishesAddViewModel
+import com.cafeapp.mycafe.interface_adapters.viewmodels.dishes.DishListViewModel
 import com.cafeapp.mycafe.use_case.data.CategoryRepository
 import com.cafeapp.mycafe.use_case.data.DishRepository
 import com.cafeapp.mycafe.use_case.data.ICategoryDataSource
@@ -25,12 +27,12 @@ import org.koin.dsl.module
 
 val application = module {
     single { Room.databaseBuilder(get(), CafeDataBase::class.java, "cafedb").build() }
-    single { get<CafeDataBase>().categoryDao()}
-    single { get<CafeDataBase>().dishesDao()}
-    single<ICategoryDataSource>{RoomCategoryDataSource(get())}
-    single<ICategoryRepository>{CategoryRepository(get()) }
-    single<IDishDataSource>{RoomDishDataSource(get())}
-    single<IDishRepository>{DishRepository(get())}
+    single { get<CafeDataBase>().categoryDao() }
+    single { get<CafeDataBase>().dishesDao() }
+    single<ICategoryDataSource> { RoomCategoryDataSource(get()) }
+    single<ICategoryRepository> { CategoryRepository(get()) }
+    single<IDishDataSource> { RoomDishDataSource(get()) }
+    single<IDishRepository> { DishRepository(get()) }
 }
 
 val categoryListViewModel = module {
@@ -47,11 +49,16 @@ val categoryViewModel = module {
     }
 }
 
-val dishViewModel = module {
-   scope(named<DishesAddFragment>()) {
-        scoped<IDishInteractor>{DishInteractor(get()) }
-        scoped { DishesAddViewModel(get()) }
+val dishListViewModel = module {
+    scope(named<DishListFragment>()) {
+        scoped<IDishInteractor> { DishInteractor(get()) }
+        scoped { DishListViewModel(get()) }
     }
 }
 
-
+val dishViewModel = module {
+    scope(named<DishesAddFragment>()) {
+        scoped<IDishInteractor> { DishInteractor(get()) }
+        scoped { DishesAddViewModel(get()) }
+    }
+}
