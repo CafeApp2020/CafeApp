@@ -7,9 +7,9 @@ import androidx.room.PrimaryKey
 
 // Для хранения категорий в базе данных
 @Entity(indices = arrayOf(Index(value = arrayOf("id"), unique = true)))
-class CategoryEntity (
-    @field:ColumnInfo(name = "name")
-    var name: String,
+class CategoryEntity(
+    @field:ColumnInfo(name = "color")
+    var color: Int,
 
     @field:ColumnInfo(name = "description")
     var description: String,
@@ -17,12 +17,10 @@ class CategoryEntity (
     @field:ColumnInfo(name = "imagepath")
     var imagepath: String,
 
-    @field:ColumnInfo(name = "color")
-    var color: Int
-)
-{
+    @field:ColumnInfo(name = "name")
+    var name: String
+) {
     @field:PrimaryKey(autoGenerate = true)
     @field:ColumnInfo(name = "id")
     var id: Long = 0
-
 }

@@ -16,12 +16,12 @@ class TableListFragment : Fragment() {
     private lateinit var tableListViewModel: TableListViewModel
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         tableListViewModel =
-                ViewModelProvider(this).get(TableListViewModel::class.java)
+            ViewModelProvider(this).get(TableListViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_tablelist, container, false)
         val textView: TextView = root.findViewById(R.id.text_table)
         tableListViewModel.text.observe(viewLifecycleOwner, Observer {

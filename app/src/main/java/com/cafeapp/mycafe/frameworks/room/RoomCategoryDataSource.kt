@@ -7,23 +7,23 @@ import io.reactivex.Completable
 import io.reactivex.Single
 
 class RoomCategoryDataSource(val categoryDao: CategoryDao): ICategoryDataSource {
-    override fun getAllCategory(): Single<List<CategoryEntity?>?>? {
-        return categoryDao.all()
+    override fun deleteCategory(category: CategoryEntity): Completable {
+        TODO("Not yet implemented")
     }
 
-    override fun saveCategory(category: CategoryEntity): Single<Long>? {
-        return categoryDao.insert(category)
+    override fun getAllCategory(): Single<List<CategoryEntity?>?>? {
+        return categoryDao.all()
     }
 
     override fun loadCategory(categoryId: Long): Single<CategoryEntity> {
         return categoryDao.getCategory(categoryId)
     }
 
-    override fun updateCategory(categoryEntity: CategoryEntity): Completable {
-        return categoryDao.update(categoryEntity)
+    override fun saveCategory(category: CategoryEntity): Single<Long>? {
+        return categoryDao.insert(category)
     }
 
-    override fun deleteCategory(category: CategoryEntity): Completable {
-        TODO("Not yet implemented")
+    override fun updateCategory(categoryEntity: CategoryEntity): Completable {
+        return categoryDao.update(categoryEntity)
     }
 }

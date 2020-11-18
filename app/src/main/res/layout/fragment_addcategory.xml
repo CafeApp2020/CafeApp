@@ -15,6 +15,7 @@
         android:layout_marginTop="@dimen/category_add_textfield_margin_top"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/categoryNameTIT"
             android:layout_width="match_parent"
@@ -26,6 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/category_add_textfield_margin_top">
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/descriptionTIT"
             android:layout_width="match_parent"
@@ -39,56 +41,62 @@
         android:layout_height="@dimen/buttons_height"
         android:orientation="horizontal">
 
-       <Button
-           android:id="@+id/white_button"
-           android:layout_width="0dp"
-           android:layout_height="match_parent"
-           android:layout_weight="1"
-           android:layout_margin="@dimen/add_category_color_margin"
-           android:backgroundTint="@color/white"/>
+        <Button
+            android:id="@+id/white_button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/add_category_color_margin"
+            android:layout_weight="1"
+            android:backgroundTint="@color/white" />
+
         <Button
             android:id="@+id/yellow_button"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:minHeight="40dp"
-            android:layout_weight="1"
             android:layout_margin="@dimen/add_category_color_margin"
-            android:backgroundTint="@color/yellow" />
+            android:layout_weight="1"
+            android:backgroundTint="@color/yellow"
+            android:minHeight="40dp" />
+
         <Button
             android:id="@+id/green_button"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:layout_margin="@dimen/add_category_color_margin"
-            android:backgroundTint="@color/green"/>
+            android:layout_weight="1"
+            android:backgroundTint="@color/green" />
+
         <Button
             android:id="@+id/pink_button"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:layout_margin="@dimen/add_category_color_margin"
-            android:backgroundTint="@color/pink"/>
+            android:layout_weight="1"
+            android:backgroundTint="@color/pink" />
+
         <Button
             android:id="@+id/red_button"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:layout_margin="@dimen/add_category_color_margin"
-            android:backgroundTint="@color/red"/>
+            android:layout_weight="1"
+            android:backgroundTint="@color/red" />
+
         <Button
             android:id="@+id/blue_button"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:layout_margin="@dimen/add_category_color_margin"
-            android:backgroundTint="@color/blue"/>
+            android:layout_weight="1"
+            android:backgroundTint="@color/blue" />
+
         <Button
             android:id="@+id/violet_button"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:layout_margin="@dimen/add_category_color_margin"
-            android:backgroundTint="@color/violet"/>
+            android:layout_weight="1"
+            android:backgroundTint="@color/violet" />
 
     </LinearLayout>
 
@@ -97,9 +105,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end"
+        android:contentDescription="@string/save_category"
         android:src="@android:drawable/ic_menu_save"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:contentDescription="@string/save_category" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </LinearLayout>

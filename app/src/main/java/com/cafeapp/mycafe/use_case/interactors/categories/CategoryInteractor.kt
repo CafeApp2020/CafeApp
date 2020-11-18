@@ -6,23 +6,23 @@ import io.reactivex.Completable
 import io.reactivex.Single
 
 class CategoryInteractor(val repository: ICategoryRepository) : ICategoryInteractor {
-    override fun getAllCategory(): Single<List<CategoryEntity?>?>? {
-        return repository.getAllCategory()
+    override fun deleteCategory(category: CategoryEntity): Completable {
+        return repository.deleteCategory(category)
     }
 
-    override fun saveCategory(category: CategoryEntity): Single<Long>? {
-        return repository.saveCategory(category)
+    override fun getAllCategory(): Single<List<CategoryEntity?>?>? {
+        return repository.getAllCategory()
     }
 
     override fun loadCategory(categoryId: Long): Single<CategoryEntity> {
         return repository.loadCategory(categoryId)
     }
 
-    override fun updateCategory(categoryEntity: CategoryEntity): Completable {
-        return repository.updateCategory(categoryEntity)
+    override fun saveCategory(category: CategoryEntity): Single<Long>? {
+        return repository.saveCategory(category)
     }
 
-    override fun deleteCategory(category: CategoryEntity): Completable {
-        return repository.deleteCategory(category)
+    override fun updateCategory(categoryEntity: CategoryEntity): Completable {
+        return repository.updateCategory(categoryEntity)
     }
 }

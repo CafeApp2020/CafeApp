@@ -10,14 +10,14 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/category_text_margin"
         android:textSize="@dimen/category_name_card_text_size"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
     <ImageView
         android:id="@+id/image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scaleType="fitCenter"
         android:layout_margin="@dimen/category_image_margin"
-        android:contentDescription="@string/category_picture_description" />
+        android:contentDescription="@string/category_picture_description"
+        android:scaleType="fitCenter" />
 
 </androidx.cardview.widget.CardView>
