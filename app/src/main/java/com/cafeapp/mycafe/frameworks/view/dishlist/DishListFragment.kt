@@ -4,43 +4,62 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import com.cafeapp.mycafe.R
-import com.cafeapp.mycafe.interface_adapters.viewmodels.dishes.DishesListViewModel
+import com.cafeapp.mycafe.interface_adapters.viewmodels.dishes.DishListViewModel
 import com.cafeapp.mycafe.use_case.utils.MsgState
 import com.cafeapp.mycafe.use_case.utils.SharedMsg
 import com.cafeapp.mycafe.use_case.utils.SharedViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.android.synthetic.main.fragment_disheslist.view.*
+import org.koin.androidx.scope.currentScope
+
 // Экран для отображения списка блюд
 class DishListFragment : Fragment() {
+    private lateinit var dishListAdapter: DishListRVAdapter
+    private val dishListViewModel: DishListViewModel by currentScope.inject()
 
-    private lateinit var dishesListViewModel: DishesListViewModel
     private val sharedModel by lazy {
         activity?.let { ViewModelProvider(it).get(SharedViewModel::class.java) }
     }
 
-
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
-        dishesListViewModel =
-                ViewModelProvider(this).get(DishesListViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_disheslist, container, false)
-        val textView: TextView = root.findViewById(R.id.text)
-        dishesListViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
+
+        initRecyclerView(root)
+
+        dishListViewModel.dishListViewStateToObserve.observe(viewLifecycleOwner, { data ->
+            data.dishList?.let { dishList ->
+                dishListAdapter.data = dishList
+            }
         })
 
-        val addCategoryFab : FloatingActionButton = root.findViewById(R.id.add_dish_fab)
+        val addCategoryFab: FloatingActionButton = root.findViewById(R.id.add_dish_fab)
         addCategoryFab.setOnClickListener {
             sharedModel?.select(SharedMsg(MsgState.ADDDISH, -1))
         }
 
         return root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        dishListViewModel.getDishList(1) // пока что в базе есть только категории с id = 1, поэтому их и выводим
+    }
+
+    private fun initRecyclerView(root: View) {
+        dishListAdapter = DishListRVAdapter()
+
+        root.dishlist_recyclerview.apply {
+            adapter = dishListAdapter
+            layoutManager = GridLayoutManager(activity, 4)
+        }
     }
 }

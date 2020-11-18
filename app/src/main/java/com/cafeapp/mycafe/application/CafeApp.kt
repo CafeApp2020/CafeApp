@@ -1,19 +1,24 @@
 package com.cafeapp.mycafe.application
 
 import android.app.Application
-import com.prof.dz.frameworks.koin.application
-import com.prof.dz.frameworks.koin.categoryListViewModel
-import com.prof.dz.frameworks.koin.categoryViewModel
-import com.prof.dz.frameworks.koin.dishViewModel
+import com.prof.dz.frameworks.koin.*
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
-class CafeApp : Application()  {
+class CafeApp : Application() {
     override fun onCreate() {
-       super.onCreate()
-       startKoin {
+        super.onCreate()
+        startKoin {
             androidContext(this@CafeApp)
-            modules(listOf(application, dishViewModel, categoryListViewModel, categoryViewModel))
-       }
+            modules(
+                listOf(
+                    application,
+                    categoryListViewModel,
+                    categoryViewModel,
+                    dishListViewModel,
+                    dishViewModel
+                )
+            )
+        }
     }
 }
