@@ -5,8 +5,21 @@
     <dimen name="nav_header_vertical_spacing">8dp</dimen>
     <dimen name="nav_header_height">176dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
-    <dimen name="category_card_padding">8dp</dimen>
+
+    //category view holder
+    <dimen name="category_card_padding">0dp</dimen>
     <dimen name="category_card_margin">8dp</dimen>
-    <dimen name="category_card_height">200dp</dimen>
-    <dimen name="category_name_card_text_size">24sp</dimen>
+    <dimen name="category_text_margin">8dp</dimen>
+    <dimen name="category_image_margin">8dp</dimen>
+    <dimen name="category_name_card_text_size">16sp</dimen>
+    <dimen name="category_card_height">100dp</dimen>
+    <dimen name="category_card_width">100dp</dimen>
+
+    //category add fragment
+    <dimen name="category_add_textfield_margin_top">8dp</dimen>
+    <dimen name="category_add_textfield_margin">0dp</dimen>
+    <dimen name="add_category_padding">16dp</dimen>
+    <dimen name="add_category_color_margin">4dp</dimen>
+    <dimen name="buttons_height">40dp</dimen>
+
 </resources>
