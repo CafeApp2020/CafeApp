@@ -1,26 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/category_card_height"
+    android:layout_margin="@dimen/category_card_margin">
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="@dimen/category_card_height"
-        android:layout_height="@dimen/category_card_height"
-        android:layout_margin="@dimen/category_card_margin"
-        android:padding="@dimen/category_card_padding">
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/category_text_margin"
+        android:textSize="@dimen/category_name_card_text_size"
+        android:textStyle="bold"/>
 
-        <TextView
-            android:id="@+id/name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/category_name_card_text_size"
-            android:textStyle="bold"/>
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="fitCenter"
+        android:layout_margin="@dimen/category_image_margin"
+        android:contentDescription="@string/category_picture_description" />
 
-        <ImageView
-            android:id="@+id/image"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scaleType="fitCenter"/>
-
-    </androidx.cardview.widget.CardView>
-</FrameLayout>
+</androidx.cardview.widget.CardView>

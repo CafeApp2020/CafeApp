@@ -15,10 +15,14 @@ class CategoryEntity (
     var description: String,
 
     @field:ColumnInfo(name = "imagepath")
-    var imagepath: String
+    var imagepath: String,
+
+    @field:ColumnInfo(name = "color")
+    var color: Int
 )
 {
     @field:PrimaryKey(autoGenerate = true)
     @field:ColumnInfo(name = "id")
     var id: Long = 0
+
 }
