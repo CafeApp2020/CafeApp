@@ -10,21 +10,22 @@ import com.cafeapp.mycafe.frameworks.view.categoryadd.getColorInt
 import com.less.repository.db.room.CategoryEntity
 import kotlinx.android.synthetic.main.category_view_holder.view.*
 
-// пердаем адаптеру лямду getIdFunct, которая отрабатывает в CategoryListFragment при нажатии на категорию
-class CategoryListRVAdapter(val getIdFunct: (Long) -> Unit) : RecyclerView.Adapter<CategoryListRVAdapter.CategoryViewHolder>() {
-    var currentPos: Long =-1
-    var data : List<CategoryEntity?>? = mutableListOf()
-        set(value){
+// пердаем адаптеру лямду getIdFunc, которая отрабатывает в CategoryListFragment при нажатии на категорию
+class CategoryListRVAdapter(val getIdFunc: (Long) -> Unit) :
+    RecyclerView.Adapter<CategoryListRVAdapter.CategoryViewHolder>() {
+    var data: List<CategoryEntity?>? = mutableListOf()
+        set(value) {
             field = value
             notifyDataSetChanged()
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = CategoryViewHolder(
-            LayoutInflater.from(parent.context).inflate(
-                    R.layout.category_view_holder,
-                    parent,
-                    false
-            ), getIdFunct)
+        LayoutInflater.from(parent.context).inflate(
+            R.layout.category_view_holder,
+            parent,
+            false
+        ), getIdFunc
+    )
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
         data?.get(position)?.let { holder.bind(it) }
@@ -32,15 +33,20 @@ class CategoryListRVAdapter(val getIdFunct: (Long) -> Unit) : RecyclerView.Adapt
 
     override fun getItemCount(): Int = data!!.size
 
-    class CategoryViewHolder(itemView: View, val getIdFunct: (Long) -> Unit) : RecyclerView.ViewHolder(itemView){
+    class CategoryViewHolder(itemView: View, val getIdFunc: (Long) -> Unit) :
+        RecyclerView.ViewHolder(itemView) {
 
-        fun bind(data : CategoryEntity) = with(itemView){
-            itemView.setOnClickListener{
-                getIdFunct(data.id)
-            }
+        fun bind(data: CategoryEntity) = with(itemView) {
             name.text = data.name
+
             setBackgroundColor(data.getColorInt(context))
-            if (data.imagepath.length>0)
-                setImage(data.imagepath, image)}
+            
+            setOnClickListener {
+                getIdFunc(data.id)
+            }
+
+            if (data.imagepath.isNotEmpty())
+                setImage(data.imagepath, image)
         }
-  }
+    }
+}

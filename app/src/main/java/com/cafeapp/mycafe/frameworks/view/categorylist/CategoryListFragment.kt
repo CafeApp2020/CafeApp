@@ -17,35 +17,46 @@ import org.koin.androidx.scope.currentScope
 
 // Экран для отображения категорий блюд
 class CategoryListFragment() : Fragment() {
+    private lateinit var categoryListAdapter: CategoryListRVAdapter
     private val categoryListViewModel: CategoryListViewModel by currentScope.inject()
-    private lateinit var adapter: CategoryListRVAdapter
 
     private val sharedModel by lazy {
         activity?.let { ViewModelProvider(it).get(SharedViewModel::class.java) }
     }
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_categorylist, container, false)
-        adapter = CategoryListRVAdapter {
-            id ->  sharedModel?.select(SharedMsg(MsgState.ADDCATEGORY, id)) // если id>1 открываем фрагмент CategoryAddFragment для редактирования
+
+        categoryListAdapter = CategoryListRVAdapter { id ->
+            sharedModel?.select(
+                SharedMsg(
+                    MsgState.ADDCATEGORY,
+                    id
+                )
+            ) // если id>1 открываем фрагмент CategoryAddFragment для редактирования
         }
 
-        categoryListViewModel.categoryViewState.observe(viewLifecycleOwner, {
-            if(it.categories != null){
-                adapter.data = it.categories
+        categoryListViewModel.categoryViewState.observe(viewLifecycleOwner, { state ->
+            state.categories?.let {
+                categoryListAdapter.data = it
             }
         })
 
-        root.categoryListRV.layoutManager = GridLayoutManager(activity, 3)
-        root.categoryListRV.adapter = adapter
+        with(root) {
+            categoryListRV.apply {
+                layoutManager = GridLayoutManager(activity, 3)
+                adapter = categoryListAdapter
+            }
 
-        root.addCategoryFab.setOnClickListener {
-            sharedModel?.select(SharedMsg(MsgState.ADDCATEGORY, -1L))
+            addCategoryFab.setOnClickListener {
+                sharedModel?.select(SharedMsg(MsgState.ADDCATEGORY, -1L))
+            }
         }
+
         return root
     }
 
