@@ -9,6 +9,6 @@ import com.less.repository.db.room.DishesEntity
 
 @Database(entities = arrayOf(CategoryEntity::class, DishesEntity::class), version = 1, exportSchema = false)
 abstract class CafeDataBase : RoomDatabase() {
-     open abstract fun categoryDao(): CategoryDao
-     open abstract fun dishesDao(): DishesDao
+     abstract fun categoryDao(): CategoryDao
+     abstract fun dishesDao(): DishesDao
 }

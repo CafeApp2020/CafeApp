@@ -9,23 +9,26 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-class DishesAddViewModel(val dishInteractor: IDishInteractor) : ViewModel() {
+class DishesAddViewModel(private val dishInteractor: IDishInteractor) : ViewModel() {
+    private val compositeDisposable: CompositeDisposable = CompositeDisposable()
     private val modifyDishViewState = MutableLiveData<DishesAddViewState>()
-    val dishViewState: LiveData<DishesAddViewState> = modifyDishViewState
-    val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
-    fun saveDish(saveddish: DishesEntity) {
+    val dishViewState: LiveData<DishesAddViewState> = modifyDishViewState
+
+    fun saveDish(savedDish: DishesEntity) {
         compositeDisposable.add(
-        dishInteractor.saveDish(saveddish)!!
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                {
-                    modifyDishViewState.value = DishesAddViewState(dish=saveddish, saveOk = true)
-                },
-                { error ->
-                    modifyDishViewState.value = DishesAddViewState(saveErr = error, saveOk = false)
-                })
+            dishInteractor.saveDish(savedDish)!!
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    {
+                        modifyDishViewState.value =
+                            DishesAddViewState(dish = savedDish, saveOk = true)
+                    },
+                    { error ->
+                        modifyDishViewState.value =
+                            DishesAddViewState(saveErr = error, saveOk = false)
+                    })
         )
     }
 
