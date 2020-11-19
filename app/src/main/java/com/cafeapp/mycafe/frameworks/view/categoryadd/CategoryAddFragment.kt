@@ -18,37 +18,45 @@ import org.koin.androidx.scope.currentScope
 
 // Экран для добавления/редактирования категорий
 class CategoryAddFragment : Fragment() {
-    var currentCategoryId: Long = -1L
-    val categoryAddViewModel: CategoryAddViewModel by currentScope.inject()
+    private val categoryAddViewModel: CategoryAddViewModel by currentScope.inject()
+
+    private val clicklistener = View.OnClickListener { view ->
+        setColor(view)
+    }
+
     private var color: Int = 0
+    private var currentCategoryId: Long = -1L
+
     private val sharedModel by lazy {
         activity?.let { ViewModelProvider(it).get(SharedViewModel::class.java) }
     }
 
-    fun loadCategory(category: CategoryEntity) {
+    private fun loadCategory(category: CategoryEntity) {
         categoryNameTIT.setText(category.name)
         descriptionTIT.setText(category.description)
-        currentCategoryId=category.id
+
+        currentCategoryId = category.id
     }
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_addcategory, container, false)
 
         categoryAddViewModel.categoryViewState.observe(viewLifecycleOwner, {
             if (it.saveErr != null) {
                 Toast.makeText(activity, it.saveErr?.message, Toast.LENGTH_LONG).show()
-            }
-            else if (it.saveOk)
-            {
+            } else if (it.saveOk) {
                 Toast.makeText(activity, getString(R.string.saveok_title), Toast.LENGTH_LONG).show()
-                sharedModel?.select(SharedMsg(MsgState.CATEGORYLISTOPEN, -1))  // сообщаем активити о том, что нужно открыть окно со списком категорий
-            }
-            else if (it.loadOk)
-            {
+                sharedModel?.select(
+                    SharedMsg(
+                        MsgState.CATEGORYLISTOPEN,
+                        -1
+                    )
+                )  // сообщаем активити о том, что нужно открыть окно со списком категорий
+            } else if (it.loadOk) {
                 it.category?.let { it1 -> loadCategory(it1) }
             }
         })
@@ -66,28 +74,31 @@ class CategoryAddFragment : Fragment() {
         return root
     }
 
-    fun loadEditableCategory(category_id: Long) {
-        categoryAddViewModel.loadCategory(category_id)
-    }
-
-    val clicklistener = View.OnClickListener { view ->
-        setColor(view)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         saveCategoryFab.setOnClickListener {
-            val category: CategoryEntity = CategoryEntity(
-                    name = categoryNameTIT.text.toString(),
-                    description = descriptionTIT.text.toString(),
-                    imagepath = "",
-                    color = color
+            val category = CategoryEntity(
+                name = categoryNameTIT.text.toString(),
+                description = descriptionTIT.text.toString(),
+                imagepath = "",
+                color = color
             )
-            if (currentCategoryId>0)
-             category.id=currentCategoryId
+
+            if (currentCategoryId > 0)
+                category.id = currentCategoryId
+
             categoryAddViewModel.saveCategory(category)
         }
 
+        setClickListenerToButtons()
+    }
+
+    private fun loadEditableCategory(category_id: Long) {
+        categoryAddViewModel.loadCategory(category_id)
+    }
+
+    private fun setClickListenerToButtons() {
         white_button.setOnClickListener(clicklistener)
         yellow_button.setOnClickListener(clicklistener)
         pink_button.setOnClickListener(clicklistener)
@@ -95,10 +106,9 @@ class CategoryAddFragment : Fragment() {
         green_button.setOnClickListener(clicklistener)
         blue_button.setOnClickListener(clicklistener)
         violet_button.setOnClickListener(clicklistener)
-
     }
 
-    fun setColor(view: View){
+    private fun setColor(view: View) {
         color = categoryAddViewModel.getColorFromButton(view)
     }
 }

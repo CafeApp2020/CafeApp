@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.cafeapp.mycafe.R
 import com.cafeapp.mycafe.interface_adapters.viewmodels.dishes.dishesadd.DishesAddViewModel
@@ -18,7 +17,8 @@ import org.koin.androidx.scope.currentScope
 
 // Экран для добавления/редактирования блюда
 class DishesAddFragment : Fragment() {
-    val dishesAddViewModel: DishesAddViewModel by currentScope.inject()
+    private val dishesAddViewModel: DishesAddViewModel by currentScope.inject()
+
     private val sharedModel by lazy {
         activity?.let { ViewModelProvider(it).get(SharedViewModel::class.java) }
     }
@@ -30,12 +30,11 @@ class DishesAddFragment : Fragment() {
     ): View? {
         val root = inflater.inflate(R.layout.fragment_dishesadd, container, false)
 
-        dishesAddViewModel.dishViewState.observe(viewLifecycleOwner, Observer {
-            if (it.saveErr==null) {
+        dishesAddViewModel.dishViewState.observe(viewLifecycleOwner, { state ->
+            state.saveErr?.let { error ->
+                Toast.makeText(activity, error?.message, Toast.LENGTH_LONG).show()
+            } ?: let {
                 Toast.makeText(activity, getString(R.string.saveok_title), Toast.LENGTH_LONG).show()
-            } else
-            {
-               Toast.makeText(activity, it.saveErr?.message, Toast.LENGTH_LONG).show()
             }
         })
 
@@ -56,8 +55,9 @@ class DishesAddFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         saveDishFab.setOnClickListener {
-            val dish: DishesEntity = DishesEntity(
+            val dish = DishesEntity(
                 category_id = 1,
                 name = dishNameTIT.text.toString(),
                 description = descriptionTIT.text.toString(),
@@ -65,8 +65,8 @@ class DishesAddFragment : Fragment() {
                 weight = weightTIT.text.toString().toFloat(),
                 imagepath = ""
             )
-         dishesAddViewModel.saveDish(dish)
-       }
-    }
 
+            dishesAddViewModel.saveDish(dish)
+        }
+    }
 }

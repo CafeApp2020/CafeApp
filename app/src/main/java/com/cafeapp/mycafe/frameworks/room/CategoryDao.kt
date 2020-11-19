@@ -9,6 +9,9 @@ interface CategoryDao {
     @Query("SELECT * FROM CategoryEntity")
     fun all(): Single<List<CategoryEntity?>?>?
 
+    @Delete
+    fun delete(entity: CategoryEntity)
+
     @Query("SELECT * FROM CategoryEntity where id=:category_id")
     fun getCategory(category_id: Long): Single<CategoryEntity>
 
@@ -16,11 +19,8 @@ interface CategoryDao {
     fun insert(dishes: CategoryEntity?): Single<Long>?
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertAll(entities: List<CategoryEntity>)
+    fun insertAll(entities: List<CategoryEntity>)
 
     @Update
     fun update(entity: CategoryEntity): Completable
-
-    @Delete
-    suspend fun delete(entity: CategoryEntity)
 }

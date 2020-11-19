@@ -58,16 +58,16 @@ val dishListViewModel = module {
     }
 }
 
-val dishAddViewModel = module {
-    scope(named<DishesAddFragment>()) {
-        scoped<IDishInteractor> { DishInteractor(get()) }
-        scoped { DishesAddViewModel(get()) }
-    }
-}
-
 val dishViewModel = module {
     scope(named<DishFragment>()) {
         scoped<IDishInteractor> { DishInteractor(get()) }
         scoped { DishViewModel(get()) }
+    }
+}
+
+val dishAddViewModel = module {
+    scope(named<DishesAddFragment>()) {
+        scoped<IDishInteractor> { DishInteractor(get()) }
+        scoped { DishesAddViewModel(get()) }
     }
 }

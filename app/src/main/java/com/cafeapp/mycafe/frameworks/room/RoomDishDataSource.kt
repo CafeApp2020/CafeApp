@@ -1,6 +1,5 @@
 package com.cafeapp.mycafe.frameworks.room
 
-import com.cafeapp.mycafe.use_case.data.DishResult
 import com.cafeapp.mycafe.use_case.data.IDishDataSource
 import com.less.repository.db.room.DishesDao
 import com.less.repository.db.room.DishesEntity

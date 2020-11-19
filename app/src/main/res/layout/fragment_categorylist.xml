@@ -7,9 +7,9 @@
     tools:context=".frameworks.view.categorylist.CategoryListFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id= "@+id/categoryListRV"
+        android:id="@+id/categoryListRV"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addCategoryFab"
@@ -19,5 +19,6 @@
         android:layout_margin="@dimen/fab_margin"
         android:layout_marginEnd="36dp"
         android:layout_marginBottom="28dp"
-        app:srcCompat="@android:drawable/ic_input_add"/>
+        app:srcCompat="@android:drawable/ic_input_add" />
+
 </FrameLayout>

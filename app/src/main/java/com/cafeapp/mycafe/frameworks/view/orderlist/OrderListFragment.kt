@@ -16,12 +16,12 @@ class OrderListFragment : Fragment() {
     private lateinit var orderListViewModel: OrderListViewModel
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         orderListViewModel =
-                ViewModelProvider(this).get(OrderListViewModel::class.java)
+            ViewModelProvider(this).get(OrderListViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_orderlist, container, false)
         val textView: TextView = root.findViewById(R.id.text_orders)
         orderListViewModel.text.observe(viewLifecycleOwner, Observer {
