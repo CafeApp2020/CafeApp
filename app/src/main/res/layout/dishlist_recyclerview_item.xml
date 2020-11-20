@@ -14,19 +14,19 @@
             android:id="@+id/dish_name_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/category_name_card_text_size" />
+            android:textSize="@dimen/body_body1" />
 
         <TextView
             android:id="@+id/dish_weight_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/category_name_card_text_size" />
+            android:textSize="@dimen/body_body1" />
 
         <TextView
             android:id="@+id/dish_price_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/category_name_card_text_size" />
+            android:textSize="@dimen/body_body1" />
 
         <ImageView
             android:id="@+id/dish_image_imageview"

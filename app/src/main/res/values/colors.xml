@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="primary_dark">#00675B</color>
+    <color name="primary_main">#009688</color>
+    <color name="primary_light">#52C7B8</color>
+    <color name="secondary_secondary">#F57C00</color>
+    <color name="grayscale_divider">#BDBDBD</color>
+    <color name="grayscale_yet_hz">#808080</color>
+    <color name="alerts_alert">#E53935</color>
+    <color name="alerts_confirmation">#00C853</color>
+    <color name="grayscale_lite_gray">#F3F3F3</color>
+    <color name="primary_main_50_percent">#DCF4F1</color>
+    <color name="text_white">#FFFFFF</color>
+    <color name="text_primary">#000000</color>
+
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
@@ -8,6 +21,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
+    <!-- После перевёрстки эти цвета будут удалены. -->
     <color name="yellow">#FFF59D</color>
     <color name="green">#81C784</color>
     <color name="blue">#80d8ff</color>

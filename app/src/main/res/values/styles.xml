@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- CafeApp default list element style. -->
+    <style name="ListElement">
+        <item name="android:layout_width">@dimen/list_element_normal_width</item>
+        <item name="android:layout_height">@dimen/list_element_normal_height</item>
+        <item name="android:paddingStart">@dimen/default_padding</item>
+    </style>
+
+    <!-- CafeApp default text style. -->
+    <style name="CafeTextStyle" parent="@android:style/TextAppearance">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <!-- Headline 1 text style. -->
+    <style name="CafeTextStyle.Headline_1">
+        <item name="android:textSize">@dimen/head_H1</item>
+    </style>
+
+    <!-- Headline 2 text style. -->
+    <style name="CafeTextStyle.Headline_2">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">@dimen/head_H2</item>
+    </style>
+
+    <!-- Body text style. -->
+    <style name="CafeTextStyle.Body">
+        <item name="android:textSize">@dimen/body_body1</item>
+    </style>
+
+    <!-- Button text style. -->
+    <style name="CafeTextStyle.Button">
+        <item name="android:textSize">@dimen/button_button</item>
+    </style>
+
+    <!-- Caption text style. -->
+    <style name="CafeTextStyle.Caption">
+        <item name="android:textSize">@dimen/caption_caption</item>
+    </style>
+
+</resources>
