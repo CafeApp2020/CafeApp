@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,58 +11,103 @@
     <ImageView
         android:id="@+id/fragment_dish_image_imageview"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_gravity="center"
-        android:layout_weight="3"
-        android:src="@drawable/ic_menu_camera"
-        android:contentDescription="@string/dish_picture" />
+        android:layout_height="155dp"
+        android:contentDescription="@string/dish_picture"
+        android:src="@drawable/ic_96px_add_photo"
+        android:background="#DCF4F1"
+        app:layout_constraintTop_toTopOf="parent"/>
 
-    <TextView
-        android:id="@+id/fragment_dish_name_textview"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/dishNameTIL"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_margin="@dimen/default_margin"
-        android:layout_marginBottom="@dimen/zero"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:hint="@string/dish_name" />
+        android:layout_height="60dp"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginEnd="@dimen/default_margin"
+        android:layout_marginTop="@dimen/marginDefault"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_dish_image_imageview"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/dishNameTIT"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/dish_name"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/linearLayoutCompat"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_margin="@dimen/default_margin"
-        android:layout_marginBottom="@dimen/zero"
-        android:layout_weight="1"
-        android:orientation="horizontal">
+        android:layout_height="60dp"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginEnd="@dimen/default_margin"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/marginDefault"
+        app:layout_constraintTop_toBottomOf="@+id/dishNameTIL">
 
-        <TextView
-            android:id="@+id/fragment_dish_price_textview"
+       <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/priceTIL"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="10dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"
-            android:hint="@string/price"
-            android:inputType="numberDecimal" />
+            android:layout_marginEnd="@dimen/marginDefault"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+           style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-        <TextView
-            android:id="@+id/fragment_dish_weight_textview"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/priceTIT"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/price"
+                android:inputType="numberDecimal"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/weightTIL"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"
-            android:hint="@string/weight"
-            android:inputType="numberDecimal" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/weightTIT"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/weight"
+                android:inputType="numberDecimal"/>
+        </com.google.android.material.textfield.TextInputLayout>
     </androidx.appcompat.widget.LinearLayoutCompat>
 
-    <TextView
-        android:id="@+id/fragment_dish_description_textview"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/descriptionTIL"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_margin="@dimen/default_margin"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:hint="@string/description" />
+        android:layout_height="100dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginEnd="@dimen/default_margin"
+        android:layout_marginTop="@dimen/marginDefault"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/descriptionTIT"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/enter_dish_descripton"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
-</androidx.appcompat.widget.LinearLayoutCompat>
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/reqiired_field"
+        android:layout_marginTop="@dimen/marginDefault"
+        android:layout_marginStart="@dimen/default_margin"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/descriptionTIL" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

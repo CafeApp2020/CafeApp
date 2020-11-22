@@ -4,6 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
+import androidx.appcompat.app.AppCompatActivity
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -12,8 +15,13 @@ import com.cafeapp.mycafe.interface_adapters.viewmodels.categories.CategoryListV
 import com.cafeapp.mycafe.use_case.utils.MsgState
 import com.cafeapp.mycafe.use_case.utils.SharedMsg
 import com.cafeapp.mycafe.use_case.utils.SharedViewModel
+import com.google.android.material.bottomappbar.BottomAppBar
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_categorylist.*
 import kotlinx.android.synthetic.main.fragment_categorylist.view.*
 import org.koin.androidx.scope.currentScope
+
 
 // Экран для отображения категорий блюд
 class CategoryListFragment() : Fragment() {
@@ -52,9 +60,12 @@ class CategoryListFragment() : Fragment() {
                 adapter = categoryListAdapter
             }
 
-            addCategoryFab.setOnClickListener {
+            val fab=activity?.findViewById<FloatingActionButton>(R.id.activityFab)
+            if (fab != null) {fab.setImageResource(android.R.drawable.ic_input_add)}
+            fab?.setOnClickListener {
                 sharedModel?.select(SharedMsg(MsgState.ADDCATEGORY, -1L))
             }
+
         }
 
         return root

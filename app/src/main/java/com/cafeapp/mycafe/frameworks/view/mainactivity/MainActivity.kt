@@ -2,43 +2,34 @@ package com.cafeapp.mycafe.frameworks.view.mainactivity
 
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.cafeapp.mycafe.R
+import com.cafeapp.mycafe.frameworks.view.utils.BottomNavigationDrawerFragment
 import com.cafeapp.mycafe.use_case.utils.MsgState
 import com.cafeapp.mycafe.use_case.utils.SharedViewModel
-import com.google.android.material.navigation.NavigationView
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 
-class MainActivity : AppCompatActivity() {
 
+class MainActivity : AppCompatActivity() {
+    lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_main)
-        setSupportActionBar(toolbar)
+        setSupportActionBar(bottom_app_bar)
 
-        val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
-        val navController = findNavController(R.id.nav_host_fragment)
-        val navView: NavigationView = findViewById(R.id.nav_view)
-
-        appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.nav_tablelist, R.id.nav_categorylist, R.id.nav_orderlist
-            ), drawerLayout
-        )
-
-        setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
+        navController = findNavController(R.id.nav_host_fragment)
+        toolbar.setupWithNavController(navController)
 
         // sharedModel предназначен для получения сообщений от фрагментов и для дальнейшего переключения на фрагмент
         // ответсвенного за обработку данного типа сообщений
@@ -57,6 +48,19 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item!!.itemId) {
+            R.id.nav_categorylist -> navController.navigate(R.id.nav_categorylist)
+            R.id.nav_tablelist -> navController.navigate(R.id.nav_tablelist)
+            R.id.nav_orderlist -> navController.navigate(R.id.nav_orderlist)
+            android.R.id.home -> {
+                val bottomNavDrawerFragment = BottomNavigationDrawerFragment()
+                bottomNavDrawerFragment.show(supportFragmentManager, bottomNavDrawerFragment.tag)
+            }
+        }
         return true
     }
 

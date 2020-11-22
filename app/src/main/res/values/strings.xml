@@ -20,15 +20,17 @@
     <string name="save_category">Сохранение категории</string>
     <string name="category_name">Название категории</string>
     <string name="weight">Вес</string>
-    <string name="price">Цена</string>
+    <string name="price">Цена*</string>
     <string name="dish">Блюдо</string>
     <string name="category_picture_description">Category picture</string>
-    <string name="dish_name">Название блюда</string>
-    <string name="hint_cost">Цена</string>
+    <string name="dish_name">Название блюда*</string>
+    <string name="hint_cost">Цена*</string>
     <string name="hint_weight">Вес</string>
     <string name="hint_description">Примечание</string>
     <string name="add_category">Add category</string>
     <string name="dish_picture">Dish picture</string>
     <string name="save_dish">Save dish</string>
     <string name="add_dish">Add dish</string>
+    <string name="enter_dish_descripton">Введите описание блюда</string>
+    <string name="reqiired_field">*Поля обязательны для заполнения</string>
 </resources>
