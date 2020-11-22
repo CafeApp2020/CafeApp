@@ -9,42 +9,32 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="254dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
         android:layout_weight="3"
         android:layout_gravity="center"
-        android:src="@drawable/ic_menu_camera"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:src="@drawable/ic_menu_camera" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/dishNameTIL"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:layout_margin="20dp"
-        android:layout_marginTop="24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2">
+        android:layout_margin="@dimen/default_margin"
+        android:layout_marginBottom="@dimen/zero">
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/dishNameTIT"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="Название блюда" />
+            android:hint="@string/dish_name" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
+        android:layout_margin="@dimen/default_margin"
+        android:layout_marginBottom="@dimen/zero">
         android:orientation="horizontal">
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/priceTIL"
@@ -60,7 +50,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="numberDecimal"
-            android:hint="Цена" />
+            android:hint="@string/hint_cost" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -77,7 +67,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="numberDecimal"
-            android:hint="Вес"/>
+            android:hint="@string/hint_weight"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -86,15 +76,13 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp">
+        android:layout_margin="@dimen/default_margin"
+        android:layout_marginBottom="@dimen/zero">>
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/descriptionTIT"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="Примечание" />
+            android:hint="@string/hint_description" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -103,12 +91,12 @@
         android:id="@+id/saveDishFab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="28dp"
-        android:layout_gravity="right"
-        android:clickable="true"
+        android:layout_marginBottom="@dimen/fab_margin_bottom"
+        android:layout_marginEnd="@dimen/fab_margin_end"
+        android:layout_gravity="end"
         android:src="@android:drawable/ic_menu_save"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="@string/save_dish" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

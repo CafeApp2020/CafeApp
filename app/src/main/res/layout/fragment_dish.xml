@@ -9,22 +9,19 @@
 
     <ImageView
         android:id="@+id/fragment_dish_image_imageview"
-        android:layout_width="254dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_gravity="center"
-        android:layout_marginTop="16dp"
         android:layout_weight="3"
         android:src="@drawable/ic_menu_camera"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:contentDescription="@string/dish_picture" />
 
     <TextView
         android:id="@+id/fragment_dish_name_textview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="20dp"
-        android:layout_marginTop="24dp"
+        android:layout_margin="@dimen/default_margin"
+        android:layout_marginBottom="@dimen/zero"
         android:layout_weight="1"
         android:gravity="center"
         android:hint="@string/dish_name" />
@@ -32,8 +29,8 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
+        android:layout_margin="@dimen/default_margin"
+        android:layout_marginBottom="@dimen/zero"
         android:layout_weight="1"
         android:orientation="horizontal">
 
@@ -62,10 +59,7 @@
         android:id="@+id/fragment_dish_description_textview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="10dp"
+        android:layout_margin="@dimen/default_margin"
         android:layout_weight="1"
         android:gravity="center"
         android:hint="@string/description" />
