@@ -16,12 +16,15 @@
     <dimen name="default_padding">16dp</dimen>
     <dimen name="default_margin">16dp</dimen>
     <dimen name="zero">0dp</dimen>
-    <dimen name="bottom_menu_width">56dp</dimen>
+    <dimen name="bottom_menu_height">56dp</dimen>
+    <dimen name="swipe_menu_width">96dp</dimen>
     <dimen name="list_element_normal_height">48dp</dimen>
-    <dimen name="list_element_normal_width">472dp</dimen>
-    <dimen name="list_element_normal_padding_left">16dp</dimen>
+    <dimen name="list_element_normal_width">512dp</dimen>
+    <dimen name="list_element_normal_padding">16dp</dimen>
     <dimen name="fab_margin_bottom">28dp</dimen>
     <dimen name="fab_margin_end">16dp</dimen>
+
+    <!-- Bottom menu. -->
 
     <!-- Add category view. -->
     <dimen name="add_category_view_padding">24dp</dimen>

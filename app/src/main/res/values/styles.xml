@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- CafeApp default list element style. -->
+    <!-- Default list element style. -->
     <style name="ListElement">
-        <item name="android:layout_width">@dimen/list_element_normal_width</item>
+        <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/list_element_normal_height</item>
-        <item name="android:paddingStart">@dimen/default_padding</item>
     </style>
 
-    <!-- CafeApp default text style. -->
+    <!-- Default text style. -->
     <style name="CafeTextStyle" parent="@android:style/TextAppearance">
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textColor">@color/black</item>
@@ -38,6 +37,47 @@
     <!-- Caption text style. -->
     <style name="CafeTextStyle.Caption">
         <item name="android:textSize">@dimen/caption_caption</item>
+    </style>
+
+    <!-- Bottom menu buttons. -->
+    <style name="BottomMenuButton" parent="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon">
+        <item name="android:layout_width">@dimen/bottom_menu_height</item>
+        <item name="android:layout_height">@dimen/bottom_menu_height</item>
+        <item name="android:background">@color/primary_main</item>
+    </style>
+
+    <!-- List element buttons. -->
+    <style name="ListElementButton">
+        <item name="android:layout_width">@dimen/list_element_normal_height</item>
+        <item name="android:layout_height">@dimen/list_element_normal_height</item>
+    </style>
+
+    <!-- Delete element buttons. -->
+    <style name="ListElementButton.DeleteElementButton">
+        <item name="android:src">@drawable/ic_24px_delete</item>
+        <item name="android:background">@color/alerts_alert</item>
+    </style>
+
+    <!-- Add stop list element buttons. -->
+    <style name="ListElementButton.AddStopListElementButton">
+        <item name="android:src">@drawable/ic_24px_stop_list</item>
+        <item name="android:background">@color/grayscale_yet_hz</item>
+    </style>
+
+    <!-- Remove stop list element buttons. -->
+    <style name="ListElementButton.RemoveStopListElementButton">
+        <item name="android:src">@drawable/ic_24px_non_stop_list</item>
+        <item name="android:background">@color/grayscale_yet_hz</item>
+    </style>
+
+    <!-- Fab button. -->
+    <style name="FabButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">bottom|end</item>
+        <item name="android:tintMode">@color/white</item>
+        <item name="android:layout_marginBottom">@dimen/fab_margin_bottom</item>
+        <item name="android:layout_marginEnd">@dimen/fab_margin_end</item>
     </style>
 
 </resources>

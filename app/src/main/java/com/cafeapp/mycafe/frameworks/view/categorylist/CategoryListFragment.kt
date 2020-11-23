@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.cafeapp.mycafe.R
 import com.cafeapp.mycafe.interface_adapters.viewmodels.categories.CategoryListViewModel
 import com.cafeapp.mycafe.use_case.utils.MsgState
@@ -48,7 +49,7 @@ class CategoryListFragment() : Fragment() {
 
         with(root) {
             categoryListRV.apply {
-                layoutManager = GridLayoutManager(activity, 3)
+                layoutManager = LinearLayoutManager(activity)
                 adapter = categoryListAdapter
             }
 
