@@ -1,102 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".frameworks.view.tablelist.TableListFragment">
+    tools:context=".frameworks.view.dish.DishFragment">
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/fragment_dish_image_imageview"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="3"
-        android:layout_gravity="center"
-        android:src="@drawable/ic_menu_camera" />
+        android:layout_height="155dp"
+        android:contentDescription="@string/dish_picture"
+        android:src="@drawable/ic_96px_add_photo"
+        android:background="#DCF4F1"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/dishNameTIL"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_margin="@dimen/default_margin"
-        android:layout_marginBottom="@dimen/zero">
+        android:layout_height="60dp"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginEnd="@dimen/default_margin"
+        android:layout_marginTop="@dimen/marginDefault"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_dish_image_imageview"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/dishNameTIT"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="@string/dish_name" />
+            android:hint="@string/dish_name"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/linearLayoutCompat"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_margin="@dimen/default_margin"
-        android:layout_marginBottom="@dimen/zero">
-        android:orientation="horizontal">
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/priceTIL"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:layout_marginEnd="10dp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_height="60dp"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginEnd="@dimen/default_margin"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/marginDefault"
         app:layout_constraintTop_toBottomOf="@+id/dishNameTIL">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/priceTIT"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:inputType="numberDecimal"
-            android:hint="@string/hint_cost" />
-    </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/priceTIL"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="@dimen/marginDefault"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout2"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/priceTIL"
-        app:layout_constraintTop_toBottomOf="@+id/dishNameTIL">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/priceTIT"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/price"
+                android:inputType="numberDecimal"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/weightTIT"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:inputType="numberDecimal"
-            android:hint="@string/hint_weight"/>
-    </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/weightTIL"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/weightTIT"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/weight"
+                android:inputType="numberDecimal"/>
+        </com.google.android.material.textfield.TextInputLayout>
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/descriptionTIL"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_margin="@dimen/default_margin"
-        android:layout_marginBottom="@dimen/zero">>
+        android:layout_height="100dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginEnd="@dimen/default_margin"
+        android:layout_marginTop="@dimen/marginDefault"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat">
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/descriptionTIT"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="@string/hint_description" />
-
+            android:hint="@string/enter_dish_descripton"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat"/>
     </com.google.android.material.textfield.TextInputLayout>
 
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/saveDishFab"
+    <TextView
+        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/fab_margin_bottom"
-        android:layout_marginEnd="@dimen/fab_margin_end"
-        android:layout_gravity="end"
-        android:src="@android:drawable/ic_menu_save"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:contentDescription="@string/save_dish" />
+        android:text="@string/reqiired_field"
+        android:layout_marginTop="@dimen/marginDefault"
+        android:layout_marginStart="@dimen/default_margin"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/descriptionTIL" />
 
-</androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

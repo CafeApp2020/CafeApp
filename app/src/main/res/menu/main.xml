@@ -2,8 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
+        android:id="@+id/nav_tablelist"
+        android:icon="@drawable/ic_24px_tables"
+        app:showAsAction="ifRoom"
+        android:title="@string/table_title" />
+    <item
+        android:id="@+id/nav_orderlist"
+        android:icon="@drawable/ic_24px_orders"
+        app:showAsAction="ifRoom"
+        android:title="@string/orders_title" />
+    <item
+        android:id="@+id/nav_categorylist"
+        android:icon="@drawable/ic_24px_menu_list"
+        app:showAsAction="ifRoom"
+        android:title="@string/dishmenu_title" />
 </menu>

@@ -12,6 +12,7 @@ import com.cafeapp.mycafe.interface_adapters.viewmodels.categories.CategoryAddVi
 import com.cafeapp.mycafe.use_case.utils.MsgState
 import com.cafeapp.mycafe.use_case.utils.SharedMsg
 import com.cafeapp.mycafe.use_case.utils.SharedViewModel
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.less.repository.db.room.CategoryEntity
 import kotlinx.android.synthetic.main.fragment_addcategory.*
 import org.koin.androidx.scope.currentScope
@@ -19,10 +20,6 @@ import org.koin.androidx.scope.currentScope
 // Экран для добавления/редактирования категорий
 class CategoryAddFragment : Fragment() {
     private val categoryAddViewModel: CategoryAddViewModel by currentScope.inject()
-
-    private val clicklistener = View.OnClickListener { view ->
-        setColor(view)
-    }
 
     private var color: Int = 0
     private var currentCategoryId: Long = -1L
@@ -71,44 +68,31 @@ class CategoryAddFragment : Fragment() {
             }
         })
 
+        val fab=activity?.findViewById<FloatingActionButton>(R.id.activityFab)
+        if (fab != null) {fab.setImageResource(android.R.drawable.ic_menu_save)}
+        fab?.setOnClickListener {
+            saveCategory()
+        }
+
         return root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    fun saveCategory() {
+        val category = CategoryEntity(
+            name = categoryNameTIT.text.toString(),
+            description = descriptionTIT.text.toString(),
+            imagepath = "",
+            color = color
+        )
 
-        saveCategoryFab.setOnClickListener {
-            val category = CategoryEntity(
-                name = categoryNameTIT.text.toString(),
-                description = descriptionTIT.text.toString(),
-                imagepath = "",
-                color = color
-            )
-
-            if (currentCategoryId > 0)
-                category.id = currentCategoryId
-
-            categoryAddViewModel.saveCategory(category)
-        }
-
-        setClickListenerToButtons()
+        if (currentCategoryId > 0)
+            category.id = currentCategoryId
+        categoryAddViewModel.saveCategory(category)
     }
+
 
     private fun loadEditableCategory(category_id: Long) {
         categoryAddViewModel.loadCategory(category_id)
     }
-
-    private fun setClickListenerToButtons() {
-        white_button.setOnClickListener(clicklistener)
-        yellow_button.setOnClickListener(clicklistener)
-        pink_button.setOnClickListener(clicklistener)
-        red_button.setOnClickListener(clicklistener)
-        green_button.setOnClickListener(clicklistener)
-        blue_button.setOnClickListener(clicklistener)
-        violet_button.setOnClickListener(clicklistener)
-    }
-
-    private fun setColor(view: View) {
-        color = categoryAddViewModel.getColorFromButton(view)
-    }
 }
+

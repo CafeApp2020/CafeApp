@@ -10,43 +10,4 @@
         android:id="@+id/categoryListRV"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/bottom_menu_height"
-        android:orientation="horizontal"
-        android:layout_gravity="bottom"
-        android:background="@color/primary_main">
-
-        <ImageButton
-            android:id="@+id/categoryListButtonMainMenu"
-            style="@style/BottomMenuButton"
-            android:src="@drawable/ic_24px_menu"
-            android:contentDescription="@string/button_menu"/>
-
-        <ImageButton
-            android:id="@+id/categoryListButtonCategoryList"
-            style="@style/BottomMenuButton"
-            android:src="@drawable/ic_24px_menu_list"
-            android:contentDescription="@string/button_category_list" />
-
-        <ImageButton
-            android:id="@+id/categoryListButtonTables"
-            style="@style/BottomMenuButton"
-            android:src="@drawable/ic_24px_tables"
-            android:contentDescription="@string/button_tables" />
-
-        <ImageButton
-            android:id="@+id/categoryListButtonOrders"
-            style="@style/BottomMenuButton"
-            android:src="@drawable/ic_24px_orders"
-            android:contentDescription="@string/button_menu" />
-    </LinearLayout>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/addCategoryFab"
-        style="@style/FabButton"
-        app:srcCompat="@drawable/ic_48dp_add"
-        android:contentDescription="@string/add_category" />
-
 </FrameLayout>
