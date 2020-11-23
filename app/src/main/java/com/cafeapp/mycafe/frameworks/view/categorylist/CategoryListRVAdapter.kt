@@ -6,13 +6,17 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.cafeapp.mycafe.R
 import com.cafeapp.mycafe.frameworks.picasso.setImage
-import com.cafeapp.mycafe.frameworks.view.categoryadd.getColorInt
+import com.chauthai.swipereveallayout.SwipeRevealLayout
+import com.chauthai.swipereveallayout.ViewBinderHelper
 import com.less.repository.db.room.CategoryEntity
 import kotlinx.android.synthetic.main.category_view_holder.view.*
 
 // пердаем адаптеру лямду getIdFunc, которая отрабатывает в CategoryListFragment при нажатии на категорию
 class CategoryListRVAdapter(val getIdFunc: (Long) -> Unit) :
     RecyclerView.Adapter<CategoryListRVAdapter.CategoryViewHolder>() {
+
+    private val viewBinderHelper: ViewBinderHelper = ViewBinderHelper()
+
     var data: List<CategoryEntity?>? = mutableListOf()
         set(value) {
             field = value
@@ -28,6 +32,9 @@ class CategoryListRVAdapter(val getIdFunc: (Long) -> Unit) :
     )
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
+        val currentCategory: CategoryEntity? = data?.get(position)
+        viewBinderHelper.bind(holder.swipeRevealLayout, currentCategory?.id.toString())
+
         data?.get(position)?.let { holder.bind(it) }
     }
 
@@ -36,12 +43,14 @@ class CategoryListRVAdapter(val getIdFunc: (Long) -> Unit) :
     class CategoryViewHolder(itemView: View, val getIdFunc: (Long) -> Unit) :
         RecyclerView.ViewHolder(itemView) {
 
+        val swipeRevealLayout: SwipeRevealLayout = itemView.swipe_categoryViewHolder
+
         fun bind(data: CategoryEntity) = with(itemView) {
             name.text = data.name
 
-            setBackgroundColor(data.getColorInt(context))
-            
-            setOnClickListener {
+            //swipeRevealLayout.setSwipeListener()
+
+             categoryViewHolderLeftSide.setOnClickListener {
                 getIdFunc(data.id)
             }
 
