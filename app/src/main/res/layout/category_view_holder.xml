@@ -1,23 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.chauthai.swipereveallayout.SwipeRevealLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/list_element_normal_height"
-    android:layout_margin="@dimen/category_card_margin">
+    android:id="@+id/swipe_categoryViewHolder"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:mode="same_level"
+    app:dragEdge="right">
 
-    <TextView
-        android:id="@+id/name"
+    <!-- Your secondary layout here -->
+    <FrameLayout
+        android:layout_width="@dimen/swipe_menu_width"
+        android:layout_height="match_parent">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/list_element_normal_height">
+
+            <ImageButton
+                android:id="@+id/categoryViewHolderAddStopButton"
+                style="@style/ListElementButton.AddStopListElementButton"
+                android:contentDescription="@string/list_element_add_stop_button"/>
+
+            <ImageButton
+                android:id="@+id/categoryViewHolderRemoveStopButton"
+                style="@style/ListElementButton.AddStopListElementButton"
+                android:contentDescription="@string/list_element_remove_stop_button"
+                android:visibility="gone"/>
+
+            <ImageButton
+                android:id="@+id/iv_delete"
+                style="@style/ListElementButton.DeleteElementButton"
+                android:layout_gravity="end"
+                android:contentDescription="@string/list_element_delete_button"/>
+
+        </androidx.cardview.widget.CardView>
+
+    </FrameLayout>
+
+    <!-- Your main layout here -->
+    <FrameLayout
+        android:id="@+id/categoryViewHolderLeftSide"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/category_text_margin"
-        android:textSize="@dimen/body_body1"
-        android:textStyle="bold" />
+        android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/image"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/category_image_margin"
-        android:contentDescription="@string/category_picture_description"
-        android:scaleType="fitCenter" />
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/list_element_normal_height">
 
-</androidx.cardview.widget.CardView>
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/category_text_margin"
+                android:textSize="@dimen/body_body1"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/categoryViewHolderStopImageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginEnd="@dimen/list_element_normal_padding"
+                android:src="@drawable/ic_24px_stop_list_black"
+                android:visibility="gone"
+                android:contentDescription="@string/on_stop_list"/>
+
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/category_image_margin"
+                android:contentDescription="@string/category_picture_description"
+                android:scaleType="fitCenter"
+                android:visibility="gone"/>
+
+        </androidx.cardview.widget.CardView>
+
+    </FrameLayout>
+
+</com.chauthai.swipereveallayout.SwipeRevealLayout>

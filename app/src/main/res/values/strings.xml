@@ -31,4 +31,11 @@
     <string name="dish_picture">Dish picture</string>
     <string name="save_dish">Save dish</string>
     <string name="add_dish">Add dish</string>
+    <string name="button_menu">Меню</string>
+    <string name="button_category_list">Список категорий</string>
+    <string name="button_tables">Столы</string>
+    <string name="on_stop_list">Находится в стоп листе!</string>
+    <string name="list_element_delete_button">Кнопка удаления</string>
+    <string name="list_element_add_stop_button">Кнопка добавления в стоп-лист</string>
+    <string name="list_element_remove_stop_button">Кнопка добавления в стоп-лист</string>
 </resources>
