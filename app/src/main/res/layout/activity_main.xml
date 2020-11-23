@@ -22,4 +22,28 @@
         app:headerLayout="@layout/nav_header_main"
         app:menu="@menu/activity_main_drawer" />
 
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.bottomappbar.BottomAppBar
+            android:id="@+id/bottom_app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            app:backgroundTint="?attr/colorPrimary"
+            app:fabAlignmentMode="end"
+            app:navigationIcon="@drawable/ic_24px_menu"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/activityFab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_input_add"
+            app:tint="@color/white"
+            app:layout_anchor="@id/bottom_app_bar"/>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
 </androidx.drawerlayout.widget.DrawerLayout>

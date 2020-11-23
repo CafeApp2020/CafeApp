@@ -55,18 +55,6 @@ class CategoryAddViewModel(private val categoryInteractor: ICategoryInteractor) 
         )
     }
 
-    fun getColorFromButton(view: View): Int {
-        return when (view.id) {
-            R.id.yellow_button -> 1
-            R.id.green_button -> 2
-            R.id.pink_button -> 3
-            R.id.red_button -> 4
-            R.id.blue_button -> 5
-            R.id.violet_button -> 6
-            else -> 0
-        }
-    }
-
     fun loadCategory(category_id: Long) {
         compositeDisposable.add(
             categoryInteractor.loadCategory(category_id)

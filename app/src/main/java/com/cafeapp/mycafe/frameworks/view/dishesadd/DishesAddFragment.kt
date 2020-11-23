@@ -11,6 +11,7 @@ import com.cafeapp.mycafe.R
 import com.cafeapp.mycafe.interface_adapters.viewmodels.dishes.dishesadd.DishesAddViewModel
 import com.cafeapp.mycafe.use_case.utils.MsgState
 import com.cafeapp.mycafe.use_case.utils.SharedViewModel
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.less.repository.db.room.DishesEntity
 import kotlinx.android.synthetic.main.fragment_dishesadd.*
 import org.koin.androidx.scope.currentScope
@@ -50,23 +51,24 @@ class DishesAddFragment : Fragment() {
             }
         })
 
+        val fab=activity?.findViewById<FloatingActionButton>(R.id.activityFab)
+        if (fab != null) {fab.setImageResource(android.R.drawable.ic_menu_save)}
+        fab?.setOnClickListener {
+            saveDish()
+        }
+
         return root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        saveDishFab.setOnClickListener {
-            val dish = DishesEntity(
-                category_id = 1,
-                name = dishNameTIT.text.toString(),
-                description = descriptionTIT.text.toString(),
-                price = priceTIT.text.toString().toFloat(),
-                weight = weightTIT.text.toString().toFloat(),
-                imagepath = ""
-            )
-
-            dishesAddViewModel.saveDish(dish)
-        }
+    fun saveDish() {
+        val dish = DishesEntity(
+            category_id = 1,
+            name = dishNameTIT.text.toString(),
+            description = descriptionTIT.text.toString(),
+            price = priceTIT.text.toString().toFloat(),
+            weight = weightTIT.text.toString().toFloat(),
+            imagepath = ""
+        )
+        dishesAddViewModel.saveDish(dish)
     }
 }

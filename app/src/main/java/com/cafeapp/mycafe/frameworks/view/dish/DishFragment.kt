@@ -52,10 +52,10 @@ class DishFragment : Fragment() {
     }
 
     private fun showDish(dish: DishesEntity) {
-        fragment_dish_name_textview.text = dish.name
-        fragment_dish_price_textview.text = dish.price.toString()
-        fragment_dish_weight_textview.text = dish.weight.toString()
-        fragment_dish_description_textview.text = dish.description
+        dishNameTIT.setText(dish.name)
+        priceTIT.setText(dish.price.toString())
+        weightTIT.setText(dish.weight.toString())
+        descriptionTIT.setText(dish.description)
 
         val imagePath = dish.imagepath.toString()
 

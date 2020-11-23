@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.cafeapp.mycafe.R
 import com.cafeapp.mycafe.frameworks.picasso.setImage
-import com.cafeapp.mycafe.frameworks.view.categoryadd.getColorInt
 import com.chauthai.swipereveallayout.SwipeRevealLayout
 import com.chauthai.swipereveallayout.ViewBinderHelper
 import com.less.repository.db.room.CategoryEntity
@@ -48,8 +47,6 @@ class CategoryListRVAdapter(val getIdFunc: (Long) -> Unit) :
 
         fun bind(data: CategoryEntity) = with(itemView) {
             name.text = data.name
-
-            setBackgroundColor(data.getColorInt(context))
 
             //swipeRevealLayout.setSwipeListener()
 

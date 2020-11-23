@@ -40,8 +40,9 @@ class DishListFragment : Fragment() {
             }
         })
 
-        val addCategoryFab: FloatingActionButton = root.findViewById(R.id.add_dish_fab)
-        addCategoryFab.setOnClickListener {
+        val fab=activity?.findViewById<FloatingActionButton>(R.id.activityFab)
+        if (fab != null) {fab.setImageResource(android.R.drawable.ic_input_add)}
+        fab?.setOnClickListener {
             sharedModel?.select(SharedMsg(MsgState.ADDDISH, -1))
         }
 
