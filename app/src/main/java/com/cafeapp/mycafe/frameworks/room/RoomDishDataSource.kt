@@ -11,6 +11,10 @@ class RoomDishDataSource(val dishesDao: DishesDao) : IDishDataSource {
         TODO("Not yet implemented")
     }
 
+    override fun updateDish(entity: DishesEntity): Completable {
+        return dishesDao.update(entity)
+    }
+
     override fun getData(categoryId: Long): Single<List<DishesEntity?>?>? {
         return dishesDao.getDishList(categoryId)
     }

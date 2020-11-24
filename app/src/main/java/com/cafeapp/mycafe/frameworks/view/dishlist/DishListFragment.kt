@@ -13,11 +13,13 @@ import com.cafeapp.mycafe.use_case.utils.MsgState
 import com.cafeapp.mycafe.use_case.utils.SharedMsg
 import com.cafeapp.mycafe.use_case.utils.SharedViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.less.repository.db.room.CategoryEntity
 import kotlinx.android.synthetic.main.fragment_disheslist.view.*
 import org.koin.androidx.scope.currentScope
 
 // Экран для отображения списка блюд
 class DishListFragment : Fragment() {
+    var currentCategoryID: Long = 0
     private lateinit var dishListAdapter: DishListRVAdapter
     private val dishListViewModel: DishListViewModel by currentScope.inject()
 
@@ -43,21 +45,38 @@ class DishListFragment : Fragment() {
         val fab=activity?.findViewById<FloatingActionButton>(R.id.activityFab)
         if (fab != null) {fab.setImageResource(android.R.drawable.ic_input_add)}
         fab?.setOnClickListener {
-            sharedModel?.select(SharedMsg(MsgState.ADDDISH, -1))
+            sharedModel?.select(SharedMsg(MsgState.ADDDISH, currentCategoryID))
         }
 
+        sharedModel?.getSelected()?.observe(viewLifecycleOwner, { msg ->
+               when (msg.stateName) {
+                  MsgState.DISHESLIST-> {
+                      if (msg.value is CategoryEntity) {
+                          currentCategoryID = msg.value.id
+                          dishListViewModel.getDishList(msg.value.id)
+                          msg.value?.name?.let { name ->
+                              sharedModel?.select(
+                                  SharedMsg(
+                                      MsgState.SETTOOLBARTITLE,
+                                      name
+                                  )
+                              )
+                          }
+                      }
+
+                      if (msg.value is Long) {
+                          currentCategoryID = msg.value
+                          dishListViewModel.getDishList(msg.value)
+                      }
+                  }
+               }
+        })
         return root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        dishListViewModel.getDishList(1) // пока что в базе есть только категории с id = 1, поэтому их и выводим
     }
 
     private fun initRecyclerView(root: View) {
         dishListAdapter = DishListRVAdapter { id ->
-            sharedModel?.select(SharedMsg(MsgState.DISH, id))
+            sharedModel?.select(SharedMsg(MsgState.OPENDISH, id))
         }
 
         root.dishlist_recyclerview.apply {

@@ -15,8 +15,5 @@
         <item
             android:id="@+id/nav_categorylist"
             android:title="@string/dishmenu_title" />
-        <item
-            android:id="@+id/nav_disheslist"
-            android:title="Список блюд" />
     </group>
 </menu>

@@ -12,7 +12,6 @@ import com.cafeapp.mycafe.frameworks.view.dishlist.DishListFragment
 import com.cafeapp.mycafe.interface_adapters.viewmodels.categories.CategoryAddViewModel
 import com.cafeapp.mycafe.interface_adapters.viewmodels.categories.CategoryListViewModel
 import com.cafeapp.mycafe.interface_adapters.viewmodels.dishes.dish.DishViewModel
-import com.cafeapp.mycafe.interface_adapters.viewmodels.dishes.dishesadd.DishesAddViewModel
 import com.cafeapp.mycafe.interface_adapters.viewmodels.dishes.dishlist.DishListViewModel
 import com.cafeapp.mycafe.use_case.data.CategoryRepository
 import com.cafeapp.mycafe.use_case.data.DishRepository
@@ -28,7 +27,7 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 val application = module {
-    single { Room.databaseBuilder(get(), CafeDataBase::class.java, "cafedb2").build() }
+    single { Room.databaseBuilder(get(), CafeDataBase::class.java, "cafedb3").build() }
     single { get<CafeDataBase>().categoryDao() }
     single { get<CafeDataBase>().dishesDao() }
     single<ICategoryDataSource> { RoomCategoryDataSource(get()) }
@@ -68,6 +67,6 @@ val dishViewModel = module {
 val dishAddViewModel = module {
     scope(named<DishesAddFragment>()) {
         scoped<IDishInteractor> { DishInteractor(get()) }
-        scoped { DishesAddViewModel(get()) }
+        scoped { DishViewModel(get()) }
     }
 }

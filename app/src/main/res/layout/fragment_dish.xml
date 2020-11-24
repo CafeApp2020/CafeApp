@@ -11,103 +11,53 @@
     <ImageView
         android:id="@+id/fragment_dish_image_imageview"
         android:layout_width="match_parent"
-        android:layout_height="155dp"
+        android:layout_height="222dp"
         android:contentDescription="@string/dish_picture"
-        android:src="@drawable/ic_96px_add_photo"
-        android:background="#DCF4F1"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/dishNameTIL"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginStart="@dimen/default_margin"
-        android:layout_marginEnd="@dimen/default_margin"
-        android:layout_marginTop="@dimen/marginDefault"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_dish_image_imageview"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/dishNameTIT"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="@string/dish_name"/>
-    </com.google.android.material.textfield.TextInputLayout>
+        android:scaleType="centerCrop"
+        android:src="@drawable/dishtemp"/>
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/linearLayoutCompat"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:layout_marginStart="@dimen/default_margin"
         android:layout_marginEnd="@dimen/default_margin"
-        android:orientation="horizontal"
-        android:layout_marginTop="@dimen/marginDefault"
-        app:layout_constraintTop_toBottomOf="@+id/dishNameTIL">
-
-       <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/priceTIL"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_dish_image_imageview">
+         <TextView
+            android:id="@+id/weigthTW"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/marginDefault"
             android:layout_weight="1"
-            android:layout_marginEnd="@dimen/marginDefault"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-           style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            android:text="250 гр"
+            app:layout_constraintStart_toStartOf="parent" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/priceTIT"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:hint="@string/price"
-                android:inputType="numberDecimal"/>
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/weightTIL"
+        <TextView
+            android:id="@+id/priceTW"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/default_margin"
+            android:layout_marginTop="@dimen/marginDefault"
             android:layout_weight="1"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:text="150Р"
+            android:gravity="right"
             app:layout_constraintStart_toStartOf="parent"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            app:layout_constraintTop_toBottomOf="@+id/descriptionTW" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/weightTIT"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:hint="@string/weight"
-                android:inputType="numberDecimal"/>
-        </com.google.android.material.textfield.TextInputLayout>
     </androidx.appcompat.widget.LinearLayoutCompat>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/descriptionTIL"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+    <TextView
+        android:id="@+id/descriptionTW"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_height="wrap_content"
+        android:text="суп на основе"
+        android:layout_marginTop="@dimen/marginDefault"
         android:layout_marginStart="@dimen/default_margin"
         android:layout_marginEnd="@dimen/default_margin"
-        android:layout_marginTop="@dimen/marginDefault"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/descriptionTIT"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="@string/enter_dish_descripton"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat"/>
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/reqiired_field"
-        android:layout_marginTop="@dimen/marginDefault"
-        android:layout_marginStart="@dimen/default_margin"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/descriptionTIL" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

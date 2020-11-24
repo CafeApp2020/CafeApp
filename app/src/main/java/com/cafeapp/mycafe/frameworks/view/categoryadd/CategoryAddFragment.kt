@@ -20,8 +20,6 @@ import org.koin.androidx.scope.currentScope
 // Экран для добавления/редактирования категорий
 class CategoryAddFragment : Fragment() {
     private val categoryAddViewModel: CategoryAddViewModel by currentScope.inject()
-
-    private var color: Int = 0
     private var currentCategoryId: Long = -1L
 
     private val sharedModel by lazy {
@@ -31,7 +29,6 @@ class CategoryAddFragment : Fragment() {
     private fun loadCategory(category: CategoryEntity) {
         categoryNameTIT.setText(category.name)
         descriptionTIT.setText(category.description)
-
         currentCategoryId = category.id
     }
 
@@ -73,7 +70,6 @@ class CategoryAddFragment : Fragment() {
         fab?.setOnClickListener {
             saveCategory()
         }
-
         return root
     }
 
@@ -81,8 +77,7 @@ class CategoryAddFragment : Fragment() {
         val category = CategoryEntity(
             name = categoryNameTIT.text.toString(),
             description = descriptionTIT.text.toString(),
-            imagepath = "",
-            color = color
+            imagepath = ""
         )
 
         if (currentCategoryId > 0)

@@ -14,7 +14,7 @@
         android:layout_height="155dp"
         android:contentDescription="@string/dish_picture"
         android:src="@drawable/ic_96px_add_photo"
-        android:background="#DCF4F1"
+        android:background="@color/imageBackgroundColor"
         app:layout_constraintTop_toTopOf="parent"/>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -100,7 +100,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/mandatoryTW"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/reqiired_field"

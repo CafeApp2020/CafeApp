@@ -12,7 +12,7 @@ import com.less.repository.db.room.CategoryEntity
 import kotlinx.android.synthetic.main.category_view_holder.view.*
 
 // пердаем адаптеру лямду getIdFunc, которая отрабатывает в CategoryListFragment при нажатии на категорию
-class CategoryListRVAdapter(val getIdFunc: (Long) -> Unit) :
+class CategoryListRVAdapter(val getIdFunc: (CategoryEntity) -> Unit) :
     RecyclerView.Adapter<CategoryListRVAdapter.CategoryViewHolder>() {
 
     private val viewBinderHelper: ViewBinderHelper = ViewBinderHelper()
@@ -40,7 +40,7 @@ class CategoryListRVAdapter(val getIdFunc: (Long) -> Unit) :
 
     override fun getItemCount(): Int = data!!.size
 
-    class CategoryViewHolder(itemView: View, val getIdFunc: (Long) -> Unit) :
+    class CategoryViewHolder(itemView: View, val getIdFunc: (CategoryEntity) -> Unit) :
         RecyclerView.ViewHolder(itemView) {
 
         val swipeRevealLayout: SwipeRevealLayout = itemView.swipe_categoryViewHolder
@@ -48,10 +48,8 @@ class CategoryListRVAdapter(val getIdFunc: (Long) -> Unit) :
         fun bind(data: CategoryEntity) = with(itemView) {
             name.text = data.name
 
-            //swipeRevealLayout.setSwipeListener()
-
              categoryViewHolderLeftSide.setOnClickListener {
-                getIdFunc(data.id)
+                getIdFunc(data)
             }
 
             if (data.imagepath.isNotEmpty())

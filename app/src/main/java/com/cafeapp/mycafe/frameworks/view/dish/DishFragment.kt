@@ -10,12 +10,15 @@ import com.cafeapp.mycafe.R
 import com.cafeapp.mycafe.frameworks.picasso.setImage
 import com.cafeapp.mycafe.interface_adapters.viewmodels.dishes.dish.DishViewModel
 import com.cafeapp.mycafe.use_case.utils.MsgState
+import com.cafeapp.mycafe.use_case.utils.SharedMsg
 import com.cafeapp.mycafe.use_case.utils.SharedViewModel
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.less.repository.db.room.DishesEntity
 import kotlinx.android.synthetic.main.fragment_dish.*
 import org.koin.androidx.scope.currentScope
 
 class DishFragment : Fragment() {
+    private var currentDishID:Long=0
     private val dishViewModel: DishViewModel by currentScope.inject()
 
     private val sharedModel by lazy {
@@ -29,7 +32,7 @@ class DishFragment : Fragment() {
     ): View? {
         val root = inflater.inflate(R.layout.fragment_dish, container, false)
 
-        dishViewModel.dishViewStateToObserve.observe(viewLifecycleOwner, { state ->
+        dishViewModel.dishViewState.observe(viewLifecycleOwner, { state ->
             state.dish?.let { dish ->
                 showDish(dish)
             }
@@ -37,12 +40,19 @@ class DishFragment : Fragment() {
 
         sharedModel?.getSelected()?.observe(viewLifecycleOwner, { msg ->
             when (msg.stateName) {
-                MsgState.DISH ->
+                MsgState.OPENDISH ->
                     if (msg.value is Long) {
+                        currentDishID=msg.value
                         loadDish(msg.value)
                     }
             }
         })
+
+        val fab=activity?.findViewById<FloatingActionButton>(R.id.activityFab)
+        if (fab != null) {fab.setImageResource(android.R.drawable.ic_menu_edit)}
+        fab?.setOnClickListener {
+            sharedModel?.select(SharedMsg(MsgState.EDITDISH, currentDishID))
+        }
 
         return root
     }
@@ -52,10 +62,10 @@ class DishFragment : Fragment() {
     }
 
     private fun showDish(dish: DishesEntity) {
-        dishNameTIT.setText(dish.name)
-        priceTIT.setText(dish.price.toString())
-        weightTIT.setText(dish.weight.toString())
-        descriptionTIT.setText(dish.description)
+        priceTW.setText(dish.price.toString()+" ₽") // временно делаем так, далее в настройках будем прописывать единицы
+        weigthTW.setText(dish.weight.toString()+" гр") // аналогично
+        descriptionTW.setText(dish.description)
+        dish?.name?.let {name -> sharedModel?.select(SharedMsg(MsgState.SETTOOLBARTITLE, name))}
 
         val imagePath = dish.imagepath.toString()
 

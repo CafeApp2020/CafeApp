@@ -33,14 +33,14 @@ class CategoryListFragment() : Fragment() {
     ): View? {
         val root = inflater.inflate(R.layout.fragment_categorylist, container, false)
 
-        categoryListAdapter = CategoryListRVAdapter { id ->
+        categoryListAdapter = CategoryListRVAdapter { categoryEntity ->
             sharedModel?.select(
                 SharedMsg(
-                    MsgState.ADDCATEGORY,
-                    id
+                    MsgState.DISHESLIST,
+                    categoryEntity
                 )
-            ) // если id>1 открываем фрагмент CategoryAddFragment для редактирования
-        }
+            )
+    }
 
         categoryListViewModel.categoryViewState.observe(viewLifecycleOwner, { state ->
             state.categories?.let {
