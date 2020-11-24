@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.cafeapp.mycafe.R
 import com.cafeapp.mycafe.interface_adapters.viewmodels.dishes.dishlist.DishListViewModel
 import com.cafeapp.mycafe.use_case.utils.MsgState
@@ -81,7 +82,7 @@ class DishListFragment : Fragment() {
 
         root.dishlist_recyclerview.apply {
             adapter = dishListAdapter
-            layoutManager = GridLayoutManager(activity, 4)
+            layoutManager = LinearLayoutManager(activity)
         }
     }
 }

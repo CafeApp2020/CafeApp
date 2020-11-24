@@ -14,6 +14,7 @@
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
+            app:cardCornerRadius="@dimen/zero"
             android:layout_height="@dimen/list_element_normal_height">
 
             <ImageButton
@@ -45,6 +46,7 @@
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
+            app:cardCornerRadius="@dimen/zero"
             android:layout_height="@dimen/list_element_normal_height">
 
             <TextView
@@ -52,16 +54,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/category_text_margin"
-                android:textSize="@dimen/body_body1"
-                android:textStyle="bold" />
+                style="@style/CafeTextStyle.Body"/>
 
             <ImageView
                 android:id="@+id/categoryViewHolderStopImageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginEnd="@dimen/list_element_normal_padding"
-                android:src="@drawable/ic_24px_stop_list_black"
+                style="@style/ListElementStopImageView"
                 android:visibility="gone"
                 android:contentDescription="@string/on_stop_list"/>
 
