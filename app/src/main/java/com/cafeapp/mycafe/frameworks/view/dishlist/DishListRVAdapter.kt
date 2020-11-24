@@ -36,7 +36,7 @@ class DishListRVAdapter(val getIdFunc: (Long) -> Unit) :
             dish_name_textview.text = data.name
             dish_price_textview.text = price
 
-            var weight = data.weight.toString()
+            var weight = data.weight?.toInt().toString()
             val imagePath = data.imagepath.toString()
 
             if (weight.isNotEmpty()) {
