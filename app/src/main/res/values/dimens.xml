@@ -32,7 +32,7 @@
     <dimen name="add_category_view_width">280dp</dimen>
 
     <!-- Dish card. -->
-    <dimen name="dish_card_picture_height">200dp</dimen>
+    <dimen name="dish_card_picture_height">222dp</dimen>
 
     <!-- Add/edit dish. -->
     <dimen name="add_dish_field_margin_top">16dp</dimen>

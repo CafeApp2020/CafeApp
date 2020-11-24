@@ -63,7 +63,7 @@ class DishFragment : Fragment() {
 
     private fun showDish(dish: DishesEntity) {
         priceTW.setText(dish.price.toString()+" ₽") // временно делаем так, далее в настройках будем прописывать единицы
-        weigthTW.setText(dish.weight.toString()+" гр") // аналогично
+        weigthTW.setText(dish.weight?.toInt().toString()+" гр") // аналогично
         descriptionTW.setText(dish.description)
         dish?.name?.let {name -> sharedModel?.select(SharedMsg(MsgState.SETTOOLBARTITLE, name))}
 
