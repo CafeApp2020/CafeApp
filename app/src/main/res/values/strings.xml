@@ -40,4 +40,5 @@
     <string name="list_element_remove_stop_button">Кнопка добавления в стоп-лист</string>
     <string name="reqiired_field">*Поля обязательны для заполнения</string>
     <string name="enter_dish_descripton">Введите описание блюда</string>
+    <string name="dish_photo">Фото блюда</string>
 </resources>
