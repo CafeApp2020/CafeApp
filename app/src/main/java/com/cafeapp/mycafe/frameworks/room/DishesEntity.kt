@@ -16,7 +16,7 @@ import androidx.room.PrimaryKey
 @Entity(indices = arrayOf(Index(value = arrayOf("id"), unique = true)))
 class DishesEntity(
     @field:ColumnInfo(name = "category_id")
-    var category_id: Int = 0,
+    var category_id: Long = 0,
 
     @field:ColumnInfo(name = "description")
     var description: String? = null,

@@ -1,6 +1,7 @@
 package com.less.repository.db.room
 
 import androidx.room.*
+import io.reactivex.Completable
 import io.reactivex.Single
 
 @Dao
@@ -19,10 +20,6 @@ interface DishesDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(dishes: DishesEntity?): Single<Long>?
-
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertAll(entities: List<DishesEntity>)
-
     @Update
-    fun update(entity: DishesEntity)
+    fun update(entity: DishesEntity): Completable
 }

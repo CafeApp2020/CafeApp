@@ -38,13 +38,20 @@ class MainActivity : AppCompatActivity() {
         sharedModel.getSelected().observe(this, { msg ->
             when (msg.stateName) {
                 MsgState.ADDCATEGORY -> navController.navigate(R.id.nav_categoryadd)  // открываем фрагмент добавления/редактирования категории
-                MsgState.ADDDISH -> navController.navigate(R.id.nav_dishesadd)    // открываем фрагмент добавления/редактирования блюда
+                MsgState.ADDDISH -> navController.navigate(R.id.nav_dishesadd)    // открываем фрагмент добавления  блюда
+                MsgState.EDITDISH -> navController.navigate(R.id.nav_dishesadd)  // открываем фрагмент  редактирования блюда
                 MsgState.CATEGORYLISTOPEN -> navController.navigate(R.id.nav_categorylist) // открываем фрагмент со списком категорий
-                MsgState.DISH -> navController.navigate(R.id.nav_dish) // открываем фрагмент с блюдом
+                MsgState.OPENDISH -> navController.navigate(R.id.nav_dish) // открываем фрагмент с блюдом
                 MsgState.DISHESLIST -> navController.navigate(R.id.nav_disheslist)    // открываем фрагмент со списком блюд
+                MsgState.SETTOOLBARTITLE -> setTitle(msg.value)
             }
         })
     }
+
+   fun setTitle(name:Any) {
+       if (name is String)
+           toolbar.setTitle(name)
+   }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.main, menu)

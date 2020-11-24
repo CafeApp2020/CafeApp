@@ -10,6 +10,10 @@ class DishInteractor(val repository: IDishRepository) : IDishInteractor {
         return repository.deleteDish(dish)
     }
 
+    override fun updateDish(entity: DishesEntity): Completable {
+        return repository.updateDish(entity)
+    }
+
     override fun getData(category_id: Long): Single<List<DishesEntity?>?>? {
         return repository.getData(category_id)
     }

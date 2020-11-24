@@ -8,9 +8,6 @@ import androidx.room.PrimaryKey
 // Для хранения категорий в базе данных
 @Entity(indices = arrayOf(Index(value = arrayOf("id"), unique = true)))
 class CategoryEntity(
-    @field:ColumnInfo(name = "color")
-    var color: Int,
-
     @field:ColumnInfo(name = "description")
     var description: String,
 

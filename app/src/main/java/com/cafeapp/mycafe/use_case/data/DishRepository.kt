@@ -14,6 +14,10 @@ class DishRepository(val dataSource: IDishDataSource) : IDishRepository {
         return dataSource.getData(category_id)
     }
 
+    override fun updateDish(entity: DishesEntity): Completable {
+        return dataSource.updateDish(entity)
+    }
+
     override fun getDish(dishId: Long): Single<DishesEntity> {
         return dataSource.getDish(dishId)
     }
