@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.cafeapp.mycafe.R
 import com.cafeapp.mycafe.frameworks.picasso.setImage
 import com.less.repository.db.room.DishesEntity
-import kotlinx.android.synthetic.main.dishlist_recyclerview_item.view.*
+import kotlinx.android.synthetic.main.dish_view_holder.view.*
 
 class DishListRVAdapter(val getIdFunc: (Long) -> Unit) :
     RecyclerView.Adapter<DishListRVAdapter.ViewHolder>() {
@@ -19,7 +19,7 @@ class DishListRVAdapter(val getIdFunc: (Long) -> Unit) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(
         LayoutInflater.from(parent.context).inflate(
-            R.layout.dishlist_recyclerview_item, parent, false
+            R.layout.dish_view_holder, parent, false
         ), getIdFunc
     )
 
@@ -46,7 +46,7 @@ class DishListRVAdapter(val getIdFunc: (Long) -> Unit) :
                 setImage(imagePath, dish_image_imageview)
             }
 
-            setOnClickListener {
+            dishViewHolderLeftSide.setOnClickListener {
                 getIdFunc(data.id)
             }
         }

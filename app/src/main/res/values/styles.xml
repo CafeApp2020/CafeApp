@@ -55,19 +55,20 @@
     <!-- Delete element buttons. -->
     <style name="ListElementButton.DeleteElementButton">
         <item name="android:src">@drawable/ic_24px_delete</item>
-        <item name="android:background">@color/alerts_alert</item>
+        <item name="android:backgroundTint">@color/alerts_alert</item>
+        <item name="android:layout_marginEnd">2dp</item>
     </style>
 
     <!-- Add stop list element buttons. -->
     <style name="ListElementButton.AddStopListElementButton">
         <item name="android:src">@drawable/ic_24px_stop_list</item>
-        <item name="android:background">@color/grayscale_yet_hz</item>
+        <item name="android:backgroundTint">@color/grayscale_yet_hz</item>
     </style>
 
     <!-- Remove stop list element buttons. -->
     <style name="ListElementButton.RemoveStopListElementButton">
         <item name="android:src">@drawable/ic_24px_non_stop_list</item>
-        <item name="android:background">@color/grayscale_yet_hz</item>
+        <item name="android:backgroundTint">@color/grayscale_yet_hz</item>
     </style>
 
     <!-- Fab button. -->
@@ -78,6 +79,15 @@
         <item name="android:tintMode">@color/white</item>
         <item name="android:layout_marginBottom">@dimen/fab_margin_bottom</item>
         <item name="android:layout_marginEnd">@dimen/fab_margin_end</item>
+    </style>
+
+    <!-- Stop list imageView. -->
+    <style name="ListElementStopImageView">
+        <item name="android:layout_width">15dp</item>
+        <item name="android:layout_height">15dp</item>
+        <item name="android:layout_marginEnd">@dimen/list_element_normal_padding</item>
+        <item name="android:layout_gravity">end |center_vertical</item>
+        <item name="android:src">@drawable/ic_24px_stop_list_black</item>
     </style>
 
 </resources>

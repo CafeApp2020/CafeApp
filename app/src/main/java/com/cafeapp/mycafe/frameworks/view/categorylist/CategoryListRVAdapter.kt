@@ -48,8 +48,6 @@ class CategoryListRVAdapter(val getIdFunc: (Long) -> Unit) :
         fun bind(data: CategoryEntity) = with(itemView) {
             name.text = data.name
 
-            //swipeRevealLayout.setSwipeListener()
-
              categoryViewHolderLeftSide.setOnClickListener {
                 getIdFunc(data.id)
             }

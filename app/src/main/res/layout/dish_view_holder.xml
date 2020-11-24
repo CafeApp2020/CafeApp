@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.chauthai.swipereveallayout.SwipeRevealLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/list_element_normal_height"
+    android:id="@+id/swipe_categoryViewHolder"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:mode="same_level"
+    app:dragEdge="right">
+
+    <!-- Your secondary layout here -->
+    <FrameLayout
+        android:layout_width="@dimen/swipe_menu_width"
+        android:layout_height="match_parent">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            app:cardCornerRadius="@dimen/zero"
+            android:layout_height="@dimen/list_element_normal_height">
+
+            <ImageButton
+                android:id="@+id/dishViewHolderAddStopButton"
+                style="@style/ListElementButton.AddStopListElementButton"
+                android:contentDescription="@string/list_element_add_stop_button"/>
+
+            <ImageButton
+                android:id="@+id/dishViewHolderRemoveStopButton"
+                style="@style/ListElementButton.AddStopListElementButton"
+                android:contentDescription="@string/list_element_remove_stop_button"
+                android:visibility="gone"/>
+
+            <ImageButton
+                android:id="@+id/dishViewHolderDeleteButton"
+                style="@style/ListElementButton.DeleteElementButton"
+                android:layout_gravity="end"
+                android:contentDescription="@string/list_element_delete_button"/>
+
+        </androidx.cardview.widget.CardView>
+
+    </FrameLayout>
+
+    <!-- Your main layout here -->
+    <FrameLayout
+        android:id="@+id/dishViewHolderLeftSide"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            app:cardCornerRadius="@dimen/zero"
+            android:layout_height="@dimen/list_element_normal_height">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/list_element_normal_height"
+                android:paddingStart="@dimen/list_element_normal_padding"
+                android:paddingEnd="@dimen/list_element_normal_padding">
+
+                <TextView
+                    android:id="@+id/dish_name_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/body_body1"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    style="@style/CafeTextStyle.Body"/>
+
+                <ImageView
+                    android:id="@+id/dishViewHolderStopImageView"
+                    style="@style/ListElementStopImageView"
+                    android:contentDescription="@string/on_stop_list"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/dish_weight_textview"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/dish_weight_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/category_card_margin"
+                    android:textSize="@dimen/body_body1"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/dish_price_textview"
+                    app:layout_constraintTop_toTopOf="parent"
+                    style="@style/CafeTextStyle.Body"/>
+
+                <TextView
+                    android:id="@+id/dish_price_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/body_body1"
+                    android:layout_marginEnd="@dimen/category_card_margin"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    style="@style/CafeTextStyle.Body"/>
+
+                <ImageView
+                    android:id="@+id/dish_image_imageview"
+                    android:layout_width="@dimen/zero"
+                    android:layout_height="@dimen/zero"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_menu_camera"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:contentDescription="@string/dish_photo" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </FrameLayout>
+
+</com.chauthai.swipereveallayout.SwipeRevealLayout>
