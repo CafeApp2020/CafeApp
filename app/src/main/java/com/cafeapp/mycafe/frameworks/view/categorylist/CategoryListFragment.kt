@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.fragment_categorylist.view.*
 import org.koin.androidx.scope.currentScope
 
 // Экран для отображения категорий блюд
-class CategoryListFragment() : Fragment() {
+class CategoryListFragment : Fragment() {
     private lateinit var categoryListAdapter: CategoryListRVAdapter
     private val categoryListViewModel: CategoryListViewModel by currentScope.inject()
 
@@ -40,7 +40,7 @@ class CategoryListFragment() : Fragment() {
                     categoryEntity
                 )
             )
-    }
+        }
 
         categoryListViewModel.categoryViewState.observe(viewLifecycleOwner, { state ->
             state.categories?.let {
@@ -54,8 +54,10 @@ class CategoryListFragment() : Fragment() {
                 adapter = categoryListAdapter
             }
 
-            val fab=activity?.findViewById<FloatingActionButton>(R.id.activityFab)
-            if (fab != null) {fab.setImageResource(android.R.drawable.ic_input_add)}
+            val fab = activity?.findViewById<FloatingActionButton>(R.id.activityFab)
+            if (fab != null) {
+                fab.setImageResource(android.R.drawable.ic_input_add)
+            }
             fab?.setOnClickListener {
                 sharedModel?.select(SharedMsg(MsgState.ADDCATEGORY, -1L))
             }

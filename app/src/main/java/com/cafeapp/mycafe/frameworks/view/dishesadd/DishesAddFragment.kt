@@ -40,15 +40,19 @@ class DishesAddFragment : Fragment() {
         val root = inflater.inflate(R.layout.fragment_dishesadd, container, false)
 
         dishViewModel.dishViewState.observe(viewLifecycleOwner, { state ->
-             state.error?.let { error ->
+            state.error?.let { error ->
                 Toast.makeText(activity, error?.message, Toast.LENGTH_LONG).show()
-                 return@observe
+                return@observe
             }
+
             if (state.saveOk) {
                 Toast.makeText(activity, getString(R.string.saveok_title), Toast.LENGTH_LONG).show()
-                state.dish?.category_id?.let {category_id ->
-                sharedModel?.select(SharedMsg(MsgState.DISHESLIST, category_id))}
+
+                state.dish?.category_id?.let { category_id ->
+                    sharedModel?.select(SharedMsg(MsgState.DISHESLIST, category_id))
+                }
             }
+
             if (state.loadOk) {
                 state.dish?.let { dish -> showDish(dish) }
             }
@@ -58,18 +62,19 @@ class DishesAddFragment : Fragment() {
             when (msg.stateName) {
                 MsgState.ADDDISH ->
                     if (msg.value is Long) {
-                    currentCategoryID=msg.value
-               }
+                        currentCategoryID = msg.value
+                    }
                 MsgState.EDITDISH ->
                     if (msg.value is Long) {
-                       dishViewModel.getDish(msg.value)
-                       currentDishId=msg.value
+                        dishViewModel.getDish(msg.value)
+                        currentDishId = msg.value
                     }
             }
         })
 
-        val fab=activity?.findViewById<FloatingActionButton>(R.id.activityFab)
-        if (fab != null) {fab.setImageResource(android.R.drawable.ic_menu_save)}
+        val fab = activity?.findViewById<FloatingActionButton>(R.id.activityFab)
+
+        fab?.setImageResource(android.R.drawable.ic_menu_save)
         fab?.setOnClickListener {
             saveDish()
         }
@@ -77,8 +82,9 @@ class DishesAddFragment : Fragment() {
     }
 
     private fun showDish(dish: DishesEntity) {
-        dish?.name?.let {name -> sharedModel?.select(SharedMsg(MsgState.SETTOOLBARTITLE, name))}
-        currentCategoryID=dish.category_id
+        dish?.name?.let { name -> sharedModel?.select(SharedMsg(MsgState.SETTOOLBARTITLE, name)) }
+
+        currentCategoryID = dish.category_id
         dishNameTIT.setText(dish.name)
         priceTIT.setText(dish.price.toString())
         weightTIT.setText(dish.weight.toString())
@@ -91,20 +97,35 @@ class DishesAddFragment : Fragment() {
         }
     }
 
-    fun saveDish() {
-        var dish: DishesEntity? =null
-        dish = DishesEntity(
-            category_id = currentCategoryID,
-            name = dishNameTIT.text.toString(),
-            description = descriptionTIT.text.toString(),
-            price = priceTIT.text.toString().toFloat(),
-            weight = weightTIT.text.toString().toFloat(),
-            imagepath = ""
-        )
+    private fun saveDish() {
+        if (!dishNameTIT.text.toString().isNullOrBlank() && !priceTIT.text.toString()
+                .isNullOrBlank()
+        ) {
+            val dish: DishesEntity?
 
-        if (currentDishId>0)  // обновляем блюдо иначе добавляем новое
-            dish.id=currentDishId
+            if (weightTIT.text.toString().isEmpty()) {
+                weightTIT.setText(getString(R.string.weight_not_specified))
+            }
 
-        dish?.let {dishViewModel.saveDish(dish) }
+            dish = DishesEntity(
+                category_id = currentCategoryID,
+                name = dishNameTIT.text.toString(),
+                description = descriptionTIT.text.toString(),
+                price = priceTIT.text.toString().toFloat(),
+                weight = weightTIT.text.toString().toFloat(),
+                imagepath = ""
+            )
+
+            if (currentDishId > 0)  // обновляем блюдо иначе добавляем новое
+                dish.id = currentDishId
+
+            dish?.let { dishViewModel.saveDish(dish) }
+        } else {
+            Toast.makeText(
+                activity,
+                getString(R.string.required_fields_is_blank),
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
+}
