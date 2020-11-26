@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -12,26 +11,26 @@
         android:id="@+id/fragment_dish_image_imageview"
         android:layout_width="match_parent"
         android:layout_height="155dp"
+        android:background="@color/imageBackgroundColor"
         android:contentDescription="@string/dish_picture"
         android:src="@drawable/ic_96px_add_photo"
-        android:background="@color/imageBackgroundColor"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/dishNameTIL"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginStart="@dimen/default_margin"
-        android:layout_marginEnd="@dimen/default_margin"
         android:layout_marginTop="@dimen/marginDefault"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_dish_image_imageview"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        android:layout_marginEnd="@dimen/default_margin"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_dish_image_imageview">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/dishNameTIT"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="@string/dish_name"/>
+            android:hint="@string/dish_name" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -39,44 +38,44 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginTop="@dimen/marginDefault"
         android:layout_marginEnd="@dimen/default_margin"
         android:orientation="horizontal"
-        android:layout_marginTop="@dimen/marginDefault"
         app:layout_constraintTop_toBottomOf="@+id/dishNameTIL">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/priceTIL"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginEnd="@dimen/marginDefault"
+            android:layout_weight="1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            app:layout_constraintStart_toStartOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/priceTIT"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="@string/price"
-                android:inputType="numberDecimal"/>
+                android:inputType="numberDecimal" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/weightTIL"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            app:layout_constraintStart_toStartOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/weightTIT"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="@string/weight"
-                android:inputType="numberDecimal"/>
+                android:inputType="numberDecimal" />
         </com.google.android.material.textfield.TextInputLayout>
     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -85,29 +84,29 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="100dp"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginTop="@dimen/marginDefault"
+        android:layout_marginEnd="@dimen/default_margin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="@dimen/default_margin"
-        android:layout_marginEnd="@dimen/default_margin"
-        android:layout_marginTop="@dimen/marginDefault"
         app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat">
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/descriptionTIT"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="@string/enter_dish_descripton"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat"/>
+            app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/mandatoryTW"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/reqiired_field"
-        android:layout_marginTop="@dimen/marginDefault"
         android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginTop="@dimen/marginDefault"
+        android:text="@string/required_field"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/descriptionTIL" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

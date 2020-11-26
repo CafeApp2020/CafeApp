@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.chauthai.swipereveallayout.SwipeRevealLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/swipe_categoryViewHolder"
     android:layout_width="match_parent"
     android:layout_height="@dimen/list_element_normal_height"
-    android:id="@+id/swipe_categoryViewHolder"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:mode="same_level"
-    app:dragEdge="right">
+    app:dragEdge="right"
+    app:mode="same_level">
 
     <!-- Your secondary layout here -->
     <FrameLayout
@@ -14,25 +14,25 @@
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            app:cardCornerRadius="@dimen/zero"
-            android:layout_height="@dimen/list_element_normal_height">
+            android:layout_height="@dimen/list_element_normal_height"
+            app:cardCornerRadius="@dimen/zero">
 
             <ImageButton
                 android:id="@+id/categoryViewHolderAddStopButton"
                 style="@style/ListElementButton.AddStopListElementButton"
-                android:contentDescription="@string/list_element_add_stop_button"/>
+                android:contentDescription="@string/list_element_add_stop_button" />
 
             <ImageButton
                 android:id="@+id/categoryViewHolderRemoveStopButton"
                 style="@style/ListElementButton.AddStopListElementButton"
                 android:contentDescription="@string/list_element_remove_stop_button"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
             <ImageButton
                 android:id="@+id/iv_delete"
                 style="@style/ListElementButton.DeleteElementButton"
                 android:layout_gravity="end"
-                android:contentDescription="@string/list_element_delete_button"/>
+                android:contentDescription="@string/list_element_delete_button" />
 
         </androidx.cardview.widget.CardView>
 
@@ -46,21 +46,21 @@
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            app:cardCornerRadius="@dimen/zero"
-            android:layout_height="@dimen/list_element_normal_height">
+            android:layout_height="@dimen/list_element_normal_height"
+            app:cardCornerRadius="@dimen/zero">
 
             <TextView
                 android:id="@+id/name"
+                style="@style/CafeTextStyle.Body"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/category_text_margin"
-                style="@style/CafeTextStyle.Body"/>
+                android:layout_margin="@dimen/category_text_margin" />
 
             <ImageView
                 android:id="@+id/categoryViewHolderStopImageView"
                 style="@style/ListElementStopImageView"
-                android:visibility="gone"
-                android:contentDescription="@string/on_stop_list"/>
+                android:contentDescription="@string/on_stop_list"
+                android:visibility="gone" />
 
             <ImageView
                 android:id="@+id/image"
@@ -69,7 +69,7 @@
                 android:layout_margin="@dimen/category_image_margin"
                 android:contentDescription="@string/category_picture_description"
                 android:scaleType="fitCenter"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
         </androidx.cardview.widget.CardView>
 

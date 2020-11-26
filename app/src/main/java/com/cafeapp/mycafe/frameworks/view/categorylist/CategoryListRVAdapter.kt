@@ -48,7 +48,7 @@ class CategoryListRVAdapter(val getIdFunc: (CategoryEntity) -> Unit) :
         fun bind(data: CategoryEntity) = with(itemView) {
             name.text = data.name
 
-             categoryViewHolderLeftSide.setOnClickListener {
+            categoryViewHolderLeftSide.setOnClickListener {
                 getIdFunc(data)
             }
 

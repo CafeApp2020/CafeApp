@@ -40,18 +40,25 @@ class CategoryAddFragment : Fragment() {
         val root = inflater.inflate(R.layout.fragment_addcategory, container, false)
 
         categoryAddViewModel.categoryViewState.observe(viewLifecycleOwner, {
-            if (it.saveErr != null) {
-                Toast.makeText(activity, it.saveErr?.message, Toast.LENGTH_LONG).show()
-            } else if (it.saveOk) {
-                Toast.makeText(activity, getString(R.string.saveok_title), Toast.LENGTH_LONG).show()
-                sharedModel?.select(
-                    SharedMsg(
-                        MsgState.CATEGORYLISTOPEN,
-                        -1
-                    )
-                )  // сообщаем активити о том, что нужно открыть окно со списком категорий
-            } else if (it.loadOk) {
-                it.category?.let { it1 -> loadCategory(it1) }
+            when {
+                it.saveErr != null -> {
+                    Toast.makeText(activity, it.saveErr?.message, Toast.LENGTH_LONG).show()
+                }
+
+                it.saveOk -> {
+                    Toast.makeText(activity, getString(R.string.saveok_title), Toast.LENGTH_LONG)
+                        .show()
+                    sharedModel?.select(
+                        SharedMsg(
+                            MsgState.CATEGORYLISTOPEN,
+                            -1
+                        )
+                    )  // сообщаем активити о том, что нужно открыть окно со списком категорий
+                }
+
+                it.loadOk -> {
+                    it.category?.let { it1 -> loadCategory(it1) }
+                }
             }
         })
 
@@ -65,29 +72,39 @@ class CategoryAddFragment : Fragment() {
             }
         })
 
-        val fab=activity?.findViewById<FloatingActionButton>(R.id.activityFab)
-        if (fab != null) {fab.setImageResource(android.R.drawable.ic_menu_save)}
+        val fab = activity?.findViewById<FloatingActionButton>(R.id.activityFab)
+
+        fab?.setImageResource(android.R.drawable.ic_menu_save)
         fab?.setOnClickListener {
             saveCategory()
         }
+
         return root
     }
 
-    fun saveCategory() {
-        val category = CategoryEntity(
-            name = categoryNameTIT.text.toString(),
-            description = descriptionTIT.text.toString(),
-            imagepath = ""
-        )
+    private fun saveCategory() {
+        if (!categoryNameTIT.text.toString().isNullOrBlank()) {
+            val category = CategoryEntity(
+                name = categoryNameTIT.text.toString(),
+                description = descriptionTIT.text.toString(),
+                imagepath = ""
+            )
 
-        if (currentCategoryId > 0)
-            category.id = currentCategoryId
-        categoryAddViewModel.saveCategory(category)
+            if (currentCategoryId > 0)
+                category.id = currentCategoryId
+
+            categoryAddViewModel.saveCategory(category)
+        } else {
+            Toast.makeText(
+                activity,
+                getString(R.string.required_fields_is_blank),
+                Toast.LENGTH_SHORT
+            )
+                .show()
+        }
     }
-
 
     private fun loadEditableCategory(category_id: Long) {
         categoryAddViewModel.loadCategory(category_id)
     }
 }
-

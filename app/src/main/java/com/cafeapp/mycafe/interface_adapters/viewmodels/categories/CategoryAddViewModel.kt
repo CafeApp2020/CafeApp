@@ -1,10 +1,8 @@
 package com.cafeapp.mycafe.interface_adapters.viewmodels.categories
 
-import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.cafeapp.mycafe.R
 import com.cafeapp.mycafe.use_case.interactors.categories.ICategoryInteractor
 import com.less.repository.db.room.CategoryEntity
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -21,15 +19,15 @@ class CategoryAddViewModel(private val categoryInteractor: ICategoryInteractor) 
         compositeDisposable.clear()
     }
 
-    private fun addNewCategory(savecategory: CategoryEntity) {
+    private fun addNewCategory(saveCategory: CategoryEntity) {
         compositeDisposable.add(
-            categoryInteractor.saveCategory(savecategory)!!
+            categoryInteractor.saveCategory(saveCategory)!!
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     {
                         modifyCategoryViewState.value =
-                            CategoryAddViewState(category = savecategory, saveOk = true)
+                            CategoryAddViewState(category = saveCategory, saveOk = true)
                     },
                     { error ->
                         modifyCategoryViewState.value =
@@ -38,15 +36,15 @@ class CategoryAddViewModel(private val categoryInteractor: ICategoryInteractor) 
         )
     }
 
-    private fun editableCategorySave(savecategory: CategoryEntity) {
+    private fun editableCategorySave(saveCategory: CategoryEntity) {
         compositeDisposable.add(
-            categoryInteractor.updateCategory(savecategory)
+            categoryInteractor.updateCategory(saveCategory)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     {
                         modifyCategoryViewState.value =
-                            CategoryAddViewState(category = savecategory, saveOk = true)
+                            CategoryAddViewState(category = saveCategory, saveOk = true)
                     },
                     { error ->
                         modifyCategoryViewState.value =
@@ -72,10 +70,10 @@ class CategoryAddViewModel(private val categoryInteractor: ICategoryInteractor) 
         )
     }
 
-    fun saveCategory(savecategory: CategoryEntity) {
-        if (savecategory.id > 0)
-            editableCategorySave(savecategory)
+    fun saveCategory(saveCategory: CategoryEntity) {
+        if (saveCategory.id > 0)
+            editableCategorySave(saveCategory)
         else
-            addNewCategory(savecategory)
+            addNewCategory(saveCategory)
     }
 }

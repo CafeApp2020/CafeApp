@@ -18,7 +18,7 @@
     <string name="saveok_title">Запись сохранена в базе данных</string>
     <string name="description">Примечание</string>
     <string name="save_category">Сохранение категории</string>
-    <string name="category_name">Название категории</string>
+    <string name="category_name">Название категории*</string>
     <string name="weight">Вес</string>
     <string name="price">Цена*</string>
     <string name="dish">Блюдо</string>
@@ -38,7 +38,9 @@
     <string name="list_element_delete_button">Кнопка удаления</string>
     <string name="list_element_add_stop_button">Кнопка добавления в стоп-лист</string>
     <string name="list_element_remove_stop_button">Кнопка добавления в стоп-лист</string>
-    <string name="reqiired_field">*Поля обязательны для заполнения</string>
+    <string name="required_field">*Поля обязательны для заполнения</string>
+    <string name="required_fields_is_blank">Введите обязательные поля</string>
     <string name="enter_dish_descripton">Введите описание блюда</string>
     <string name="dish_photo">Фото блюда</string>
+    <string name="weight_not_specified">0</string>
 </resources>
