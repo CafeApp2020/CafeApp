@@ -1,10 +1,12 @@
 package com.cafeapp.mycafe.frameworks.view.dishesadd
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.cafeapp.mycafe.R
@@ -27,6 +29,7 @@ class DishesAddFragment : Fragment() {
     var currentCategoryID: Long = -1L
     private var currentDishId: Long = -1L
     private val dishViewModel: DishViewModel by currentScope.inject()
+    var currentImagePath:String = ""
 
     private val sharedModel by lazy {
         activity?.let { ViewModelProvider(it).get(SharedViewModel::class.java) }
@@ -81,6 +84,11 @@ class DishesAddFragment : Fragment() {
         return root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        fragment_dish_image_imageview.setOnClickListener { showSelectionDialog() }
+    }
+
     private fun showDish(dish: DishesEntity) {
         dish?.name?.let { name -> sharedModel?.select(SharedMsg(MsgState.SETTOOLBARTITLE, name)) }
 
@@ -93,7 +101,8 @@ class DishesAddFragment : Fragment() {
         val imagePath = dish.imagepath.toString()
 
         if (imagePath.isNotEmpty()) {
-            setImage(dish.imagepath.toString(), fragment_dish_image_imageview)
+            currentImagePath = imagePath
+            setImage(imagePath, fragment_dish_image_imageview)
         }
     }
 
@@ -113,7 +122,7 @@ class DishesAddFragment : Fragment() {
                 description = descriptionTIT.text.toString(),
                 price = priceTIT.text.toString().toFloat(),
                 weight = weightTIT.text.toString().toFloat(),
-                imagepath = ""
+                imagepath = currentImagePath
             )
 
             if (currentDishId > 0)  // обновляем блюдо иначе добавляем новое
@@ -127,5 +136,38 @@ class DishesAddFragment : Fragment() {
                 Toast.LENGTH_SHORT
             ).show()
         }
+    }
+
+    private fun showSelectionDialog() {
+        val dialog = ImageSelectionDialogFragment.newInstance()
+        dialog.show(childFragmentManager, "ImageSelectionDialogFragment")
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (resultCode == AppCompatActivity.RESULT_OK) {
+            when (requestCode) {
+                REQUEST_CODE_GALLERY -> {
+                    currentImagePath = data?.data.toString()
+                    data?.data?.let { activity?.contentResolver?.takePersistableUriPermission(it, Intent.FLAG_GRANT_READ_URI_PERMISSION) }
+                    setImage(currentImagePath,fragment_dish_image_imageview)
+                }
+                REQUEST_CODE_CAMERA -> {
+                    currentImagePath = fragment_dish_image_imageview.tag.toString()
+                    setImage(currentImagePath,fragment_dish_image_imageview)
+                }
+                REQUEST_CODE_DELETE_IMAGE -> {
+                    currentImagePath = ""
+                    fragment_dish_image_imageview?.setImageResource(R.drawable.ic_96px_add_photo)
+                }
+            }
+        }
+    }
+
+    companion object {
+        private const val REQUEST_CODE_CAMERA = 100
+        private const val REQUEST_CODE_GALLERY = 200
+        private const val REQUEST_CODE_DELETE_IMAGE = 300
     }
 }
