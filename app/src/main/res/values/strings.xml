@@ -43,4 +43,8 @@
     <string name="enter_dish_descripton">Введите описание блюда</string>
     <string name="dish_photo">Фото блюда</string>
     <string name="weight_not_specified">0</string>
+    <string name="header_add_photo">Редактирование фото</string>
+    <string name="add_photo_from_gallery">Выбрать из галереи</string>
+    <string name="add_photo_from_camera">Открыть камеру</string>
+    <string name="delete_photo">Удалить изображение</string>
 </resources>

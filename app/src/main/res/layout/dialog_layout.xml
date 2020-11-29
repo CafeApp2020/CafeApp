@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:gravity="center"
+        android:text="@string/header_add_photo"
+        android:textColor="#5A5555" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#5A5555" />
+
+    <TextView
+        android:id="@+id/get_from_gallery_textView"
+        style="@style/addPhotoDialog"
+        android:text="@string/add_photo_from_gallery" />
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:background="@drawable/separator" />
+
+    <TextView
+        android:id="@+id/get_from_camera_textView"
+        style="@style/addPhotoDialog"
+        android:text="@string/add_photo_from_camera" />
+
+    <View
+        android:id="@+id/separator"
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:background="@drawable/separator" />
+
+    <TextView
+        android:id="@+id/delete_image_textView"
+        style="@style/addPhotoDialog"
+        android:text="@string/delete_photo" />
+</LinearLayout>
