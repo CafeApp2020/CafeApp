@@ -44,11 +44,15 @@ class DishListFragment : Fragment() {
 
         initRecyclerView(root)
 
-        dishListViewModel.dishListViewStateToObserve.observe(viewLifecycleOwner, { state ->
-            state.dishList?.let { dishList ->
-                dishListAdapter.data = dishList
-            }
-        })
+        try {
+            dishListViewModel.dishListViewStateToObserve.observe(viewLifecycleOwner, { state ->
+                state.dishList?.let { dishList ->
+                    dishListAdapter.data = dishList
+                }
+            })
+        } catch(e: Exception){
+            sharedModel?.select(SharedMsg(MsgState.CATEGORYLISTOPEN, currentCategoryID))
+        }
 
         val fab=activity?.findViewById<FloatingActionButton>(R.id.activityFab)
         fab?.setImageResource(android.R.drawable.ic_input_add)
