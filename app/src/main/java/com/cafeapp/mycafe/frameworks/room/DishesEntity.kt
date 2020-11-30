@@ -31,7 +31,10 @@ class DishesEntity(
     var price: Float? = null,
 
     @field:ColumnInfo(name = "weight")
-    var weight: Float? = 0f
+    var weight: Float? = 0f,
+
+    @field:ColumnInfo(name = "instoplist")
+    var in_stop_list: Boolean = false
 ) {
     @field:PrimaryKey(autoGenerate = true)
     @field:ColumnInfo(name = "id")
