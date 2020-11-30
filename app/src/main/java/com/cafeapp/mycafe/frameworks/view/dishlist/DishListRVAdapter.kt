@@ -3,13 +3,14 @@ package com.cafeapp.mycafe.frameworks.view.dishlist
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.cafeapp.mycafe.R
 import com.cafeapp.mycafe.frameworks.picasso.setImage
 import com.less.repository.db.room.DishesEntity
 import kotlinx.android.synthetic.main.dish_view_holder.view.*
 
-class DishListRVAdapter(val getIdFunc: (Long) -> Unit) :
+class DishListRVAdapter(val getIdFunc: (Long, Int) -> Unit) :
     RecyclerView.Adapter<DishListRVAdapter.ViewHolder>() {
     var data: List<DishesEntity?>? = mutableListOf()
         set(value) {
@@ -29,12 +30,17 @@ class DishListRVAdapter(val getIdFunc: (Long) -> Unit) :
 
     override fun getItemCount(): Int = data!!.size
 
-    inner class ViewHolder(itemView: View, val getIdFunc: (Long) -> Unit) :
+    inner class ViewHolder(itemView: View, val getIdFunc: (Long, Int) -> Unit) :
         RecyclerView.ViewHolder(itemView) {
         fun bind(data: DishesEntity) = with(itemView) {
-            var price: String = data.price.toString() + " ₽"
+            val price: String = data.price.toString() + " ₽"
             dish_name_textview.text = data.name
             dish_price_textview.text = price
+            if(data.in_stop_list){
+                dishViewHolderStopImageView.visibility = View.VISIBLE
+                dishViewHolderRemoveStopButton.visibility = View.VISIBLE
+                dishViewHolderAddStopButton.visibility = View.GONE
+            }
 
             var weight = data.weight?.toInt().toString()
             val imagePath = data.imagepath.toString()
@@ -49,7 +55,21 @@ class DishListRVAdapter(val getIdFunc: (Long) -> Unit) :
             }
 
             dishViewHolderLeftSide.setOnClickListener {
-                getIdFunc(data.id)
+                getIdFunc(data.id, it.id)
+            }
+
+            dishViewHolderAddStopButton.setOnClickListener {
+                getIdFunc(data.id, it.id)
+                dishViewHolderStopImageView.visibility = View.VISIBLE
+                dishViewHolderRemoveStopButton.visibility = View.VISIBLE
+                dishViewHolderAddStopButton.visibility = View.GONE
+            }
+
+            dishViewHolderRemoveStopButton.setOnClickListener {
+                getIdFunc(data.id, it.id)
+                dishViewHolderStopImageView.visibility = View.GONE
+                dishViewHolderRemoveStopButton.visibility = View.GONE
+                dishViewHolderAddStopButton.visibility = View.VISIBLE
             }
         }
     }

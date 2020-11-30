@@ -24,7 +24,7 @@
 
             <ImageButton
                 android:id="@+id/dishViewHolderRemoveStopButton"
-                style="@style/ListElementButton.AddStopListElementButton"
+                style="@style/ListElementButton.RemoveStopListElementButton"
                 android:contentDescription="@string/list_element_remove_stop_button"
                 android:visibility="gone"/>
 
