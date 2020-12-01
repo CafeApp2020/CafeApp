@@ -4,13 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cafeapp.mycafe.R
-import com.cafeapp.mycafe.frameworks.picasso.setImage
 import com.cafeapp.mycafe.interface_adapters.viewmodels.dishes.dish.DishViewModel
 import com.cafeapp.mycafe.interface_adapters.viewmodels.dishes.dishlist.DishListViewModel
 import com.cafeapp.mycafe.use_case.utils.MsgState
@@ -19,8 +16,6 @@ import com.cafeapp.mycafe.use_case.utils.SharedViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.less.repository.db.room.CategoryEntity
 import com.less.repository.db.room.DishesEntity
-import kotlinx.android.synthetic.main.category_view_holder.*
-import kotlinx.android.synthetic.main.fragment_dish.*
 import kotlinx.android.synthetic.main.fragment_disheslist.view.*
 import org.koin.androidx.scope.currentScope
 
@@ -66,7 +61,7 @@ class DishListFragment : Fragment() {
                       if (msg.value is CategoryEntity) {
                           currentCategoryID = msg.value.id
                           dishListViewModel.getDishList(msg.value.id)
-                          msg.value?.name?.let { name ->
+                          msg.value.name.let { name ->
                               sharedModel?.select(
                                   SharedMsg(
                                       MsgState.SETTOOLBARTITLE,
@@ -87,13 +82,8 @@ class DishListFragment : Fragment() {
     }
 
     private fun initRecyclerView(root: View) {
-        dishListAdapter = DishListRVAdapter { id, button ->
-            dishViewModel.getDish(id)
-            dishViewModel.dishViewState.observe(viewLifecycleOwner, { state ->
-                state.dish?.let { dish ->
-                    buttonListener(dish, button, id)
-                }
-            })
+        dishListAdapter = DishListRVAdapter { dish, button ->
+            buttonListener(dish, button)
         }
 
         root.dishlist_recyclerview.apply {
@@ -111,12 +101,17 @@ class DishListFragment : Fragment() {
         dishViewModel.editDish(currentDish)
     }
 
-    private fun buttonListener(dish: DishesEntity, button: Int, id: Long){
-        val currentDish: DishesEntity = dish;
+    private fun deleteClick(currentDish: DishesEntity){
+        currentDish.deleted = true
+        dishViewModel.editDish(currentDish)
+    }
+
+    private fun buttonListener(dish: DishesEntity, button: Int){
         when(button){
-            R.id.dishViewHolderLeftSide -> editClick(id)
-            R.id.dishViewHolderAddStopButton -> changeStopListClick(currentDish, true)
-            R.id.dishViewHolderRemoveStopButton -> changeStopListClick(currentDish, false)
+            R.id.dishViewHolderLeftSide -> editClick(dish.id)
+            R.id.dishViewHolderAddStopButton -> changeStopListClick(dish, true)
+            R.id.dishViewHolderRemoveStopButton -> changeStopListClick(dish, false)
+            R.id.dishViewHolderDeleteButton -> deleteClick(dish)
         }
     }
 }

@@ -47,4 +47,7 @@
     <string name="add_photo_from_gallery">Выбрать из галереи</string>
     <string name="add_photo_from_camera">Открыть камеру</string>
     <string name="delete_photo">Удалить изображение</string>
+    <string name="want_to_delete_dish">Удалить блюдо из списка?</string>
+    <string name="delete">Удалить</string>
+    <string name="cancel">Отмена</string>
 </resources>
