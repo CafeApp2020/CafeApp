@@ -34,7 +34,10 @@ class DishesEntity(
     var weight: Float? = 0f,
 
     @field:ColumnInfo(name = "instoplist")
-    var in_stop_list: Boolean = false
+    var in_stop_list: Boolean = false,
+
+    @field:ColumnInfo(name = "deleted")
+    var deleted: Boolean = false
 ) {
     @field:PrimaryKey(autoGenerate = true)
     @field:ColumnInfo(name = "id")
