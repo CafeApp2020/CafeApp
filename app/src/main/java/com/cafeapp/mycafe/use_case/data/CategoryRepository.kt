@@ -10,6 +10,10 @@ class CategoryRepository(val dataSource: ICategoryDataSource) : ICategoryReposit
         return dataSource.deleteCategory(category)
     }
 
+    override fun getActiveCategory(): Single<List<CategoryEntity?>?>? {
+        return dataSource.getActiveCategory()
+    }
+
     override fun getAllCategory(): Single<List<CategoryEntity?>?>? {
         return dataSource.getAllCategory()
     }

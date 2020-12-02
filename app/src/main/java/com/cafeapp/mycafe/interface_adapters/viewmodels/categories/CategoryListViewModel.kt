@@ -20,7 +20,7 @@ class CategoryListViewModel(private val categoryInteractor: ICategoryInteractor)
 
     fun getCategories() {
         compositeDisposable.add(
-            categoryInteractor.getAllCategory()!!
+            categoryInteractor.getActiveCategory()!!
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(

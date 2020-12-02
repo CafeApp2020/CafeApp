@@ -15,7 +15,10 @@ class CategoryEntity(
     var imagepath: String,
 
     @field:ColumnInfo(name = "name")
-    var name: String
+    var name: String,
+
+    @field:ColumnInfo(name = "deleted")
+    var deleted: Boolean = false
 ) {
     @field:PrimaryKey(autoGenerate = true)
     @field:ColumnInfo(name = "id")

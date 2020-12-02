@@ -40,6 +40,7 @@ val categoryListViewModel = module {
     scope(named<CategoryListFragment>()) {
         scoped<ICategoryInteractor> { CategoryInteractor(get()) }
         scoped { CategoryListViewModel(get()) }
+        scoped { CategoryAddViewModel(get()) }
     }
 }
 
