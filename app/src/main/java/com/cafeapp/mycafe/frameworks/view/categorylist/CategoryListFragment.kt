@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cafeapp.mycafe.R
 import com.cafeapp.mycafe.interface_adapters.viewmodels.categories.CategoryListViewModel
@@ -14,6 +13,7 @@ import com.cafeapp.mycafe.use_case.utils.MsgState
 import com.cafeapp.mycafe.use_case.utils.SharedMsg
 import com.cafeapp.mycafe.use_case.utils.SharedViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.less.repository.db.room.CategoryEntity
 import kotlinx.android.synthetic.main.fragment_categorylist.view.*
 import org.koin.androidx.scope.currentScope
 
@@ -33,13 +33,8 @@ class CategoryListFragment : Fragment() {
     ): View? {
         val root = inflater.inflate(R.layout.fragment_categorylist, container, false)
 
-        categoryListAdapter = CategoryListRVAdapter { categoryEntity ->
-            sharedModel?.select(
-                SharedMsg(
-                    MsgState.DISHESLIST,
-                    categoryEntity
-                )
-            )
+        categoryListAdapter = CategoryListRVAdapter { category, button ->
+            onButtonClickListener(category, button)
         }
 
         categoryListViewModel.categoryViewState.observe(viewLifecycleOwner, { state ->
@@ -55,9 +50,8 @@ class CategoryListFragment : Fragment() {
             }
 
             val fab = activity?.findViewById<FloatingActionButton>(R.id.activityFab)
-            if (fab != null) {
-                fab.setImageResource(android.R.drawable.ic_input_add)
-            }
+
+            fab?.setImageResource(android.R.drawable.ic_input_add)
             fab?.setOnClickListener {
                 sharedModel?.select(SharedMsg(MsgState.ADDCATEGORY, -1L))
             }
@@ -69,5 +63,30 @@ class CategoryListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         categoryListViewModel.getCategories()
+    }
+
+    private fun onButtonClickListener(category: CategoryEntity, button: Int) {
+        when (button) {
+            R.id.categoryViewHolderLeftSide -> onCategoryClick(category.id)
+            R.id.categoryViewHolderEditButton -> onEditCategoryButtonClick(category.id)
+        }
+    }
+
+    private fun onCategoryClick(categoryId: Long) {
+        sharedModel?.select(
+            SharedMsg(
+                MsgState.DISHESLIST,
+                categoryId
+            )
+        )
+    }
+
+    private fun onEditCategoryButtonClick(categoryId: Long) {
+        sharedModel?.select(
+            SharedMsg(
+                MsgState.ADDCATEGORY,
+                categoryId
+            )
+        )
     }
 }
