@@ -6,8 +6,12 @@ import io.reactivex.Completable
 import io.reactivex.Single
 
 class CategoryInteractor(val repository: ICategoryRepository) : ICategoryInteractor {
-    override fun deleteCategory(category: CategoryEntity): Completable {
+    override fun removeCategory(category: CategoryEntity): Completable {
         return repository.deleteCategory(category)
+    }
+
+    override fun getActiveCategory(): Single<List<CategoryEntity?>?>? {
+        return repository.getActiveCategory()
     }
 
     override fun getAllCategory(): Single<List<CategoryEntity?>?>? {

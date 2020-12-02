@@ -11,6 +11,10 @@ class RoomCategoryDataSource(val categoryDao: CategoryDao): ICategoryDataSource 
         TODO("Not yet implemented")
     }
 
+    override fun getActiveCategory(): Single<List<CategoryEntity?>?>? {
+        return categoryDao.getActiveCategoryList()
+    }
+
     override fun getAllCategory(): Single<List<CategoryEntity?>?>? {
         return categoryDao.all()
     }

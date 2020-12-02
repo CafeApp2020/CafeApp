@@ -39,7 +39,7 @@
                     android:visibility="gone" />
 
                 <ImageButton
-                    android:id="@+id/iv_delete"
+                    android:id="@+id/categoryViewHolderRemoveButton"
                     style="@style/ListElementButton.DeleteElementButton"
                     android:contentDescription="@string/list_element_delete_button" />
 

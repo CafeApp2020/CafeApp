@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cafeapp.mycafe.R
+import com.cafeapp.mycafe.interface_adapters.viewmodels.categories.CategoryAddViewModel
 import com.cafeapp.mycafe.interface_adapters.viewmodels.categories.CategoryListViewModel
 import com.cafeapp.mycafe.use_case.utils.MsgState
 import com.cafeapp.mycafe.use_case.utils.SharedMsg
@@ -21,6 +22,7 @@ import org.koin.androidx.scope.currentScope
 class CategoryListFragment : Fragment() {
     private lateinit var categoryListAdapter: CategoryListRVAdapter
     private val categoryListViewModel: CategoryListViewModel by currentScope.inject()
+    private val categoryViewModel: CategoryAddViewModel by currentScope.inject()
 
     private val sharedModel by lazy {
         activity?.let { ViewModelProvider(it).get(SharedViewModel::class.java) }
@@ -39,7 +41,7 @@ class CategoryListFragment : Fragment() {
 
         categoryListViewModel.categoryViewState.observe(viewLifecycleOwner, { state ->
             state.categories?.let {
-                categoryListAdapter.data = it
+                categoryListAdapter.setData(it)
             }
         })
 
@@ -69,6 +71,7 @@ class CategoryListFragment : Fragment() {
         when (button) {
             R.id.categoryViewHolderLeftSide -> onCategoryClick(category.id)
             R.id.categoryViewHolderEditButton -> onEditCategoryButtonClick(category.id)
+            R.id.categoryViewHolderRemoveButton -> onRemoveCategoryButtonClick(category)
         }
     }
 
@@ -88,5 +91,10 @@ class CategoryListFragment : Fragment() {
                 categoryId
             )
         )
+    }
+
+    private fun onRemoveCategoryButtonClick(category: CategoryEntity) {
+        category.deleted = true
+        categoryViewModel.saveCategory(category)
     }
 }

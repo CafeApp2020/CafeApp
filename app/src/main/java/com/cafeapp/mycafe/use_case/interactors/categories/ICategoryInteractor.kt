@@ -5,7 +5,8 @@ import io.reactivex.Completable
 import io.reactivex.Single
 
 interface ICategoryInteractor {
-    fun deleteCategory(dish: CategoryEntity): Completable
+    fun removeCategory(dish: CategoryEntity): Completable
+    fun getActiveCategory(): Single<List<CategoryEntity?>?>?
     fun getAllCategory(): Single<List<CategoryEntity?>?>?
     fun loadCategory(dishId: Long): Single<CategoryEntity>
     fun saveCategory(categoryEntity: CategoryEntity): Single<Long>?

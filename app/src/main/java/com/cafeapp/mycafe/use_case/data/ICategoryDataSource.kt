@@ -6,6 +6,7 @@ import io.reactivex.Single
 
 interface ICategoryDataSource {
     fun deleteCategory(category: CategoryEntity): Completable
+    fun getActiveCategory(): Single<List<CategoryEntity?>?>?
     fun getAllCategory(): Single<List<CategoryEntity?>?>?
     fun loadCategory(categoryId: Long): Single<CategoryEntity>
     fun saveCategory(category: CategoryEntity): Single<Long>?

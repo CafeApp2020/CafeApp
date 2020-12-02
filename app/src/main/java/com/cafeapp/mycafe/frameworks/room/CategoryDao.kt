@@ -9,6 +9,9 @@ interface CategoryDao {
     @Query("SELECT * FROM CategoryEntity")
     fun all(): Single<List<CategoryEntity?>?>?
 
+    @Query("SELECT * FROM CategoryEntity where deleted = 0")
+    fun getActiveCategoryList(): Single<List<CategoryEntity?>?>?
+
     @Delete
     fun delete(entity: CategoryEntity)
 
