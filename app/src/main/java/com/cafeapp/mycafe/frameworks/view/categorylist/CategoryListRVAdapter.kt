@@ -12,7 +12,7 @@ import com.less.repository.db.room.CategoryEntity
 import kotlinx.android.synthetic.main.category_view_holder.view.*
 
 // пердаем адаптеру лямду getIdFunc, которая отрабатывает в CategoryListFragment при нажатии на категорию
-class CategoryListRVAdapter(val getIdFunc: (CategoryEntity) -> Unit) :
+class CategoryListRVAdapter(private val getCategoryFunc: (CategoryEntity, Int) -> Unit) :
     RecyclerView.Adapter<CategoryListRVAdapter.CategoryViewHolder>() {
 
     private val viewBinderHelper: ViewBinderHelper = ViewBinderHelper()
@@ -28,7 +28,7 @@ class CategoryListRVAdapter(val getIdFunc: (CategoryEntity) -> Unit) :
             R.layout.category_view_holder,
             parent,
             false
-        ), getIdFunc
+        ), getCategoryFunc
     )
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
@@ -40,7 +40,7 @@ class CategoryListRVAdapter(val getIdFunc: (CategoryEntity) -> Unit) :
 
     override fun getItemCount(): Int = data!!.size
 
-    class CategoryViewHolder(itemView: View, val getIdFunc: (CategoryEntity) -> Unit) :
+    class CategoryViewHolder(itemView: View, val getCategoryFunc: (CategoryEntity, Int) -> Unit) :
         RecyclerView.ViewHolder(itemView) {
 
         val swipeRevealLayout: SwipeRevealLayout = itemView.swipe_categoryViewHolder
@@ -48,12 +48,24 @@ class CategoryListRVAdapter(val getIdFunc: (CategoryEntity) -> Unit) :
         fun bind(data: CategoryEntity) = with(itemView) {
             name.text = data.name
 
-            categoryViewHolderLeftSide.setOnClickListener {
-                getIdFunc(data)
-            }
+            onCategoryClickBehavior(this, data)
+
+            onEditCategoryButtonClickBehavior(this, data)
 
             if (data.imagepath.isNotEmpty())
                 setImage(data.imagepath, image)
+        }
+
+        private fun onCategoryClickBehavior(view: View, data: CategoryEntity) {
+            view.categoryViewHolderLeftSide.setOnClickListener {
+                getCategoryFunc(data, it.id)
+            }
+        }
+
+        private fun onEditCategoryButtonClickBehavior(view: View, data: CategoryEntity) {
+            view.categoryViewHolderEditButton.setOnClickListener {
+                getCategoryFunc(data, it.id)
+            }
         }
     }
 }
