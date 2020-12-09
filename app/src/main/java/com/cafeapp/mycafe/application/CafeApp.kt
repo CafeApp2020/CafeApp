@@ -17,7 +17,9 @@ class CafeApp : Application() {
                     categoryViewModel,
                     dishViewModel,
                     dishListViewModel,
-                    dishAddViewModel
+                    dishAddViewModel,
+                    orderListViewModel,
+                    deliveryAddViewModel
                 )
             )
         }
