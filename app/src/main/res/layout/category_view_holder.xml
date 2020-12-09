@@ -64,7 +64,8 @@
                 style="@style/CafeTextStyle.Body"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/category_text_margin" />
+                android:layout_marginTop="@dimen/category_text_margin"
+                android:layout_marginStart="@dimen/default_margin"/>
 
             <ImageView
                 android:id="@+id/categoryViewHolderStopImageView"

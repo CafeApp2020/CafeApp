@@ -63,4 +63,5 @@
     <string name="client_title">Клиент</string>
     <string name="order_title">Заказ</string>
     <string name="deliverydatetitle">Дата доставки</string>
+    <string name="add_dish_to_order">Добавить блюдо.</string>
 </resources>

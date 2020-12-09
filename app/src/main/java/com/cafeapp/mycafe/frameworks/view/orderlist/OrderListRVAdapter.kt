@@ -9,7 +9,7 @@ import com.cafeapp.mycafe.frameworks.picasso.setImage
 import com.cafeapp.mycafe.frameworks.room.OrdersEntity
 import com.less.repository.db.room.DishesEntity
 import kotlinx.android.synthetic.main.dish_view_holder.view.*
-import kotlinx.android.synthetic.main.order_item.view.*
+import kotlinx.android.synthetic.main.order_view_holder.view.*
 
 class OrderListRVAdapter(val getIdFunc: (Long) -> Unit) :
     RecyclerView.Adapter<OrderListRVAdapter.ViewHolder>() {
@@ -21,7 +21,7 @@ class OrderListRVAdapter(val getIdFunc: (Long) -> Unit) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(
         LayoutInflater.from(parent.context).inflate(
-            R.layout.order_item, parent, false
+            R.layout.order_view_holder, parent, false
         ), getIdFunc
     )
 
@@ -35,6 +35,7 @@ class OrderListRVAdapter(val getIdFunc: (Long) -> Unit) :
         RecyclerView.ViewHolder(itemView) {
         fun bind(data: OrdersEntity) = with(itemView) {
             customerNameTW.text=data.customername
+            customerTelNumberTW.text=data.customerphone
          }
     }
 }
