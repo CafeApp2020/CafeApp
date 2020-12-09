@@ -9,15 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.cafeapp.mycafe.R
-import com.cafeapp.mycafe.frameworks.view.dishlist.DishListRVAdapter
 import com.cafeapp.mycafe.interface_adapters.viewmodels.orderslist.OrderListViewModel
-import com.cafeapp.mycafe.use_case.utils.MsgState
-import com.cafeapp.mycafe.use_case.utils.SharedMsg
 import com.cafeapp.mycafe.use_case.utils.SharedViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import kotlinx.android.synthetic.main.fragment_disheslist.view.*
 import kotlinx.android.synthetic.main.fragment_orderlist.view.*
 import org.koin.androidx.scope.currentScope
 
@@ -41,7 +36,7 @@ class OrderListFragment : Fragment() {
         initRecyclerView(root)
 
         val fab=activity?.findViewById<FloatingActionButton>(R.id.activityFab)
-        if (fab != null) {fab.setImageResource(android.R.drawable.ic_input_add)}
+        fab?.setImageResource(android.R.drawable.ic_input_add)
         fab?.setOnClickListener {
             val selectOrderTypeFragment = OrderTypeFragment()
             activity?.let { it1 -> selectOrderTypeFragment.show(it1.supportFragmentManager, selectOrderTypeFragment.tag) }

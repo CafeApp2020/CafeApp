@@ -11,21 +11,14 @@ import com.cafeapp.mycafe.frameworks.picasso.setImage
 import com.less.repository.db.room.CategoryEntity
 import kotlinx.android.synthetic.main.category_view_holder.view.*
 
-// пердаем адаптеру лямду getIdFunc, которая отрабатывает в CategoryListFragment при нажатии на категорию
-class CategoryListRVAdapter(private val getCategoryFunc: (CategoryEntity, Int) -> Unit) :
+class CategoryListRVAdapter(private val listener: OnCategoryListItemClickListener) :
     RecyclerView.Adapter<CategoryListRVAdapter.CategoryViewHolder>() {
-
+    private var categoryList = mutableListOf<CategoryEntity?>()
     private lateinit var context: Context
 
-    private var dataList: MutableList<CategoryEntity?>? = mutableListOf()
-
-    fun setData(data: List<CategoryEntity?>?) {
-        dataList?.clear()
-
-        data?.map {
-            dataList?.add(it)
-        }
-
+    fun setCategoryList(categoryList: List<CategoryEntity?>?) {
+        this.categoryList.clear()  // break point
+        this.categoryList.addAll(categoryList!!) // см.какие данные приходят, актуальные или нет
         notifyDataSetChanged()
     }
 
@@ -37,74 +30,109 @@ class CategoryListRVAdapter(private val getCategoryFunc: (CategoryEntity, Int) -
                 R.layout.category_view_holder,
                 parent,
                 false
-            ), getCategoryFunc
+            )
         )
     }
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
-        dataList?.get(position)?.let { holder.bind(it, position) }
+        categoryList.get(position)?.let { holder.bind(it, position) }
     }
 
-    override fun getItemCount(): Int = dataList!!.size
+    override fun getItemCount(): Int = categoryList.size
 
-    inner class CategoryViewHolder(
-        itemView: View,
-        val getCategoryFunc: (CategoryEntity, Int) -> Unit
-    ) :
+    inner class CategoryViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
 
-        fun bind(data: CategoryEntity, position: Int) = with(itemView) {
-            name.text = data.name
+        fun bind(category: CategoryEntity, position: Int) = with(itemView) {
+            setCategoryName(category)
+            showCategoryInStopList(category)
+            setImage(category)
 
-            onCategoryClickBehavior(this, data)
-
-            onEditCategoryButtonClickBehavior(this, data)
-
-            onRemoveCategoryButtonClickBehavior(this, data, position)
-
-            if (data.imagepath.isNotEmpty())
-                setImage(data.imagepath, image)
+            onAddInStopListButtonClickBehavior(category)
+            onCategoryClickBehavior(category)
+            onEditCategoryButtonClickBehavior(category)
+            onRemoveCategoryButtonClickBehavior(category, position)
+            onRemoveFromStopListButtonClickBehavior(category)
         }
 
-        private fun onCategoryClickBehavior(view: View, data: CategoryEntity) {
-            view.categoryViewHolderLeftSide.setOnClickListener {
-                getCategoryFunc(data, it.id)
+        private fun onAddInStopListButtonClickBehavior(category: CategoryEntity) {
+            itemView.category_view_holder_addInStopList_IB.setOnClickListener {
+                showStopListButtons()
+                listener.onChangeStopListStateForCategory(category, true)
             }
         }
 
-        private fun onEditCategoryButtonClickBehavior(view: View, data: CategoryEntity) {
-            view.categoryViewHolderEditButton.setOnClickListener {
-                getCategoryFunc(data, it.id)
+        private fun onCategoryClickBehavior(category: CategoryEntity) {
+            itemView.category_view_holder_leftSide.setOnClickListener {
+                listener.onCategoryClick(category.id)
             }
         }
 
-        private fun onRemoveCategoryButtonClickBehavior(
-            view: View,
-            data: CategoryEntity,
-            position: Int
-        ) {
-            view.categoryViewHolderRemoveButton.setOnClickListener {
-                showAlert(it.id, data, position)
+        private fun onEditCategoryButtonClickBehavior(category: CategoryEntity) {
+            itemView.category_view_holder_edit_IB.setOnClickListener {
+                val categoryId = category.id
+                listener.onEditCategoryButtonClick(categoryId)
             }
         }
 
-        private fun showAlert(buttonId: Int, data: CategoryEntity, position: Int) {
+        private fun onRemoveCategoryButtonClickBehavior(category: CategoryEntity, position: Int) {
+            itemView.category_view_holder_removeCategory_IB.setOnClickListener {
+                showAlert(category, position)
+            }
+        }
+
+        private fun onRemoveFromStopListButtonClickBehavior(category: CategoryEntity) {
+            itemView.category_view_holder_removeFromStopList_IB.setOnClickListener {
+                hideStopListButtons()
+                listener.onChangeStopListStateForCategory(category, false)
+            }
+        }
+
+        private fun removeCategoryFromList(category: CategoryEntity, position: Int) {
+            categoryList.remove(category)
+            notifyItemRemoved(position)
+        }
+
+        private fun setCategoryName(category: CategoryEntity) {
+            itemView.name.text = category.name
+        }
+
+        private fun setImage(category: CategoryEntity) {
+            if (category.imagepath.isNotEmpty())
+                setImage(category.imagepath, itemView.category_view_holder_image_IV)
+        }
+
+        private fun showAlert(data: CategoryEntity, position: Int) {
             val builder = AlertDialog.Builder(context)
 
             builder.setMessage(context.getString(R.string.want_to_delete_category))
                 .setPositiveButton(context.getString(R.string.delete)) { _, _ ->
-                    removeCategory(data, position)
-                    getCategoryFunc(data, buttonId)
+                    removeCategoryFromList(data, position)
+                    listener.onRemoveCategoryButtonClick(data)
                 }
                 .setNegativeButton(context.getString(R.string.cancel)) { dialog, _ ->
                     dialog.dismiss()
                 }
+
             builder.create().show()
         }
 
-        private fun removeCategory(data: CategoryEntity, position: Int) {
-            dataList?.remove(data)
-            notifyItemRemoved(position)
+        private fun showCategoryInStopList(data: CategoryEntity) {
+            if (data.isInStopList) {
+                showStopListButtons()
+            }
+        }
+
+        private fun showStopListButtons() = with(itemView) {
+            category_view_holder_addInStopList_IB.visibility = View.INVISIBLE
+            category_view_holder_inStopList_IV.visibility = View.VISIBLE
+            category_view_holder_removeFromStopList_IB.visibility = View.VISIBLE
+        }
+
+        private fun hideStopListButtons() = with(itemView) {
+            category_view_holder_inStopList_IV.visibility = View.INVISIBLE
+            category_view_holder_removeFromStopList_IB.visibility = View.INVISIBLE
+            category_view_holder_addInStopList_IB.visibility = View.VISIBLE
         }
     }
 }

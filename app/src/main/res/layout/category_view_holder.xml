@@ -17,40 +17,52 @@
             android:layout_height="@dimen/list_element_normal_height"
             app:cardCornerRadius="@dimen/zero">
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
 
                 <ImageButton
-                    android:id="@+id/categoryViewHolderEditButton"
+                    android:id="@+id/category_view_holder_edit_IB"
                     style="@style/ListElementButton.EditElementButton"
-                    android:contentDescription="@string/list_element_edit_category_button" />
+                    android:contentDescription="@string/list_element_edit_category_button"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/category_view_holder_addInStopList_IB"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageButton
-                    android:id="@+id/categoryViewHolderAddStopButton"
+                    android:id="@+id/category_view_holder_addInStopList_IB"
                     style="@style/ListElementButton.AddStopListElementButton"
-                    android:contentDescription="@string/list_element_add_stop_button" />
+                    android:contentDescription="@string/list_element_add_stop_button"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/category_view_holder_removeCategory_IB"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageButton
-                    android:id="@+id/categoryViewHolderRemoveStopButton"
-                    style="@style/ListElementButton.AddStopListElementButton"
+                    android:id="@+id/category_view_holder_removeFromStopList_IB"
+                    style="@style/ListElementButton.RemoveStopListElementButton"
                     android:contentDescription="@string/list_element_remove_stop_button"
-                    android:visibility="gone" />
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/category_view_holder_removeCategory_IB"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageButton
-                    android:id="@+id/categoryViewHolderRemoveButton"
-                    style="@style/ListElementButton.DeleteElementButton"
-                    android:contentDescription="@string/list_element_delete_button" />
+                    android:id="@+id/category_view_holder_removeCategory_IB"
+                    style="@style/ListElementButton.RemoveElementButton"
+                    android:contentDescription="@string/list_element_delete_button"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/category_view_holder_addInStopList_IB"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
     </FrameLayout>
 
     <!-- Your main layout here -->
     <FrameLayout
-        android:id="@+id/categoryViewHolderLeftSide"
+        android:id="@+id/category_view_holder_leftSide"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -68,13 +80,13 @@
                 android:layout_marginStart="@dimen/default_margin"/>
 
             <ImageView
-                android:id="@+id/categoryViewHolderStopImageView"
+                android:id="@+id/category_view_holder_inStopList_IV"
                 style="@style/ListElementStopImageView"
                 android:contentDescription="@string/on_stop_list"
-                android:visibility="gone" />
+                android:visibility="invisible" />
 
             <ImageView
-                android:id="@+id/image"
+                android:id="@+id/category_view_holder_image_IV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/category_image_margin"

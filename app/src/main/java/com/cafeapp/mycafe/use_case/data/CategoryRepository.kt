@@ -11,7 +11,7 @@ class CategoryRepository(val dataSource: ICategoryDataSource) : ICategoryReposit
     }
 
     override fun getActiveCategory(): Single<List<CategoryEntity?>?>? {
-        return dataSource.getActiveCategory()
+        return dataSource.getActiveCategory()  // break point
     }
 
     override fun getAllCategory(): Single<List<CategoryEntity?>?>? {

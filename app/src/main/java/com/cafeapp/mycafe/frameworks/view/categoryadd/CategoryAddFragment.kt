@@ -35,14 +35,14 @@ class CategoryAddFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         val root = inflater.inflate(R.layout.fragment_addcategory, container, false)
 
         categoryAddViewModel.categoryViewState.observe(viewLifecycleOwner, {
             when {
                 it.saveErr != null -> {
-                    Toast.makeText(activity, it.saveErr?.message, Toast.LENGTH_LONG).show()
+                    Toast.makeText(activity, it.saveErr.message, Toast.LENGTH_LONG).show()
                 }
 
                 it.saveOk -> {

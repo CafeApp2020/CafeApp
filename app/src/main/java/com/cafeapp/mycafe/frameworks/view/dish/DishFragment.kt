@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.fragment_dish.*
 import org.koin.androidx.scope.currentScope
 
 class DishFragment : Fragment() {
-    private var currentDishID:Long=0
+    private var currentDishID: Long = 0
     private val dishViewModel: DishViewModel by currentScope.inject()
 
     private val sharedModel by lazy {
@@ -28,7 +28,7 @@ class DishFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         val root = inflater.inflate(R.layout.fragment_dish, container, false)
 
@@ -42,14 +42,14 @@ class DishFragment : Fragment() {
             when (msg.stateName) {
                 MsgState.OPENDISH ->
                     if (msg.value is Long) {
-                        currentDishID=msg.value
+                        currentDishID = msg.value
                         loadDish(msg.value)
                     }
             }
         })
 
-        val fab=activity?.findViewById<FloatingActionButton>(R.id.activityFab)
-        if (fab != null) {fab.setImageResource(android.R.drawable.ic_menu_edit)}
+        val fab = activity?.findViewById<FloatingActionButton>(R.id.activityFab)
+        fab?.setImageResource(android.R.drawable.ic_menu_edit)
         fab?.setOnClickListener {
             sharedModel?.select(SharedMsg(MsgState.EDITDISH, currentDishID))
         }
@@ -62,10 +62,11 @@ class DishFragment : Fragment() {
     }
 
     private fun showDish(dish: DishesEntity) {
-        priceTW.setText(dish.price.toString()+" ₽") // временно делаем так, далее в настройках будем прописывать единицы
-        weigthTW.setText(dish.weight?.toInt().toString()+" гр") // аналогично
-        descriptionTW.setText(dish.description)
-        dish?.name?.let {name -> sharedModel?.select(SharedMsg(MsgState.SETTOOLBARTITLE, name))}
+        priceTW.text =
+            dish.price.toString() + " ₽" // временно делаем так, далее в настройках будем прописывать единицы
+        weigthTW.text = dish.weight?.toInt().toString() + " гр" // аналогично
+        descriptionTW.text = dish.description
+        dish.name?.let { name -> sharedModel?.select(SharedMsg(MsgState.SETTOOLBARTITLE, name)) }
 
         val imagePath = dish.imagepath.toString()
 

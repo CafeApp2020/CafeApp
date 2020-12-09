@@ -28,54 +28,87 @@ class CategoryListFragment : Fragment() {
         activity?.let { ViewModelProvider(it).get(SharedViewModel::class.java) }
     }
 
+    private val listener: OnCategoryListItemClickListener =
+        object : OnCategoryListItemClickListener {
+            override fun onCategoryClick(categoryId: Long) {
+                onCategoryClickBehavior(categoryId)
+            }
+
+            override fun onEditCategoryButtonClick(categoryId: Long) {
+                onEditCategoryButtonClickBehavior(categoryId)
+            }
+
+            override fun onRemoveCategoryButtonClick(category: CategoryEntity) {
+                onRemoveCategoryButtonClickBehavior(category)
+            }
+
+            override fun onChangeStopListStateForCategory(
+                category: CategoryEntity,
+                isInStopList: Boolean,
+            ) {
+                onChangeStopListStateForCategoryBehavior(category, isInStopList)
+            }
+        }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
-        val root = inflater.inflate(R.layout.fragment_categorylist, container, false)
-
-        categoryListAdapter = CategoryListRVAdapter { category, button ->
-            onButtonClickListener(category, button)
-        }
-
-        categoryListViewModel.categoryViewState.observe(viewLifecycleOwner, { state ->
-            state.categories?.let {
-                categoryListAdapter.setData(it)
-            }
-        })
-
-        with(root) {
-            categoryListRV.apply {
-                layoutManager = LinearLayoutManager(activity)
-                adapter = categoryListAdapter
-            }
-
-            val fab = activity?.findViewById<FloatingActionButton>(R.id.activityFab)
-
-            fab?.setImageResource(android.R.drawable.ic_input_add)
-            fab?.setOnClickListener {
-                sharedModel?.select(SharedMsg(MsgState.ADDCATEGORY, -1L))
-            }
-        }
-
-        return root
+        return inflater.inflate(R.layout.fragment_categorylist, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        categoryListViewModel.getCategories()
+
+        initViews(view)
+        initViewModelObserver()
+
+        categoryListViewModel.getCategories()  // break point
     }
 
-    private fun onButtonClickListener(category: CategoryEntity, button: Int) {
-        when (button) {
-            R.id.categoryViewHolderLeftSide -> onCategoryClick(category.id)
-            R.id.categoryViewHolderEditButton -> onEditCategoryButtonClick(category.id)
-            R.id.categoryViewHolderRemoveButton -> onRemoveCategoryButtonClick(category)
+    private fun initViewModelObserver() {
+        categoryListViewModel.categoryViewState.observe(viewLifecycleOwner, { state ->
+            state.categories?.let {
+                categoryListAdapter.setCategoryList(it) //здесь происходит баг, break point , при нажатии кнопки назад с других экранов, выполняется почему-то два раза
+            }
+        })
+    }
+
+    private fun initViews(view: View) {
+        initRecyclerView(view)
+        initFabButton()
+    }
+
+    private fun initRecyclerView(view: View) {
+        categoryListAdapter = CategoryListRVAdapter(listener)
+
+        view.categoryListRV.apply {
+            layoutManager = LinearLayoutManager(activity)
+            adapter = categoryListAdapter
         }
     }
 
-    private fun onCategoryClick(categoryId: Long) {
+    private fun initFabButton() {
+        val fab =
+            activity?.findViewById<FloatingActionButton>(R.id.activityFab)
+
+        fab?.setImageResource(android.R.drawable.ic_input_add)
+        fab?.setOnClickListener {
+            sharedModel?.select(SharedMsg(MsgState.ADDCATEGORY,
+                -1L))
+        }
+    }
+
+    private fun onChangeStopListStateForCategoryBehavior(
+        category: CategoryEntity,
+        isInStopList: Boolean,
+    ) {
+        category.isInStopList = isInStopList
+        categoryViewModel.saveCategory(category)
+    }
+
+    private fun onCategoryClickBehavior(categoryId: Long) {
         sharedModel?.select(
             SharedMsg(
                 MsgState.DISHESLIST,
@@ -84,7 +117,7 @@ class CategoryListFragment : Fragment() {
         )
     }
 
-    private fun onEditCategoryButtonClick(categoryId: Long) {
+    private fun onEditCategoryButtonClickBehavior(categoryId: Long) {
         sharedModel?.select(
             SharedMsg(
                 MsgState.ADDCATEGORY,
@@ -93,8 +126,8 @@ class CategoryListFragment : Fragment() {
         )
     }
 
-    private fun onRemoveCategoryButtonClick(category: CategoryEntity) {
-        category.deleted = true
+    private fun onRemoveCategoryButtonClickBehavior(category: CategoryEntity) {
+        category.isDeleted = true
         categoryViewModel.saveCategory(category)
     }
 }

@@ -7,7 +7,8 @@ import io.reactivex.Single
 interface IDishDataSource {
     fun deleteDish(dish: DishesEntity): Completable
     fun updateDish(entity: DishesEntity): Completable
-    fun getData(categoryId: Long): Single<List<DishesEntity?>?>?
+    fun getActiveDishList(categoryId: Long): Single<List<DishesEntity?>?>?
+    fun getDishList(categoryId: Long): Single<List<DishesEntity?>?>?
     fun getDish(dishId: Long): Single<DishesEntity>
     fun saveDish(dish: DishesEntity): Single<Long>?
 }

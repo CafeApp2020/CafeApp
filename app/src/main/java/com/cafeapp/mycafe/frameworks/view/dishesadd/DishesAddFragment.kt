@@ -17,11 +17,7 @@ import com.cafeapp.mycafe.use_case.utils.SharedMsg
 import com.cafeapp.mycafe.use_case.utils.SharedViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.less.repository.db.room.DishesEntity
-import kotlinx.android.synthetic.main.fragment_dishesadd.descriptionTIT
-import kotlinx.android.synthetic.main.fragment_dishesadd.dishNameTIT
-import kotlinx.android.synthetic.main.fragment_dishesadd.fragment_dish_image_imageview
-import kotlinx.android.synthetic.main.fragment_dishesadd.priceTIT
-import kotlinx.android.synthetic.main.fragment_dishesadd.weightTIT
+import kotlinx.android.synthetic.main.fragment_dishesadd.*
 import org.koin.androidx.scope.currentScope
 
 // Экран для добавления/редактирования блюда
@@ -29,7 +25,7 @@ class DishesAddFragment : Fragment() {
     var currentCategoryID: Long = -1L
     private var currentDishId: Long = -1L
     private val dishViewModel: DishViewModel by currentScope.inject()
-    var currentImagePath:String = ""
+    var currentImagePath: String = ""
 
     private val sharedModel by lazy {
         activity?.let { ViewModelProvider(it).get(SharedViewModel::class.java) }
@@ -38,13 +34,13 @@ class DishesAddFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         val root = inflater.inflate(R.layout.fragment_dishesadd, container, false)
 
         dishViewModel.dishViewState.observe(viewLifecycleOwner, { state ->
             state.error?.let { error ->
-                Toast.makeText(activity, error?.message, Toast.LENGTH_LONG).show()
+                Toast.makeText(activity, error.message, Toast.LENGTH_LONG).show()
                 return@observe
             }
 
@@ -90,7 +86,7 @@ class DishesAddFragment : Fragment() {
     }
 
     private fun showDish(dish: DishesEntity) {
-        dish?.name?.let { name -> sharedModel?.select(SharedMsg(MsgState.SETTOOLBARTITLE, name)) }
+        dish.name?.let { name -> sharedModel?.select(SharedMsg(MsgState.SETTOOLBARTITLE, name)) }
 
         currentCategoryID = dish.category_id
         dishNameTIT.setText(dish.name)
@@ -128,7 +124,7 @@ class DishesAddFragment : Fragment() {
             if (currentDishId > 0)  // обновляем блюдо иначе добавляем новое
                 dish.id = currentDishId
 
-            dish?.let { dishViewModel.saveDish(dish) }
+            dish.let { dishViewModel.saveDish(dish) }
         } else {
             Toast.makeText(
                 activity,
@@ -150,12 +146,15 @@ class DishesAddFragment : Fragment() {
             when (requestCode) {
                 REQUEST_CODE_GALLERY -> {
                     currentImagePath = data?.data.toString()
-                    data?.data?.let { activity?.contentResolver?.takePersistableUriPermission(it, Intent.FLAG_GRANT_READ_URI_PERMISSION) }
-                    setImage(currentImagePath,fragment_dish_image_imageview)
+                    data?.data?.let {
+                        activity?.contentResolver?.takePersistableUriPermission(it,
+                            Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                    }
+                    setImage(currentImagePath, fragment_dish_image_imageview)
                 }
                 REQUEST_CODE_CAMERA -> {
                     currentImagePath = fragment_dish_image_imageview.tag.toString()
-                    setImage(currentImagePath,fragment_dish_image_imageview)
+                    setImage(currentImagePath, fragment_dish_image_imageview)
                 }
                 REQUEST_CODE_DELETE_IMAGE -> {
                     currentImagePath = ""

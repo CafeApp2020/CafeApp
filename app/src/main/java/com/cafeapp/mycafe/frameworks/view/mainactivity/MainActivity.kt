@@ -49,10 +49,10 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-   fun setTitle(name:Any) {
-       if (name is String)
-           toolbar.setTitle(name)
-   }
+    private fun setTitle(name: Any) {
+        if (name is String)
+            toolbar.title = name
+    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.main, menu)

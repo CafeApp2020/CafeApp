@@ -59,7 +59,7 @@
     </style>
 
     <!-- Delete element buttons. -->
-    <style name="ListElementButton.DeleteElementButton">
+    <style name="ListElementButton.RemoveElementButton">
         <item name="android:src">@drawable/ic_24px_delete</item>
         <item name="android:backgroundTint">@color/alerts_alert</item>
         <item name="android:layout_marginEnd">2dp</item>

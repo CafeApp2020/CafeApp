@@ -12,7 +12,7 @@ class RoomCategoryDataSource(val categoryDao: CategoryDao): ICategoryDataSource 
     }
 
     override fun getActiveCategory(): Single<List<CategoryEntity?>?>? {
-        return categoryDao.getActiveCategoryList()
+        return categoryDao.getActiveCategoryList()  // break point
     }
 
     override fun getAllCategory(): Single<List<CategoryEntity?>?>? {
