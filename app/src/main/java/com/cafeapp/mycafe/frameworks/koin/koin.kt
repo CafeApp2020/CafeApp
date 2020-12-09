@@ -35,7 +35,7 @@ val application = module {
     single { Room.databaseBuilder(get(), CafeDataBase::class.java, "cafedb5").build() }
     single { get<CafeDataBase>().categoryDao() }
     single { get<CafeDataBase>().dishesDao() }
-    single { get<CafeDataBase>().orderDao()}
+    single { get<CafeDataBase>().orderDao() }
     single<ICategoryDataSource> { RoomCategoryDataSource(get()) }
     single<ICategoryRepository> { CategoryRepository(get()) }
     single<IDishDataSource> { RoomDishDataSource(get()) }
@@ -81,16 +81,16 @@ val dishAddViewModel = module {
     }
 }
 
- val orderListViewModel = module {
+val orderListViewModel = module {
     scope(named<OrderListFragment>()) {
         scoped<IOrderInteractor> { OrderInteractor(get()) }
         scoped { OrderListViewModel(get()) }
-}
+    }
 }
 
 val deliveryAddViewModel = module {
     scope(named<DeliveryAddFragment>()) {
-        scoped<IOrderInteractor> {OrderInteractor(get()) }
+        scoped<IOrderInteractor> { OrderInteractor(get()) }
         scoped { DeliveryAddViewModel(get()) }
     }
 }
