@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cafeapp.mycafe.R
 import com.cafeapp.mycafe.frameworks.view.dishlist.DishListRVAdapter
@@ -63,12 +64,11 @@ class OrderListFragment : Fragment() {
 
     private fun initRecyclerView(root: View) {
         orderListAdapter = OrderListRVAdapter { id ->
-
         }
 
         root.orderlist_recyclerview.apply {
             adapter = orderListAdapter
-            layoutManager = LinearLayoutManager(activity)
+            layoutManager = GridLayoutManager(activity, 2)
         }
     }
 }
