@@ -39,7 +39,7 @@ class OrdersEntity(
 
     @field:ColumnInfo(name = "paided")
   // зака оплачен/не оплачен
-   var paided: Boolean? = false
+   var paided: Boolean = false
 ) {
     @field:PrimaryKey(autoGenerate = true)
     @field:ColumnInfo(name = "id")

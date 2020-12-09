@@ -3,7 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/fragment_orderlist"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingStart="@dimen/min_margin"
+    android:paddingEnd="@dimen/min_margin"
+    android:paddingBottom="@dimen/bottom_menu_height">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/orderlist_recyclerview"

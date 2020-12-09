@@ -34,8 +34,33 @@ class OrderListRVAdapter(val getIdFunc: (Long) -> Unit) :
     inner class ViewHolder(itemView: View, val getIdFunc: (Long) -> Unit) :
         RecyclerView.ViewHolder(itemView) {
         fun bind(data: OrdersEntity) = with(itemView) {
-            customerNameTW.text=data.customername
-            customerTelNumberTW.text=data.customerphone
+            deliveryOrder(data)
          }
+
+        fun deliveryOrder(data: OrdersEntity) = with(itemView) {
+            orderTypeTW.text = context.getString(R.string.order_type_delivery)
+            orderAddressTW.text = data.customeraddress
+            setOrder(data)
+        }
+
+        fun takeAwayOrder(data: OrdersEntity) = with(itemView) {
+            orderTypeTW.text = context.getString(R.string.order_type_takeaway)
+            setOrder(data)
+        }
+
+        fun tableOrder(data: OrdersEntity) = with(itemView) {
+            orderTypeTW.text = context.getString(R.string.order_type_table, data.tableid.toString())
+            setOrder(data);
+        }
+
+        fun setOrder(data: OrdersEntity) = with(itemView) {
+            customerNameTW.text = data.customername
+            orderTimeTW.text = context.getString(R.string.order_date_time, data.orderdatetime.toString())
+            orderCostTW.text = context.getString(R.string.order_cost, data.orderdatetime.toString())
+            orderPayedTW.text = if(data.paided)
+                context.getString(R.string.payed)
+            else context.getString(
+                R.string.not_payed)
+        }
     }
 }
