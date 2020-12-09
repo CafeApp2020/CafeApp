@@ -15,7 +15,11 @@ class RoomDishDataSource(val dishesDao: DishesDao) : IDishDataSource {
         return dishesDao.update(entity)
     }
 
-    override fun getData(categoryId: Long): Single<List<DishesEntity?>?>? {
+    override fun getActiveDishList(categoryId: Long): Single<List<DishesEntity?>?>? {
+        return dishesDao.getActiveDishes(categoryId)  // break point
+    }
+
+    override fun getDishList(categoryId: Long): Single<List<DishesEntity?>?>? {
         return dishesDao.getDishList(categoryId)
     }
 

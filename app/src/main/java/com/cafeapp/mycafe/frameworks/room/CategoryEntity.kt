@@ -14,11 +14,14 @@ class CategoryEntity(
     @field:ColumnInfo(name = "imagepath")
     var imagepath: String,
 
-    @field:ColumnInfo(name = "name")
-    var name: String,
-
     @field:ColumnInfo(name = "deleted")
-    var deleted: Boolean = false
+    var isDeleted: Boolean = false,
+
+    @field:ColumnInfo(name = "stoplist")
+    var isInStopList: Boolean = false,
+
+    @field:ColumnInfo(name = "name")
+    var name: String
 ) {
     @field:PrimaryKey(autoGenerate = true)
     @field:ColumnInfo(name = "id")

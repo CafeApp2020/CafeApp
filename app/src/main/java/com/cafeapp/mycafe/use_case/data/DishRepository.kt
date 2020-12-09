@@ -10,8 +10,12 @@ class DishRepository(val dataSource: IDishDataSource) : IDishRepository {
         return dataSource.deleteDish(dish)
     }
 
-    override fun getData(category_id: Long): Single<List<DishesEntity?>?>? {
-        return dataSource.getData(category_id)
+    override fun getActiveDishList(category_id: Long): Single<List<DishesEntity?>?>? {
+        return dataSource.getActiveDishList(category_id)  // break point
+    }
+
+    override fun getDishList(category_id: Long): Single<List<DishesEntity?>?>? {
+        return dataSource.getDishList(category_id)
     }
 
     override fun updateDish(entity: DishesEntity): Completable {

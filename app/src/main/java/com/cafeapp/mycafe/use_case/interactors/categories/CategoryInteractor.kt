@@ -11,7 +11,7 @@ class CategoryInteractor(val repository: ICategoryRepository) : ICategoryInterac
     }
 
     override fun getActiveCategory(): Single<List<CategoryEntity?>?>? {
-        return repository.getActiveCategory()
+        return repository.getActiveCategory()  // break point
     }
 
     override fun getAllCategory(): Single<List<CategoryEntity?>?>? {

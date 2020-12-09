@@ -23,6 +23,7 @@ import com.cafeapp.mycafe.use_case.interactors.dishes.DishInteractor
 import com.cafeapp.mycafe.use_case.interactors.dishes.IDishInteractor
 import com.cafeapp.mycafe.use_case.repositories.ICategoryRepository
 import com.cafeapp.mycafe.use_case.repositories.IDishRepository
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 

@@ -20,11 +20,9 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class ImageSelectionDialogFragment : BottomSheetDialogFragment() {
-
-    //private var mCurrentPhotoPath:String = ""
-
     companion object {
         fun newInstance() = ImageSelectionDialogFragment()
+
         private const val REQUEST_CODE_CAMERA = 100
         private const val REQUEST_CODE_GALLERY = 200
         private const val REQUEST_CODE_DELETE_IMAGE = 300

@@ -19,11 +19,11 @@ class DishListViewModel(private val interactor: IDishInteractor) : ViewModel() {
 
     fun getDishList(category_id: Long) {
         compositeDisposable.add(
-            interactor.getData(category_id)!!
+            interactor.getActiveDishList(category_id)!!  // break point
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    mutableDishListViewState.value = DishListViewState(it)
+                    mutableDishListViewState.value = DishListViewState(it)  // break point
                 }, {
                     mutableDishListViewState.value = null
                 })
