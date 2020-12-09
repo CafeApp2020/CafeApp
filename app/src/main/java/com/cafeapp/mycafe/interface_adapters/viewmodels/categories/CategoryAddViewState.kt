@@ -4,6 +4,7 @@ import com.less.repository.db.room.CategoryEntity
 
 class CategoryAddViewState(
     val category: CategoryEntity? = null,
+    val categoryList: List<CategoryEntity?>? = null,
     val delError: Throwable? = null,
     val delOk: Boolean = false,
     val error: Throwable? = null,

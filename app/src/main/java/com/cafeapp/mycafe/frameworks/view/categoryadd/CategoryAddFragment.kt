@@ -8,7 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.cafeapp.mycafe.R
-import com.cafeapp.mycafe.interface_adapters.viewmodels.categories.CategoryAddViewModel
+import com.cafeapp.mycafe.interface_adapters.viewmodels.categories.CategoryViewModel
 import com.cafeapp.mycafe.use_case.utils.MsgState
 import com.cafeapp.mycafe.use_case.utils.SharedMsg
 import com.cafeapp.mycafe.use_case.utils.SharedViewModel
@@ -19,7 +19,7 @@ import org.koin.androidx.scope.currentScope
 
 // Экран для добавления/редактирования категорий
 class CategoryAddFragment : Fragment() {
-    private val categoryAddViewModel: CategoryAddViewModel by currentScope.inject()
+    private val categoryViewModel: CategoryViewModel by currentScope.inject()
     private var currentCategoryId: Long = -1L
 
     private val sharedModel by lazy {
@@ -39,12 +39,11 @@ class CategoryAddFragment : Fragment() {
     ): View? {
         val root = inflater.inflate(R.layout.fragment_addcategory, container, false)
 
-        categoryAddViewModel.categoryViewState.observe(viewLifecycleOwner, {
+        categoryViewModel.categoryViewState.observe(viewLifecycleOwner, {
             when {
                 it.saveErr != null -> {
                     Toast.makeText(activity, it.saveErr.message, Toast.LENGTH_LONG).show()
                 }
-
                 it.saveOk -> {
                     Toast.makeText(activity, getString(R.string.saveok_title), Toast.LENGTH_LONG)
                         .show()
@@ -93,7 +92,7 @@ class CategoryAddFragment : Fragment() {
             if (currentCategoryId > 0)
                 category.id = currentCategoryId
 
-            categoryAddViewModel.saveCategory(category)
+            categoryViewModel.saveCategory(category)
         } else {
             Toast.makeText(
                 activity,
@@ -105,6 +104,6 @@ class CategoryAddFragment : Fragment() {
     }
 
     private fun loadEditableCategory(category_id: Long) {
-        categoryAddViewModel.loadCategory(category_id)
+        categoryViewModel.loadCategory(category_id)
     }
 }

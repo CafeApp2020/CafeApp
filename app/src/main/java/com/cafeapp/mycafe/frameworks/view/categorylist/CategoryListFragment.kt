@@ -4,12 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cafeapp.mycafe.R
-import com.cafeapp.mycafe.interface_adapters.viewmodels.categories.CategoryAddViewModel
-import com.cafeapp.mycafe.interface_adapters.viewmodels.categories.CategoryListViewModel
+import com.cafeapp.mycafe.interface_adapters.viewmodels.categories.CategoryViewModel
 import com.cafeapp.mycafe.use_case.utils.MsgState
 import com.cafeapp.mycafe.use_case.utils.SharedMsg
 import com.cafeapp.mycafe.use_case.utils.SharedViewModel
@@ -21,8 +21,7 @@ import org.koin.androidx.scope.currentScope
 // Экран для отображения категорий блюд
 class CategoryListFragment : Fragment() {
     private lateinit var categoryListAdapter: CategoryListRVAdapter
-    private val categoryListViewModel: CategoryListViewModel by currentScope.inject()
-    private val categoryViewModel: CategoryAddViewModel by currentScope.inject()
+    private val categoryListViewModel: CategoryViewModel by currentScope.inject()
 
     private val sharedModel by lazy {
         activity?.let { ViewModelProvider(it).get(SharedViewModel::class.java) }
@@ -61,16 +60,19 @@ class CategoryListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initViews(view)
-        initViewModelObserver()
-
-        categoryListViewModel.getCategories()  // break point
+       initViews(view)
+       initViewModelObserver()
+       categoryListViewModel.getCategories()  // break point
     }
 
     private fun initViewModelObserver() {
         categoryListViewModel.categoryViewState.observe(viewLifecycleOwner, { state ->
-            state.categories?.let {
-                categoryListAdapter.setCategoryList(it) //здесь происходит баг, break point , при нажатии кнопки назад с других экранов, выполняется почему-то два раза
+               state.error?.let {
+                    Toast.makeText(context,state.error.message, Toast.LENGTH_LONG).show()
+                    return@observe
+                }
+                state.categoryList?.let { categoryList ->
+                categoryListAdapter.setCategoryList(categoryList) //здесь происходит баг, break point , при нажатии кнопки назад с других экранов, выполняется почему-то два раза
             }
         })
     }
@@ -105,7 +107,7 @@ class CategoryListFragment : Fragment() {
         isInStopList: Boolean,
     ) {
         category.isInStopList = isInStopList
-        categoryViewModel.saveCategory(category)
+        categoryListViewModel.saveCategory(category)
     }
 
     private fun onCategoryClickBehavior(categoryId: Long) {
@@ -128,6 +130,6 @@ class CategoryListFragment : Fragment() {
 
     private fun onRemoveCategoryButtonClickBehavior(category: CategoryEntity) {
         category.isDeleted = true
-        categoryViewModel.saveCategory(category)
+        categoryListViewModel.saveCategory(category)
     }
 }

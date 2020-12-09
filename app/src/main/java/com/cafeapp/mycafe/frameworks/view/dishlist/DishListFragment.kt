@@ -4,12 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cafeapp.mycafe.R
-import com.cafeapp.mycafe.interface_adapters.viewmodels.dishes.dish.DishViewModel
-import com.cafeapp.mycafe.interface_adapters.viewmodels.dishes.dishlist.DishListViewModel
+import com.cafeapp.mycafe.interface_adapters.viewmodels.dishes.DishViewModel
 import com.cafeapp.mycafe.use_case.utils.MsgState
 import com.cafeapp.mycafe.use_case.utils.SharedMsg
 import com.cafeapp.mycafe.use_case.utils.SharedViewModel
@@ -39,8 +39,7 @@ class DishListFragment : Fragment() {
             }
         }
 
-    private val dishListViewModel: DishListViewModel by currentScope.inject()
-    private val dishViewModel: DishViewModel by currentScope.inject()
+    private val dishListViewModel: DishViewModel by currentScope.inject()
 
     private val sharedModel by lazy {
         activity?.let { ViewModelProvider(it).get(SharedViewModel::class.java) }
@@ -87,10 +86,16 @@ class DishListFragment : Fragment() {
 
     private fun initViewModelObserver() {
         try {
-            dishListViewModel.dishListViewStateToObserve.observe(viewLifecycleOwner, { state ->
-                state.dishList?.let { dishList ->
-                    dishListAdapter.setDishList(dishList) //здесь происходит баг, break point, при нажатии кнопки назад с других экранов, не запрашивает данные у бд
-                }
+             dishListViewModel.dishViewState.observe(viewLifecycleOwner, { state ->
+                 if (state.error!=null)
+                    {Toast.makeText(context,state.error.message,Toast.LENGTH_LONG).show()
+                        return@observe
+                    }
+                  if (state.saveOk )
+                    dishListViewModel.getDishList(currentCategoryID)
+                  state.dishList?.let { dishList ->
+                       dishListAdapter.setDishList(dishList) //здесь происходит баг, break point, при нажатии кнопки назад с других экранов, не запрашивает данные у бд
+               }
             })
         } catch (e: Exception) {
             sharedModel?.select(SharedMsg(MsgState.CATEGORYLISTOPEN, currentCategoryID))
@@ -129,11 +134,11 @@ class DishListFragment : Fragment() {
 
     private fun changeStopListClick(currentDish: DishesEntity, stopState: Boolean) {
         currentDish.in_stop_list = stopState
-        dishViewModel.editDish(currentDish)
+        dishListViewModel.editDish(currentDish)
     }
 
     private fun removeClick(currentDish: DishesEntity) {
         currentDish.deleted = true
-        dishViewModel.editDish(currentDish)
+        dishListViewModel.editDish(currentDish)
     }
 }

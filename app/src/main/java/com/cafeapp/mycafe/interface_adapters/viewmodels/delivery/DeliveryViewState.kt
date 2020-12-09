@@ -2,7 +2,7 @@ package com.cafeapp.mycafe.interface_adapters.viewmodels.delivery
 
 import com.cafeapp.mycafe.frameworks.room.OrdersEntity
 
-class DeliveryAddViewState(
+class DeliveryViewState(
     val delOk: Boolean = false,
     val ordersEntity: OrdersEntity? = null,
     val error: Throwable? = null,

@@ -10,20 +10,18 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.cafeapp.mycafe.R
 import com.cafeapp.mycafe.frameworks.room.OrdersEntity
-import com.cafeapp.mycafe.interface_adapters.viewmodels.delivery.DeliveryAddViewModel
+import com.cafeapp.mycafe.interface_adapters.viewmodels.delivery.DeliveryViewModel
 import com.cafeapp.mycafe.use_case.utils.SharedViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.fragment_customerdata.*
 import org.koin.androidx.scope.currentScope
-import java.text.SimpleDateFormat
-import java.util.*
 
 
 class DeliveryAddFragment : Fragment() {
     private var currentDeliveryId:Long = 0
-    private val deliveryAddViewModel: DeliveryAddViewModel by currentScope.inject()
+    private val deliveryViewModel: DeliveryViewModel by currentScope.inject()
 
     private val sharedModel by lazy {
         activity?.let { ViewModelProvider(it).get(SharedViewModel::class.java) }
@@ -41,7 +39,7 @@ class DeliveryAddFragment : Fragment() {
             saveDelivery()
         }
 
-        deliveryAddViewModel.deliveryAddViewState.observe(viewLifecycleOwner, {
+        deliveryViewModel.deliveryViewState.observe(viewLifecycleOwner, {
             when {
                 it.saveOk -> {
                     Toast.makeText(activity, getString(R.string.saveok_title), Toast.LENGTH_LONG)
@@ -61,7 +59,7 @@ class DeliveryAddFragment : Fragment() {
         )
         if (currentDeliveryId>0)
             orderDelivery.id=currentDeliveryId
-        deliveryAddViewModel.saveDelivery(orderDelivery)
+        deliveryViewModel.saveDelivery(orderDelivery)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
