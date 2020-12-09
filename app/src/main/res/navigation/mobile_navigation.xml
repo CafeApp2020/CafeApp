@@ -46,4 +46,10 @@
         android:name="com.cafeapp.mycafe.frameworks.view.dish.DishFragment"
         android:label="@string/dish"
         tools:layout="@layout/fragment_dish" />
+
+    <fragment
+        android:id="@+id/nav_deliveryadd"
+        android:name="com.cafeapp.mycafe.frameworks.view.deliveryadd.DeliveryAddFragment"
+        android:label="@string/newdeliverytitle"
+        tools:layout="@layout/fragment_customerdata" />
 </navigation>

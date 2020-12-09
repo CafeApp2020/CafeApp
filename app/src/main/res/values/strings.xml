@@ -52,4 +52,23 @@
     <string name="want_to_delete_category">Удалить категорию из списка?</string>
     <string name="delete">Удалить</string>
     <string name="cancel">Отмена</string>
+    <string name="in_room_title">В зале</string>
+    <string name="take_away_title">На вынос</string>
+    <string name="delevery_title">Доставка</string>
+    <string name="customername">Покупатель имя</string>
+    <string name="phonenumbertitle">Телефон</string>
+    <string name="customeraddresstitle">Адрес доставки</string>
+    <string name="deliverytimetitle">Время доставки</string>
+    <string name="newdeliverytitle">Новая доставка</string>
+    <string name="client_title">Клиент</string>
+    <string name="order_title">Заказ</string>
+    <string name="deliverydatetitle">Дата доставки</string>
+    <string name="add_dish_to_order">Добавить блюдо.</string>
+    <string name="order_type_delivery">Доставка</string>
+    <string name="payed">Оплачен</string>
+    <string name="not_payed">Не оплачен</string>
+    <string name="order_date_time">Время: %1$s</string>
+    <string name="order_cost">Сумма: %1$s</string>
+    <string name="order_type_takeaway">Самовывоз</string>
+    <string name="order_type_table">Стол %1$s</string>
 </resources>

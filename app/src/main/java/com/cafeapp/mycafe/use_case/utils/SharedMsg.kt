@@ -8,7 +8,8 @@ enum class MsgState {
     OPENDISH, // открываем окно с блюдом для просмотра
     DISHESLIST, // открыть окно списка блюд
     EDITDISH,   // открываем окно с блюдом для редактирования
-    SETTOOLBARTITLE // заголовок в верхнем toolbar
+    SETTOOLBARTITLE, // заголовок в верхнем toolbar
+    DELIVERYADD  // открываем окно добавления доставки
 }
 
 // SharedMsg используется для обмена сообщениями между фрагментами.

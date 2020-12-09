@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="@string/in_room_title"
+    android:id="@+id/nav_inroom"/>
+    <item android:title="@string/take_away_title"
+     android:id="@+id/nav_takeaway"/>
+    <item android:title="@string/delevery_title"
+     android:id="@+id/nav_delevery"/>
+</menu>

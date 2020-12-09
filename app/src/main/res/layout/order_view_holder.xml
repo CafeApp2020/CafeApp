@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/swipe_orderViewHolder"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/marginDefault"
+    android:layout_marginStart="@dimen/card_margin_start_end"
+    android:layout_marginEnd="@dimen/card_margin_start_end">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/default_padding"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/orderTypeTW"
+            style="@style/orderViewTextField"
+            android:textSize="@dimen/head_H2"
+            android:fontFamily="sans-serif-medium"
+            android:layout_marginTop="@dimen/zero"/>
+
+        <TextView
+            android:id="@+id/customerNameTW"
+            style="@style/orderViewTextField"/>
+
+        <TextView
+            android:id="@+id/orderAddressTW"
+            style="@style/orderViewTextField"/>
+
+        <TextView
+            android:id="@+id/orderTimeTW"
+            style="@style/orderViewTextField"/>
+
+        <TextView
+            android:id="@+id/orderCostTW"
+            style="@style/orderViewTextField"/>
+
+        <TextView
+            android:id="@+id/orderPayedTW"
+            style="@style/orderViewTextField"
+            android:layout_gravity="center_horizontal"
+            android:textAllCaps="true"
+            android:textColor="@color/secondary_secondary"
+            android:layout_marginTop="@dimen/default_margin"/>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

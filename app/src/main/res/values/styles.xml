@@ -106,4 +106,19 @@
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">18sp</item>
     </style>
+
+    <!-- Fragment customer data -->
+    <style name="customerDataField" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">10dp</item>
+    </style>
+
+    <!-- Order view -->
+    <style name="orderViewTextField" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/min_margin</item>
+        <item name="android:textSize">@dimen/body_body1</item>
+    </style>
 </resources>
