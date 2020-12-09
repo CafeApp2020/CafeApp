@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.chauthai.swipereveallayout.SwipeRevealLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:id="@+id/swipe_orderViewHolder"
+android:layout_width="match_parent"
+android:layout_height="@dimen/list_element_normal_height"
+app:dragEdge="right"
+app:mode="same_level">
+
+<!-- Your secondary layout here -->
+<FrameLayout
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/list_element_normal_height"
+        app:cardCornerRadius="@dimen/zero">
+    </androidx.cardview.widget.CardView>
+
+</FrameLayout>
+
+<!-- Your main layout here -->
+<FrameLayout
+    android:id="@+id/categoryViewHolderLeftSide"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/list_element_normal_height"
+        app:cardCornerRadius="@dimen/zero">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/customerNameTW"
+                style="@style/CafeTextStyle.Body"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/category_text_margin"
+                android:layout_marginStart="@dimen/default_margin"/>
+
+            <TextView
+                android:id="@+id/customerTelNumberTW"
+                style="@style/CafeTextStyle.Body"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/category_text_margin"
+                android:layout_marginEnd="@dimen/default_margin"
+                android:layout_gravity="end"/>
+
+        </FrameLayout>
+
+    </androidx.cardview.widget.CardView>
+</FrameLayout>
+</com.chauthai.swipereveallayout.SwipeRevealLayout>
