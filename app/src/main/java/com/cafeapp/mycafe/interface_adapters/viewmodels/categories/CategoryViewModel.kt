@@ -9,7 +9,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-class CategoryAddViewModel(private val categoryInteractor: ICategoryInteractor) : ViewModel() {
+class CategoryViewModel(private val categoryInteractor: ICategoryInteractor) : ViewModel() {
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
     private val modifyCategoryViewState = MutableLiveData<CategoryAddViewState>()
 
@@ -75,5 +75,20 @@ class CategoryAddViewModel(private val categoryInteractor: ICategoryInteractor) 
             editableCategorySave(saveCategory)
         else
             addNewCategory(saveCategory)
+    }
+
+    fun getCategories() {
+        compositeDisposable.add(
+            categoryInteractor.getActiveCategory()!!  // break point
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    {categoryList ->
+                        modifyCategoryViewState.value = CategoryAddViewState(categoryList=categoryList)  // break point
+                    },
+                    { error ->
+                        modifyCategoryViewState.value = CategoryAddViewState(error=error)
+                    })
+        )
     }
 }

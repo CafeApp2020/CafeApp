@@ -12,12 +12,10 @@ import com.cafeapp.mycafe.frameworks.view.dish.DishFragment
 import com.cafeapp.mycafe.frameworks.view.dishesadd.DishesAddFragment
 import com.cafeapp.mycafe.frameworks.view.dishlist.DishListFragment
 import com.cafeapp.mycafe.frameworks.view.orderlist.OrderListFragment
-import com.cafeapp.mycafe.interface_adapters.viewmodels.categories.CategoryAddViewModel
-import com.cafeapp.mycafe.interface_adapters.viewmodels.categories.CategoryListViewModel
-import com.cafeapp.mycafe.interface_adapters.viewmodels.delivery.DeliveryAddViewModel
-import com.cafeapp.mycafe.interface_adapters.viewmodels.dishes.dish.DishViewModel
-import com.cafeapp.mycafe.interface_adapters.viewmodels.dishes.dishlist.DishListViewModel
-import com.cafeapp.mycafe.interface_adapters.viewmodels.orderslist.OrderListViewModel
+import com.cafeapp.mycafe.interface_adapters.viewmodels.categories.CategoryViewModel
+import com.cafeapp.mycafe.interface_adapters.viewmodels.delivery.DeliveryViewModel
+import com.cafeapp.mycafe.interface_adapters.viewmodels.dishes.DishViewModel
+import com.cafeapp.mycafe.interface_adapters.viewmodels.orderslist.OrderViewModel
 import com.cafeapp.mycafe.use_case.data.*
 import com.cafeapp.mycafe.use_case.interactors.categories.CategoryInteractor
 import com.cafeapp.mycafe.use_case.interactors.categories.ICategoryInteractor
@@ -47,23 +45,21 @@ val application = module {
 val categoryListViewModel = module {
     scope(named<CategoryListFragment>()) {
         scoped<ICategoryInteractor> { CategoryInteractor(get()) }
-        scoped { CategoryListViewModel(get()) }
-        scoped { CategoryAddViewModel(get()) }
+        scoped { CategoryViewModel(get()) }
     }
 }
 
 val categoryViewModel = module {
     scope(named<CategoryAddFragment>()) {
         scoped<ICategoryInteractor> { CategoryInteractor(get()) }
-        scoped { CategoryAddViewModel(get()) }
+        scoped { CategoryViewModel(get()) }
     }
 }
 
 val dishListViewModel = module {
     scope(named<DishListFragment>()) {
         scoped<IDishInteractor> { DishInteractor(get()) }
-        scoped { DishListViewModel(get()) }
-        scoped { DishViewModel(get()) }
+          scoped { DishViewModel(get()) }
     }
 }
 
@@ -84,13 +80,13 @@ val dishAddViewModel = module {
 val orderListViewModel = module {
     scope(named<OrderListFragment>()) {
         scoped<IOrderInteractor> { OrderInteractor(get()) }
-        scoped { OrderListViewModel(get()) }
+        scoped { OrderViewModel(get()) }
     }
 }
 
 val deliveryAddViewModel = module {
     scope(named<DeliveryAddFragment>()) {
         scoped<IOrderInteractor> { OrderInteractor(get()) }
-        scoped { DeliveryAddViewModel(get()) }
+        scoped { DeliveryViewModel(get()) }
     }
 }

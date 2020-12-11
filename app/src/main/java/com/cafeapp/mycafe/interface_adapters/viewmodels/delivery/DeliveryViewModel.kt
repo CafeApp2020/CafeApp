@@ -5,18 +5,16 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.cafeapp.mycafe.frameworks.room.OrdersEntity
 import com.cafeapp.mycafe.frameworks.view.deliveryadd.OrderType
-import com.cafeapp.mycafe.use_case.interactors.dishes.IDishInteractor
 import com.cafeapp.mycafe.use_case.interactors.orderlist.IOrderInteractor
-import com.less.repository.db.room.DishesEntity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-class DeliveryAddViewModel(private val orderInteractor: IOrderInteractor) : ViewModel() {
+class DeliveryViewModel(private val orderInteractor: IOrderInteractor) : ViewModel() {
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
-    private val modifyDeliveryAddViewState = MutableLiveData<DeliveryAddViewState>()
+    private val modifyDeliveryAddViewState = MutableLiveData<DeliveryViewState>()
 
-    val deliveryAddViewState: LiveData<DeliveryAddViewState> = modifyDeliveryAddViewState
+    val deliveryViewState: LiveData<DeliveryViewState> = modifyDeliveryAddViewState
 
     override fun onCleared() {
         compositeDisposable.clear()
@@ -37,12 +35,10 @@ class DeliveryAddViewModel(private val orderInteractor: IOrderInteractor) : View
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     { orderId ->
-                        modifyDeliveryAddViewState.value= DeliveryAddViewState(saveOk = true)
-                        // modifyDeliveryAddViewState.value =
-                        // DeliveryAddViewState(dish = savedDish, saveOk = true)
+                        modifyDeliveryAddViewState.value= DeliveryViewState(saveOk = true)
                     },
                     { error ->
-                        modifyDeliveryAddViewState.value= DeliveryAddViewState(error=error)
+                        modifyDeliveryAddViewState.value= DeliveryViewState(error=error)
                     })
         )
     }
@@ -54,10 +50,10 @@ class DeliveryAddViewModel(private val orderInteractor: IOrderInteractor) : View
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     {
-                        modifyDeliveryAddViewState.value= DeliveryAddViewState(saveOk = true)
+                        modifyDeliveryAddViewState.value= DeliveryViewState(saveOk = true)
                     },
                     { error ->
-                        modifyDeliveryAddViewState.value= DeliveryAddViewState(error=error)
+                        modifyDeliveryAddViewState.value= DeliveryViewState(error=error)
                     })
         )
     }

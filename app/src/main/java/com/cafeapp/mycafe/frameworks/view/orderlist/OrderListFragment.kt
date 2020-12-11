@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
 import com.cafeapp.mycafe.R
-import com.cafeapp.mycafe.interface_adapters.viewmodels.orderslist.OrderListViewModel
+import com.cafeapp.mycafe.interface_adapters.viewmodels.orderslist.OrderViewModel
 import com.cafeapp.mycafe.use_case.utils.SharedViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.fragment_orderlist.view.*
@@ -19,7 +19,7 @@ import org.koin.androidx.scope.currentScope
 
 // Экран для отображения списка заказов
 class OrderListFragment : Fragment() {
-    private val orderListViewModel: OrderListViewModel by currentScope.inject()
+    private val orderViewModel: OrderViewModel by currentScope.inject()
     private lateinit var orderListAdapter: OrderListRVAdapter
 
     private val sharedModel by lazy {
@@ -42,7 +42,7 @@ class OrderListFragment : Fragment() {
             activity?.let { it1 -> selectOrderTypeFragment.show(it1.supportFragmentManager, selectOrderTypeFragment.tag) }
         }
 
-            orderListViewModel?.orderListViewStateToObserve.observe(viewLifecycleOwner, {state ->
+            orderViewModel?.orderListViewStateToObserve.observe(viewLifecycleOwner, { state ->
                 state.error?.let { error ->
                     Toast.makeText(activity, error?.message, Toast.LENGTH_LONG).show()
                     return@observe
@@ -53,7 +53,7 @@ class OrderListFragment : Fragment() {
                 }
             })
 
-        orderListViewModel.getOrderList()
+        orderViewModel.getOrderList()
         return root
     }
 

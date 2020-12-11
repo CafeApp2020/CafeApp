@@ -1,4 +1,4 @@
-package com.cafeapp.mycafe.interface_adapters.viewmodels.dishes.dish
+package com.cafeapp.mycafe.interface_adapters.viewmodels.dishes
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -14,6 +14,19 @@ class DishViewModel(private val dishInteractor: IDishInteractor) : ViewModel() {
     private val modifyDishViewState = MutableLiveData<DishesViewState>()
 
     val dishViewState: LiveData<DishesViewState> = modifyDishViewState
+
+    fun getDishList(category_id: Long) {
+        compositeDisposable.add(
+            dishInteractor.getActiveDishList(category_id)!!  // break point
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    modifyDishViewState.value = DishesViewState(dishList=it, loadOk = true)  // break point
+                }, {
+                    error ->modifyDishViewState.value = DishesViewState(error = error)
+                })
+        )
+    }
 
     fun addNewDish(savedDish: DishesEntity) {
         compositeDisposable.add(

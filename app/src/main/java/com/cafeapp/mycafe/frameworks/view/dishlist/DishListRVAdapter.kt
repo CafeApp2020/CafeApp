@@ -17,7 +17,8 @@ class DishListRVAdapter(private val listener: OnDishListItemClickListener) :
     private lateinit var context: Context
 
     fun setDishList(dishList: List<DishesEntity?>?) {
-        this.dishList.addAll(dishList!!)  // break point
+        this.dishList.clear()
+        this.dishList.addAll(dishList!!)
         notifyDataSetChanged()
     }
 
@@ -83,17 +84,12 @@ class DishListRVAdapter(private val listener: OnDishListItemClickListener) :
             }
         }
 
-        private fun removeDishFromList(position: Int) {
-            dishList.remove(dish)
-            notifyItemRemoved(position)
-        }
-
         private fun showAlert(position: Int) {
             val builder = AlertDialog.Builder(context)
             builder.setMessage(context.getString(R.string.want_to_delete_dish))
                 .setPositiveButton(context.getString(R.string.delete)) { _, _ ->
-                    removeDishFromList(position)
                     listener.onRemoveDishButtonClick(dish)
+                    notifyItemRemoved(position)
                 }
                 .setNegativeButton(context.getString(R.string.cancel)) { dialog, _ ->
                     dialog.dismiss()
