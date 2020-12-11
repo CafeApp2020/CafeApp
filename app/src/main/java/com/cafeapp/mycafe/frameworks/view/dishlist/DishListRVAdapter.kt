@@ -11,14 +11,31 @@ import com.cafeapp.mycafe.frameworks.picasso.setImage
 import com.less.repository.db.room.DishesEntity
 import kotlinx.android.synthetic.main.dish_view_holder.view.*
 
+
+
+
 class DishListRVAdapter(private val listener: OnDishListItemClickListener) :
     RecyclerView.Adapter<DishListRVAdapter.ViewHolder>() {
     private var dishList = mutableListOf<DishesEntity?>()
     private lateinit var context: Context
+    private var selectedDishListForOrder  = mutableListOf<Long>()
 
-    fun setDishList(dishList: List<DishesEntity?>?) {
+    var DishesEntity.isChecked : Boolean   // блюдо выделено для добавления к заказу
+        get() = selectedDishListForOrder.contains(this?.id)
+        set(value) {}
+
+    fun setDishList(dishList: List<DishesEntity?>) {
+        updateData(dishList)
+    }
+
+    fun updateSelectedDishList(selectedDishListForOrder:MutableList<Long>) {
+        this.selectedDishListForOrder=selectedDishListForOrder
+        notifyDataSetChanged()
+    }
+
+    fun updateData(updateDishList: List<DishesEntity?>) {
         this.dishList.clear()
-        this.dishList.addAll(dishList!!)
+        this.dishList.addAll(updateDishList!!)
         notifyDataSetChanged()
     }
 
@@ -50,6 +67,7 @@ class DishListRVAdapter(private val listener: OnDishListItemClickListener) :
             setDishWeight()
             setDishImage()
             showDishInStopList()
+            showCheckedDish()
 
             onDishClickBehavior()
             onAddInStopListButtonClickBehavior()
@@ -127,6 +145,13 @@ class DishListRVAdapter(private val listener: OnDishListItemClickListener) :
             if (dish.in_stop_list) {
                 showStopListButtons()
             }
+        }
+
+        private fun showCheckedDish() = with(itemView) {
+            if (dish.isChecked)
+             checked_IV.visibility = View.VISIBLE
+            else
+             checked_IV.visibility =View.INVISIBLE
         }
 
         private fun showStopListButtons() = with(itemView) {

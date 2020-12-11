@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.observe
 import androidx.viewpager2.widget.ViewPager2
 import com.cafeapp.mycafe.R
 import com.cafeapp.mycafe.frameworks.room.OrdersEntity
@@ -39,14 +40,14 @@ class DeliveryAddFragment : Fragment() {
             saveDelivery()
         }
 
-        deliveryViewModel.deliveryViewState.observe(viewLifecycleOwner, {
+        deliveryViewModel.deliveryViewState.observe(viewLifecycleOwner) {
             when {
                 it.saveOk -> {
                     Toast.makeText(activity, getString(R.string.saveok_title), Toast.LENGTH_LONG)
                         .show()
                 }
             }
-        })
+        }
 
         return root
     }

@@ -96,6 +96,16 @@
         <item name="android:src">@drawable/ic_24px_stop_list_black</item>
     </style>
 
+    <!-- Checked element list imageView. -->
+    <style name="ListElementCheckedImageView">
+        <item name="android:layout_width">15dp</item>
+        <item name="android:layout_height">15dp</item>
+        <item name="android:layout_marginEnd">@dimen/list_element_normal_padding</item>
+        <item name="android:layout_gravity">end|center_vertical</item>
+        <item name="android:src">@drawable/ic_check_24</item>
+    </style>
+
+
     <!-- Add photo BottomSheet Dialog -->
     <style name="addPhotoDialog">
         <item name="android:layout_width">wrap_content</item>

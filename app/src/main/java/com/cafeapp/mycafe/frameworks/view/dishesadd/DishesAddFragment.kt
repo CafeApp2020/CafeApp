@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.observe
 import com.cafeapp.mycafe.R
 import com.cafeapp.mycafe.frameworks.picasso.setImage
 import com.cafeapp.mycafe.interface_adapters.viewmodels.dishes.DishViewModel
@@ -38,7 +39,7 @@ class DishesAddFragment : Fragment() {
     ): View? {
         val root = inflater.inflate(R.layout.fragment_dishesadd, container, false)
 
-        dishViewModel.dishViewState.observe(viewLifecycleOwner, { state ->
+        dishViewModel.dishViewState.observe(viewLifecycleOwner) { state ->
             state.error?.let { error ->
                 Toast.makeText(activity, error.message, Toast.LENGTH_LONG).show()
                 return@observe
@@ -55,9 +56,9 @@ class DishesAddFragment : Fragment() {
             if (state.loadOk) {
                 state.dish?.let { dish -> showDish(dish) }
             }
-        })
+        }
 
-        sharedModel?.getSelected()?.observe(viewLifecycleOwner, { msg ->
+        sharedModel?.getSelected()?.observe(viewLifecycleOwner) { msg ->
             when (msg.stateName) {
                 MsgState.ADDDISH ->
                     if (msg.value is Long) {
@@ -69,7 +70,7 @@ class DishesAddFragment : Fragment() {
                         currentDishId = msg.value
                     }
             }
-        })
+        }
 
         val fab = activity?.findViewById<FloatingActionButton>(R.id.activityFab)
 

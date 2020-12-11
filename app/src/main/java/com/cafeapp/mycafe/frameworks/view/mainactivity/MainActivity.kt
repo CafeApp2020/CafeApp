@@ -5,6 +5,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.observe
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -35,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         // ответсвенного за обработку данного типа сообщений
         val sharedModel = ViewModelProvider(this).get(SharedViewModel::class.java)
 
-        sharedModel.getSelected().observe(this, { msg ->
+        sharedModel.getSelected().observe(this) { msg ->
             when (msg.stateName) {
                 MsgState.ADDCATEGORY -> navController.navigate(R.id.nav_categoryadd)  // открываем фрагмент добавления/редактирования категории
                 MsgState.ADDDISH -> navController.navigate(R.id.nav_dishesadd)    // открываем фрагмент добавления  блюда
@@ -45,8 +46,11 @@ class MainActivity : AppCompatActivity() {
                 MsgState.DISHESLIST -> navController.navigate(R.id.nav_disheslist)    // открываем фрагмент со списком блюд
                 MsgState.SETTOOLBARTITLE -> setTitle(msg.value)
                 MsgState.DELIVERYADD ->  navController.navigate(R.id.nav_deliveryadd)  // новая доставка
+                MsgState.SELECTDISHTOORDER ->  navController.navigate(R.id.nav_categorylist) // открываем фрагмент со списком категорий в режиме добавления блюд к заказу
+                MsgState.OPENFORORDER -> navController.navigate(R.id.nav_disheslist) // открываем фрагмент со списком блюд в режиме заказа
+                MsgState.RETURNSELECTEDDISHLIST->  navController.navigate(R.id.nav_orderlist)
             }
-        })
+        }
     }
 
     private fun setTitle(name: Any) {
