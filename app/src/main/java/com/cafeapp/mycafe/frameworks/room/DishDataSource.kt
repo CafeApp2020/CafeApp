@@ -6,7 +6,7 @@ import com.less.repository.db.room.DishesEntity
 import io.reactivex.Completable
 import io.reactivex.Single
 
-class RoomDishDataSource(val dishesDao: DishesDao) : IDishDataSource {
+class DishDataSource(val dishesDao: DishesDao) : IDishDataSource {
     override fun deleteDish(dish: DishesEntity): Completable {
         TODO("Not yet implemented")
     }

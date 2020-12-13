@@ -19,7 +19,7 @@
 
     <fragment
         android:id="@+id/nav_orderlist"
-        android:name="com.cafeapp.mycafe.frameworks.view.orderlist.OrderListFragment"
+        android:name="com.cafeapp.mycafe.frameworks.view.orders.orderList.OrderListFragment"
         android:label="@string/orders_title"
         tools:layout="@layout/fragment_orderlist" />
 
@@ -49,7 +49,7 @@
 
     <fragment
         android:id="@+id/nav_deliveryadd"
-        android:name="com.cafeapp.mycafe.frameworks.view.deliveryadd.DeliveryAddFragment"
+        android:name="com.cafeapp.mycafe.frameworks.view.orders.delivery.DeliveryMainFragment"
         android:label="@string/newdeliverytitle"
         tools:layout="@layout/fragment_customerdata" />
 </navigation>

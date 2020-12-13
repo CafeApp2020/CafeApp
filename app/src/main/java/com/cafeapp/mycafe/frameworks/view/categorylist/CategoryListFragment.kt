@@ -10,6 +10,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cafeapp.mycafe.R
+import com.cafeapp.mycafe.frameworks.room.OrdersEntity
+import com.cafeapp.mycafe.frameworks.view.delivery.OrderType
 import com.cafeapp.mycafe.interface_adapters.viewmodels.categories.CategoryViewModel
 import com.cafeapp.mycafe.use_case.utils.MsgState
 import com.cafeapp.mycafe.use_case.utils.SharedMsg
@@ -35,8 +37,14 @@ class CategoryListFragment : Fragment() {
     }
 
     companion object {
-       var currentOrderID:Long =0 //текущий заказ
+       var orderEntity:OrdersEntity= OrdersEntity()
        var selectedDishListForOrder= mutableListOf<Long>() //ID выбранных в текущем заказе блюд
+       fun getCurrentOrderType():MsgState {
+          return when (orderEntity.ordertype) {
+              OrderType.DELIVERY -> MsgState.DELEVERYOPEN
+              else -> MsgState.DELEVERYOPEN
+          }
+       }
     }
 
     private val listener: OnCategoryListItemClickListener =
@@ -99,9 +107,8 @@ class CategoryListFragment : Fragment() {
         sharedModel?.getSelected()?.observe(viewLifecycleOwner) { msg ->
             when (msg.stateName) {
                 MsgState.SELECTDISHTOORDER -> {
-                    if (msg.value is Long) {   // msg.value ID текущего заказа
-                     //   Toast.makeText(context, "id="+msg.value, Toast.LENGTH_LONG).show()
-                        currentOrderID = msg.value
+                    if (msg.value is OrdersEntity) {   // msg.value ID текущего заказа
+                        orderEntity.id = msg.value.id
                         selectedDishListForOrder.clear()
                         workMode = WorkMode.OrderSelect
                         initSelectOrderMode()
@@ -115,7 +122,7 @@ class CategoryListFragment : Fragment() {
         val fab = activity?.findViewById<FloatingActionButton>(R.id.activityFab)
         fab?.setImageResource(R.drawable.ic_list_add_check_24)
         fab?.setOnClickListener {
-            sharedModel?.select(SharedMsg(MsgState.RETURNSELECTEDDISHLIST, mapOf(currentOrderID to selectedDishListForOrder)))
+            sharedModel?.select(SharedMsg(getCurrentOrderType(), mapOf(orderEntity to selectedDishListForOrder)))
         }
     }
 

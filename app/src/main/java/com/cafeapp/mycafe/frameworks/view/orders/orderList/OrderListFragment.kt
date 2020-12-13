@@ -1,4 +1,4 @@
-package com.cafeapp.mycafe.frameworks.view.orderlist
+package com.cafeapp.mycafe.frameworks.view.orders.orderList
 
 import android.content.ContentValues.TAG
 import android.os.Bundle
@@ -12,8 +12,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
 import com.cafeapp.mycafe.R
-import com.cafeapp.mycafe.interface_adapters.viewmodels.orderslist.OrderViewModel
+import com.cafeapp.mycafe.frameworks.room.OrdersEntity
+import com.cafeapp.mycafe.frameworks.view.delivery.OrderType
+import com.cafeapp.mycafe.frameworks.view.orders.OrderTypeFragment
+import com.cafeapp.mycafe.interface_adapters.viewmodels.orders.OrderViewModel
 import com.cafeapp.mycafe.use_case.utils.MsgState
+import com.cafeapp.mycafe.use_case.utils.SharedMsg
 import com.cafeapp.mycafe.use_case.utils.SharedViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.category_view_holder.*
@@ -21,11 +25,11 @@ import kotlinx.android.synthetic.main.fragment_orderlist.view.*
 import org.koin.androidx.scope.currentScope
 import java.lang.Exception
 
-
 // Экран для отображения списка заказов
 class OrderListFragment : Fragment() {
     private val orderViewModel: OrderViewModel by currentScope.inject()
     private lateinit var orderListAdapter: OrderListRVAdapter
+    private var selectedDishMap = mapOf<Long, MutableList<Long>>()
 
     private val sharedModel by lazy {
         activity?.let { ViewModelProvider(it).get(SharedViewModel::class.java) }
@@ -48,11 +52,16 @@ class OrderListFragment : Fragment() {
             activity?.let { it1 -> selectOrderTypeFragment.show(it1.supportFragmentManager, selectOrderTypeFragment.tag) }
         }
 
-            orderViewModel?.orderListViewStateToObserve.observe(viewLifecycleOwner) { state ->
+        orderViewModel?.orderViewState.observe(viewLifecycleOwner) { state ->
                 state.error?.let { error ->
                     Toast.makeText(activity, error?.message, Toast.LENGTH_LONG).show()
                     return@observe
                 }
+
+               if (state.loadOk)
+               state.ordersEntity?.let {orderEntity->
+                   openOrder(orderEntity)
+               }
 
                 state.orderList?.let { dishList ->
                     orderListAdapter.data = dishList
@@ -63,21 +72,28 @@ class OrderListFragment : Fragment() {
         return root
     }
 
+    private fun openOrder(ordersEntity: OrdersEntity) {
+       if (ordersEntity.ordertype== OrderType.DELIVERY) {
+           sharedModel?.select(SharedMsg(MsgState.DELEVERYOPEN, selectedDishMap))
+       }
+    }
+
     private fun initSharedModelObserver() {
         sharedModel?.getSelected()?.observe(viewLifecycleOwner) { msg ->
             when (msg.stateName) {
                 MsgState.RETURNSELECTEDDISHLIST -> {
-                    openOrder(msg.value)
+                    returnDishListId(msg.value)
                 }
             }
         }
     }
 
-    private fun openOrder(value: Any) {
+    private fun returnDishListId(value: Any) {
         try {
-            var selecetdDishMap = value as Map<Long, MutableList<Long>>
-            val iterator: Iterator<Long> = selecetdDishMap.keys.iterator()
+            selectedDishMap = value as Map<Long, MutableList<Long>>
+            val iterator: Iterator<Long> = selectedDishMap.keys.iterator()
             val orderId = iterator.next()
+            orderViewModel.loadOrder(orderId)
         }
         catch (e:Exception) {
             Log.d(TAG, "openOrder: "+ e.message)

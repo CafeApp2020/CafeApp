@@ -1,4 +1,4 @@
-package com.cafeapp.mycafe.frameworks.view.orderlist
+package com.cafeapp.mycafe.frameworks.view.orders
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,8 +11,6 @@ import com.cafeapp.mycafe.use_case.utils.MsgState
 import com.cafeapp.mycafe.use_case.utils.SharedMsg
 import com.cafeapp.mycafe.use_case.utils.SharedViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import kotlinx.android.synthetic.main.fragment_bottomsheet.*
-import kotlinx.android.synthetic.main.fragment_bottomsheet.navigation_view
 import kotlinx.android.synthetic.main.fragment_ordertype_select.*
 
 class OrderTypeFragment: BottomSheetDialogFragment() {

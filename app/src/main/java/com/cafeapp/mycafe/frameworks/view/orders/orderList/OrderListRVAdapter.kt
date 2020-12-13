@@ -1,14 +1,11 @@
-package com.cafeapp.mycafe.frameworks.view.orderlist
+package com.cafeapp.mycafe.frameworks.view.orders.orderList
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.cafeapp.mycafe.R
-import com.cafeapp.mycafe.frameworks.picasso.setImage
 import com.cafeapp.mycafe.frameworks.room.OrdersEntity
-import com.less.repository.db.room.DishesEntity
-import kotlinx.android.synthetic.main.dish_view_holder.view.*
 import kotlinx.android.synthetic.main.order_view_holder.view.*
 
 class OrderListRVAdapter(val getIdFunc: (Long) -> Unit) :

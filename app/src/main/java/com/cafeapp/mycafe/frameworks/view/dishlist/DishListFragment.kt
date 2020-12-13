@@ -149,7 +149,8 @@ class DishListFragment : Fragment() {
             fab?.setImageResource(R.drawable.ic_list_add_check_24)
             dishListAdapter.updateSelectedDishList(CategoryListFragment.selectedDishListForOrder)
             fab?.setOnClickListener {
-                 sharedModel?.select(SharedMsg(MsgState.RETURNSELECTEDDISHLIST, mapOf(CategoryListFragment.currentOrderID to CategoryListFragment.selectedDishListForOrder)))
+                 sharedModel?.select(SharedMsg(CategoryListFragment.getCurrentOrderType(),
+                     mapOf(CategoryListFragment.orderEntity to CategoryListFragment.selectedDishListForOrder)))
             }
         }
     }

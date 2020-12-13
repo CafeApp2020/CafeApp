@@ -46,6 +46,7 @@ class MainActivity : AppCompatActivity() {
                 MsgState.DISHESLIST -> navController.navigate(R.id.nav_disheslist)    // открываем фрагмент со списком блюд
                 MsgState.SETTOOLBARTITLE -> setTitle(msg.value)
                 MsgState.DELIVERYADD ->  navController.navigate(R.id.nav_deliveryadd)  // новая доставка
+                MsgState.DELEVERYOPEN -> navController.navigate(R.id.nav_deliveryadd)  // открываем существующую доставку
                 MsgState.SELECTDISHTOORDER ->  navController.navigate(R.id.nav_categorylist) // открываем фрагмент со списком категорий в режиме добавления блюд к заказу
                 MsgState.OPENFORORDER -> navController.navigate(R.id.nav_disheslist) // открываем фрагмент со списком блюд в режиме заказа
                 MsgState.RETURNSELECTEDDISHLIST->  navController.navigate(R.id.nav_orderlist)

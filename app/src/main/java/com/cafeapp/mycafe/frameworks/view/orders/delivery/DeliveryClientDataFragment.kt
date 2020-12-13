@@ -1,4 +1,4 @@
-package com.cafeapp.mycafe.frameworks.view.deliveryadd
+package com.cafeapp.mycafe.frameworks.view.orders.delivery
 
 import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
@@ -9,17 +9,17 @@ import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.cafeapp.mycafe.R
+import com.cafeapp.mycafe.interface_adapters.viewmodels.orders.OrderViewModel
 import kotlinx.android.synthetic.main.fragment_customerdata.*
 import java.util.*
 
 
-class CustomerDataFragment : Fragment() {
+class DeliveryClientDataFragment(val orderViewModel: OrderViewModel) : Fragment() {
     var deliveryDateTime = Calendar.getInstance()
-
     var dateAndTime: Calendar = Calendar.getInstance()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -30,16 +30,6 @@ class CustomerDataFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        arguments?.takeIf { it.containsKey(ARG_OBJECT) }?.apply {
-
-            Toast.makeText(activity, "CustomerDataFragment", Toast.LENGTH_LONG).show()
-        }
-
-        arguments?.takeIf { it.containsKey(ARG_DATE) }?.apply {
-            Toast.makeText(activity, "DeliveryAddFragment", Toast.LENGTH_LONG).show()
-            this.putString(ARG_OBJECT, deliveryDateTime.toString())
-        }
-
         deliveryTimeTIT.setOnFocusChangeListener { view: View, b: Boolean ->
            if (b) setTime(view)
         }
