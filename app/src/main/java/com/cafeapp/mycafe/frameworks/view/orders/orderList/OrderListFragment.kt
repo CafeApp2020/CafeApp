@@ -73,30 +73,13 @@ class OrderListFragment : Fragment() {
     }
 
     private fun openOrder(ordersEntity: OrdersEntity) {
-       if (ordersEntity.ordertype== OrderType.DELIVERY) {
+/*       if (ordersEntity.ordertype== OrderType.DELIVERY) {
            sharedModel?.select(SharedMsg(MsgState.DELEVERYOPEN, selectedDishMap))
-       }
+       }*/
     }
 
     private fun initSharedModelObserver() {
         sharedModel?.getSelected()?.observe(viewLifecycleOwner) { msg ->
-            when (msg.stateName) {
-                MsgState.RETURNSELECTEDDISHLIST -> {
-                    returnDishListId(msg.value)
-                }
-            }
-        }
-    }
-
-    private fun returnDishListId(value: Any) {
-        try {
-            selectedDishMap = value as Map<Long, MutableList<Long>>
-            val iterator: Iterator<Long> = selectedDishMap.keys.iterator()
-            val orderId = iterator.next()
-            orderViewModel.loadOrder(orderId)
-        }
-        catch (e:Exception) {
-            Log.d(TAG, "openOrder: "+ e.message)
         }
     }
 

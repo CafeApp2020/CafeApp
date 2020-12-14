@@ -18,7 +18,7 @@ import com.cafeapp.mycafe.use_case.utils.SharedViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import kotlinx.android.synthetic.main.fragment_customerdata.*
+import kotlinx.android.synthetic.main.fragment_delivery_client_data.*
 import org.koin.androidx.scope.currentScope
 
 
@@ -40,7 +40,7 @@ class DeliveryMainFragment : Fragment() {
         val fab=activity?.findViewById<FloatingActionButton>(R.id.activityFab)
         fab?.setImageResource(android.R.drawable.ic_menu_save)
         fab?.setOnClickListener {
-            saveDelivery()
+           // saveDelivery()
         }
 
         initSharedModelObserver()
@@ -63,10 +63,6 @@ class DeliveryMainFragment : Fragment() {
     private fun initSharedModelObserver() {
         sharedModel?.getSelected()?.observe(viewLifecycleOwner) { msg ->
             when (msg.stateName) {
-                MsgState.DELIVERYADD -> {
-                    SelectedOrder.currentOrder = OrdersEntity()
-                    saveDelivery()
-                }
                 MsgState.DELEVERYOPEN -> {
                   loadDelevery(msg.value)
                 }
@@ -87,7 +83,7 @@ class DeliveryMainFragment : Fragment() {
         orderViewModel.insertSelDishIdList(order, selectedDishList)
     }
 
-    private fun saveDelivery() {
+/*    private fun saveDelivery() {
         val customerName=customerNameTIT?.let{customerNameTIT.text.toString()} ?: ""
         val customerphone=customerPhoneTIT?.let{customerPhoneTIT.text.toString()} ?: ""
         val customeraddress=customerAddressTIT?.let{customerAddressTIT.text.toString()} ?: ""
@@ -96,13 +92,14 @@ class DeliveryMainFragment : Fragment() {
             customername = customerName,
             customerphone = customerphone,
             customeraddress = customeraddress,
+            deliverydatetime = DeliveryClientDataFragment.deliveryDateTimeCalendar.time,
             ordertype= OrderType.DELIVERY
         )
         if (SelectedOrder.currentOrder.id>0)
             orderDelivery.id= SelectedOrder.currentOrder.id
         SelectedOrder.currentOrder =orderDelivery
         orderViewModel.saveDelivery(orderDelivery)
-    }
+    }*/
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

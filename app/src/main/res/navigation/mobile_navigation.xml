@@ -51,5 +51,5 @@
         android:id="@+id/nav_deliveryadd"
         android:name="com.cafeapp.mycafe.frameworks.view.orders.delivery.DeliveryMainFragment"
         android:label="@string/newdeliverytitle"
-        tools:layout="@layout/fragment_customerdata" />
+        tools:layout="@layout/fragment_delivery_client_data" />
 </navigation>
