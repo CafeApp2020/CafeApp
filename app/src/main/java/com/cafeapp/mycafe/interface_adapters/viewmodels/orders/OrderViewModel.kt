@@ -3,6 +3,7 @@ package com.cafeapp.mycafe.interface_adapters.viewmodels.orders
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.cafeapp.mycafe.entities.OrderDishEntityModify
 import com.cafeapp.mycafe.frameworks.room.OrdersEntity
 import com.cafeapp.mycafe.frameworks.view.delivery.OrderType
 import com.cafeapp.mycafe.use_case.interactors.orders.IOrderInteractor
@@ -58,6 +59,22 @@ class OrderViewModel(private val orderInteractor: IOrderInteractor) : ViewModel(
         )
     }
 
+    fun loadDishList(order: OrdersEntity) {
+        compositeDisposable.add(
+            orderInteractor.loadDishListForOrder(order.id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    {dishList ->
+                        dishList?.let {modifyDeliveryAddViewState.value= OrderViewState(
+                            orderDishEntityModifyList = dishList) }
+                    },
+                    { error ->
+                        modifyDeliveryAddViewState.value= OrderViewState(error =error)
+                    })
+        )
+    }
+
     fun insertSelDishIdList(order: OrdersEntity, selectedDishList: MutableList<Long>) {
         compositeDisposable.add(
             orderInteractor.insertOrderListId(order.id, selectedDishList)!!
@@ -101,4 +118,7 @@ class OrderViewModel(private val orderInteractor: IOrderInteractor) : ViewModel(
         )
     }
 
+    fun getTotalSumm(dishList: List<OrderDishEntityModify>): Double {
+       return orderInteractor.getTotalSumm(dishList)
+    }
 }

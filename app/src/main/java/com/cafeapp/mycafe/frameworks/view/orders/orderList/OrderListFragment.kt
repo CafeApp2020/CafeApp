@@ -29,7 +29,6 @@ import java.lang.Exception
 class OrderListFragment : Fragment() {
     private val orderViewModel: OrderViewModel by currentScope.inject()
     private lateinit var orderListAdapter: OrderListRVAdapter
-    private var selectedDishMap = mapOf<Long, MutableList<Long>>()
 
     private val sharedModel by lazy {
         activity?.let { ViewModelProvider(it).get(SharedViewModel::class.java) }
@@ -73,9 +72,9 @@ class OrderListFragment : Fragment() {
     }
 
     private fun openOrder(ordersEntity: OrdersEntity) {
-/*       if (ordersEntity.ordertype== OrderType.DELIVERY) {
-           sharedModel?.select(SharedMsg(MsgState.DELEVERYOPEN, selectedDishMap))
-       }*/
+      if (ordersEntity.ordertype== OrderType.DELIVERY) {
+           sharedModel?.select(SharedMsg(MsgState.DELEVERYOPEN, ordersEntity))
+       }
     }
 
     private fun initSharedModelObserver() {
@@ -84,7 +83,8 @@ class OrderListFragment : Fragment() {
     }
 
     private fun initRecyclerView(root: View) {
-        orderListAdapter = OrderListRVAdapter { id ->
+        orderListAdapter = OrderListRVAdapter {
+            openOrder(it)
         }
 
         root.orderlist_recyclerview.apply {

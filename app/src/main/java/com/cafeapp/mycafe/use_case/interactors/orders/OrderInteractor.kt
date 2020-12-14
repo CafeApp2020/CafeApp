@@ -47,4 +47,19 @@ class OrderInteractor(val repository: IOrderRepository) : IOrderInteractor {
         val orderList = repository.getOrderDishList(orderId)     // и сразу запрашиваем все блюда по этому заказу
         return Observable.concat(insertedList.toObservable(), orderList)
     }
-}
+
+    override fun loadDishListForOrder(orderId: Long): Observable<List<OrderDishEntityModify>> {
+        return repository.getOrderDishList(orderId)
+    }
+
+    override fun getTotalSumm(dishList: List<OrderDishEntityModify>): Double {
+            var summ_=0.0
+            for (orderDishEntityModify in dishList) {
+                orderDishEntityModify.dishPrice?.let {
+                    summ_+=it*orderDishEntityModify.dishCount }
+            }
+            return summ_
+        }
+    }
+
+

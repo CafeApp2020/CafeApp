@@ -10,22 +10,22 @@ import androidx.lifecycle.observe
 import androidx.viewpager2.widget.ViewPager2
 import com.cafeapp.mycafe.R
 import com.cafeapp.mycafe.frameworks.room.OrdersEntity
-import com.cafeapp.mycafe.frameworks.view.delivery.OrderType
+import com.cafeapp.mycafe.frameworks.view.categorylist.CategoryListFragment
 import com.cafeapp.mycafe.frameworks.view.delivery.SelectedOrder
 import com.cafeapp.mycafe.interface_adapters.viewmodels.orders.OrderViewModel
 import com.cafeapp.mycafe.use_case.utils.MsgState
+import com.cafeapp.mycafe.use_case.utils.SharedMsg
 import com.cafeapp.mycafe.use_case.utils.SharedViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import kotlinx.android.synthetic.main.fragment_delivery_client_data.*
 import org.koin.androidx.scope.currentScope
 
 
 class DeliveryMainFragment : Fragment() {
     private val orderViewModel: OrderViewModel by currentScope.inject()
-    private lateinit var viewPager:ViewPager2
-    private lateinit var root:View
+    private lateinit var viewPager: ViewPager2
+    private lateinit var root: View
 
     private val sharedModel by lazy {
         activity?.let { ViewModelProvider(it).get(SharedViewModel::class.java) }
@@ -34,13 +34,13 @@ class DeliveryMainFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         root = inflater.inflate(R.layout.fragment_delivery, container, false)
-        val fab=activity?.findViewById<FloatingActionButton>(R.id.activityFab)
+        val fab = activity?.findViewById<FloatingActionButton>(R.id.activityFab)
         fab?.setImageResource(android.R.drawable.ic_menu_save)
         fab?.setOnClickListener {
-           // saveDelivery()
+             sharedModel?.select(SharedMsg(MsgState.RETURNSELECTEDDISHLIST, 0))
         }
 
         initSharedModelObserver()
@@ -48,9 +48,9 @@ class DeliveryMainFragment : Fragment() {
         orderViewModel.orderViewState.observe(viewLifecycleOwner) { deliveryViewState ->
             when {
                 deliveryViewState.saveOk -> {
-                     if (deliveryViewState.ordersEntityID>0) {
-                         SelectedOrder.currentOrder.id=deliveryViewState.ordersEntityID
-                     }
+                    if (deliveryViewState.ordersEntityID > 0) {
+                        SelectedOrder.currentOrder.id = deliveryViewState.ordersEntityID
+                    }
                 }
             }
             deliveryViewState.orderDishEntityModifyList?.let {
@@ -64,42 +64,26 @@ class DeliveryMainFragment : Fragment() {
         sharedModel?.getSelected()?.observe(viewLifecycleOwner) { msg ->
             when (msg.stateName) {
                 MsgState.DELEVERYOPEN -> {
-                  loadDelevery(msg.value)
+                    if (msg.value is Map<*, *>)
+                        insestDihesAndloadDelivery(msg.value)
                 }
             }
         }
     }
 
-    private fun loadDelevery(order:Any) {
-        val selectedDishMap = order as Map<OrdersEntity,  MutableList<Long>>
+    private fun insestDihesAndloadDelivery(value: Any) {
+        val selectedDishMap = value as Map<OrdersEntity, MutableList<Long>>
         val iterator: Iterator<OrdersEntity> = selectedDishMap.keys.iterator()
         val order = iterator.next()
         val dishIdList = selectedDishMap.get(order)
-         dishIdList?.let {
-            insertDishList(order, dishIdList)}
+        dishIdList?.let {
+            insertDishList(order, dishIdList)
+        }
     }
 
-    private fun insertDishList(order:OrdersEntity, selectedDishList: MutableList<Long>) {
+    private fun insertDishList(order: OrdersEntity, selectedDishList: MutableList<Long>) {
         orderViewModel.insertSelDishIdList(order, selectedDishList)
     }
-
-/*    private fun saveDelivery() {
-        val customerName=customerNameTIT?.let{customerNameTIT.text.toString()} ?: ""
-        val customerphone=customerPhoneTIT?.let{customerPhoneTIT.text.toString()} ?: ""
-        val customeraddress=customerAddressTIT?.let{customerAddressTIT.text.toString()} ?: ""
-
-        var orderDelivery = OrdersEntity(
-            customername = customerName,
-            customerphone = customerphone,
-            customeraddress = customeraddress,
-            deliverydatetime = DeliveryClientDataFragment.deliveryDateTimeCalendar.time,
-            ordertype= OrderType.DELIVERY
-        )
-        if (SelectedOrder.currentOrder.id>0)
-            orderDelivery.id= SelectedOrder.currentOrder.id
-        SelectedOrder.currentOrder =orderDelivery
-        orderViewModel.saveDelivery(orderDelivery)
-    }*/
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -109,9 +93,9 @@ class DeliveryMainFragment : Fragment() {
         val deliveryAddAdapter = DeliveryTapAdapter(this, orderViewModel)
         viewPager.adapter = deliveryAddAdapter
 
-         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-            if (position==0)  tab.text = getString(R.string.client_title)
-            if (position==1)  tab.text = getString(R.string.order_title)
-          }.attach()
+        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+            if (position == 0) tab.text = getString(R.string.client_title)
+            if (position == 1) tab.text = getString(R.string.order_title)
+        }.attach()
     }
 }

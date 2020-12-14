@@ -11,9 +11,6 @@ import com.cafeapp.mycafe.frameworks.picasso.setImage
 import com.less.repository.db.room.DishesEntity
 import kotlinx.android.synthetic.main.dish_view_holder.view.*
 
-
-
-
 class DishListRVAdapter(private val listener: OnDishListItemClickListener) :
     RecyclerView.Adapter<DishListRVAdapter.ViewHolder>() {
     private var dishList = mutableListOf<DishesEntity?>()

@@ -2,22 +2,33 @@ package com.cafeapp.mycafe.frameworks.view.utils
 
 import android.app.Activity
 import android.app.DatePickerDialog
+import android.app.DatePickerDialog.OnDateSetListener
 import android.app.TimePickerDialog
 import android.text.format.DateUtils
 import android.view.View
 import com.google.android.material.textfield.TextInputEditText
+import java.text.SimpleDateFormat
 import java.util.*
 
-class CalendarUtility(val activity: Activity,
-                      val dateTIT: TextInputEditText,
-                      val timeTIT: TextInputEditText,
-                      var calendar: Calendar = Calendar.getInstance()) {
+
+class CalendarUtility(
+    val activity: Activity,
+    val dateTIT: TextInputEditText,
+    val timeTIT: TextInputEditText,
+    var calendar: Calendar = Calendar.getInstance(),
+) {
+
+    companion object {
+        var dateFormat: SimpleDateFormat=SimpleDateFormat("dd.MM.yyyy")
+        var timeFormat: SimpleDateFormat=SimpleDateFormat("HH:mm")
+        fun getDateStr(date:Date):String=dateFormat.format(date)
+        fun getTimeStr(date:Date):String=timeFormat.format(date)
+    }
 
     init {
         setInitialDateTime()
     }
 
-    // установка начальных даты и времени
     private fun setInitialDateTime() {
         dateTIT.setText(
             DateUtils.formatDateTime(
@@ -36,7 +47,6 @@ class CalendarUtility(val activity: Activity,
         )
     }
 
-    // отображаем диалоговое окно для выбора даты
     fun setDate(v: View?) {
         activity?.let {
             val date = DatePickerDialog(
@@ -50,28 +60,22 @@ class CalendarUtility(val activity: Activity,
         }
     }
 
-    // установка обработчика выбора времени
     val timePickerDialog =
         TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
-            calendar.add(Calendar.HOUR_OF_DAY, hourOfDay)
-            calendar.add(Calendar.MINUTE, minute)
-            setInitialDateTime()
-        }
-
-    // установка обработчика выбора даты
-    val datePickerDialog =
-        DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-            calendar.add(Calendar.YEAR, year)
-            calendar.add(Calendar.MONTH, monthOfYear)
-            calendar.add(
-                Calendar.DAY_OF_MONTH,
-                dayOfMonth
-            )
+            calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
+            calendar.set(Calendar.MINUTE, minute)
             setInitialDateTime()
         }
 
 
-    // отображаем диалоговое окно для выбора времени
+    var datePickerDialog =
+        OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+            calendar.set(Calendar.YEAR, year)
+            calendar.set(Calendar.MONTH, monthOfYear)
+            calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+            setInitialDateTime()
+        }
+
     fun setTime(v: View?) {
         TimePickerDialog(
             activity, timePickerDialog,

@@ -8,7 +8,7 @@ import com.cafeapp.mycafe.R
 import com.cafeapp.mycafe.frameworks.room.OrdersEntity
 import kotlinx.android.synthetic.main.order_view_holder.view.*
 
-class OrderListRVAdapter(val getIdFunc: (Long) -> Unit) :
+class OrderListRVAdapter(val getFunc: (OrdersEntity) -> Unit) :
     RecyclerView.Adapter<OrderListRVAdapter.ViewHolder>() {
     var data: List<OrdersEntity?>? = mutableListOf()
         set(value) {
@@ -19,7 +19,7 @@ class OrderListRVAdapter(val getIdFunc: (Long) -> Unit) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(
         LayoutInflater.from(parent.context).inflate(
             R.layout.order_view_holder, parent, false
-        ), getIdFunc
+        ), getFunc
     )
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -28,10 +28,13 @@ class OrderListRVAdapter(val getIdFunc: (Long) -> Unit) :
 
     override fun getItemCount(): Int = data!!.size
 
-    inner class ViewHolder(itemView: View, val getIdFunc: (Long) -> Unit) :
+    inner class ViewHolder(itemView: View, val getFunc: (OrdersEntity) -> Unit) :
         RecyclerView.ViewHolder(itemView) {
         fun bind(data: OrdersEntity) = with(itemView) {
             deliveryOrder(data)
+            itemView.setOnClickListener {
+                getFunc(data)
+            }
          }
 
         fun deliveryOrder(data: OrdersEntity) = with(itemView) {

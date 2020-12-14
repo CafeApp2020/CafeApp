@@ -37,10 +37,10 @@ class CategoryListFragment : Fragment() {
     }
 
     companion object {
-       var orderEntity:OrdersEntity= OrdersEntity()
+       var orderEntity:OrdersEntity?=null
        var selectedDishListForOrder= mutableListOf<Long>() //ID выбранных в текущем заказе блюд
        fun getCurrentOrderType():MsgState {
-          return when (orderEntity.ordertype) {
+          return when (orderEntity?.ordertype) {
               OrderType.DELIVERY -> MsgState.DELEVERYOPEN
               else -> MsgState.DELEVERYOPEN
           }
@@ -107,8 +107,8 @@ class CategoryListFragment : Fragment() {
         sharedModel?.getSelected()?.observe(viewLifecycleOwner) { msg ->
             when (msg.stateName) {
                 MsgState.SELECTDISHTOORDER -> {
-                    if (msg.value is OrdersEntity) {   // msg.value ID текущего заказа
-                        orderEntity.id = msg.value.id
+                    if (msg.value is OrdersEntity) {
+                        orderEntity= msg.value
                         selectedDishListForOrder.clear()
                         workMode = WorkMode.OrderSelect
                         initSelectOrderMode()

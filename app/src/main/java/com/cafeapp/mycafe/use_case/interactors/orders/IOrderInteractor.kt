@@ -14,4 +14,6 @@ interface IOrderInteractor {
     fun saveOrder(orderEntity: OrdersEntity): Single<Long>?
     fun updateOrder(orderEntity: OrdersEntity): Completable
     fun insertOrderListId(orderId: Long, selectedDishList: MutableList<Long>): Observable<List<OrderDishEntityModify>>
-}
+    fun loadDishListForOrder(orderId: Long) : Observable<List<OrderDishEntityModify>>
+    fun getTotalSumm(dishList: List<OrderDishEntityModify>): Double
+    }

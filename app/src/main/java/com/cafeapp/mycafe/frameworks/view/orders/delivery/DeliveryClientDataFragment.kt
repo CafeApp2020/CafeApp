@@ -1,11 +1,6 @@
 package com.cafeapp.mycafe.frameworks.view.orders.delivery
 
-import android.app.DatePickerDialog
-import android.app.DatePickerDialog.OnDateSetListener
-import android.app.TimePickerDialog
-import android.app.TimePickerDialog.OnTimeSetListener
 import android.os.Bundle
-import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,13 +16,11 @@ import com.cafeapp.mycafe.interface_adapters.viewmodels.orders.OrderViewModel
 import com.cafeapp.mycafe.use_case.utils.MsgState
 import com.cafeapp.mycafe.use_case.utils.SharedViewModel
 import kotlinx.android.synthetic.main.fragment_delivery_client_data.*
-import java.util.*
 
 
 class DeliveryClientDataFragment(val orderViewModel: OrderViewModel) : Fragment() {
     companion object {
         lateinit var deliveryDateTimeCalendar : CalendarUtility
-     //  var deliveryDateTimeCalendar : Calendar=Calendar.getInstance()
       }
 
     private val sharedModel by lazy {
@@ -49,16 +42,13 @@ class DeliveryClientDataFragment(val orderViewModel: OrderViewModel) : Fragment(
 
         deliveryTimeTIT.setOnFocusChangeListener { view: View, focused: Boolean ->
            if (focused) deliveryDateTimeCalendar.setTime(view)
-          //  if (focused) setTime(view)
            else saveDelivery()
         }
 
         deliveryDateTIT.setOnFocusChangeListener { view: View, focused: Boolean ->
             if (focused) deliveryDateTimeCalendar.setDate(view)
-          //  if (focused) setDate(view)
             else saveDelivery()
         }
-       // setInitialDateTime()
         onFocusChange(customerNameTIT)
         onFocusChange(customerPhoneTIT)
         onFocusChange(customerAddressTIL)
@@ -79,7 +69,35 @@ class DeliveryClientDataFragment(val orderViewModel: OrderViewModel) : Fragment(
                     SelectedOrder.currentOrder = OrdersEntity()
                     saveDelivery()
                 }
+                MsgState.DELEVERYOPEN -> {
+                 if (msg.value is OrdersEntity)
+                     viewSetData(msg.value)
+                 if (msg.value is Map<*, *>)
+                     loadDeliveryFromDishes(msg.value)
+                }
             }
+        }
+    }
+
+    private fun loadDeliveryFromDishes(value: Any) {
+        val selectedDishMap = value as Map<OrdersEntity,  MutableList<Long>>
+        val iterator: Iterator<OrdersEntity> = selectedDishMap.keys.iterator()
+        val order = iterator.next()
+        viewSetData(order)
+    }
+
+    private fun viewSetData(order: OrdersEntity) {
+        order?.let {
+            SelectedOrder.currentOrder=order
+            customerNameTIT.setText(order.customername)
+            customerPhoneTIT.setText(order.customerphone)
+            customerAddressTIT.setText(order.customeraddress)
+            deliveryDateTIT.setText(order.deliverydatetime?.let { it1 ->
+                CalendarUtility.getDateStr(it1)
+            })
+            deliveryTimeTIT.setText(order.deliverydatetime?.let { it1 ->
+                CalendarUtility.getTimeStr(it1)
+            })
         }
     }
 
@@ -92,7 +110,7 @@ class DeliveryClientDataFragment(val orderViewModel: OrderViewModel) : Fragment(
             customername = customerName,
             customerphone = customerphone,
             customeraddress = customeraddress,
-          //  deliverydatetime = deliveryDateTimeCalendar.calendar.time,
+            deliverydatetime = deliveryDateTimeCalendar.calendar.time,
             ordertype= OrderType.DELIVERY
         )
         if (SelectedOrder.currentOrder.id>0)
@@ -100,66 +118,4 @@ class DeliveryClientDataFragment(val orderViewModel: OrderViewModel) : Fragment(
         SelectedOrder.currentOrder =orderDelivery
         orderViewModel.saveDelivery(orderDelivery)
     }
-
-
-  /*  // установка обработчика выбора времени
-    val timePickerDialog =
-        OnTimeSetListener { view, hourOfDay, minute ->
-            deliveryDateTimeCalendar.add(Calendar.HOUR_OF_DAY, hourOfDay)
-            deliveryDateTimeCalendar.add(Calendar.MINUTE, minute)
-            setInitialDateTime()
-        }
-
-    // установка обработчика выбора даты
-    val datePickerDialog =
-        OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-            deliveryDateTimeCalendar.add(Calendar.YEAR, year)
-            deliveryDateTimeCalendar.add(Calendar.MONTH, monthOfYear)
-            deliveryDateTimeCalendar.add(Calendar.DAY_OF_MONTH, dayOfMonth)
-            setInitialDateTime()
-        }
-
-
-     // отображаем диалоговое окно для выбора даты
-    fun setDate(v: View?) {
-        activity?.let {
-          val date = DatePickerDialog(
-                it, datePickerDialog,
-              deliveryDateTimeCalendar[Calendar.YEAR],
-              deliveryDateTimeCalendar[Calendar.MONTH],
-              deliveryDateTimeCalendar[Calendar.DAY_OF_MONTH]
-            )
-            date.show()
-            date.datePicker
-        }
-    }
-
-    // отображаем диалоговое окно для выбора времени
-    fun setTime(v: View?) {
-        TimePickerDialog(
-            activity, timePickerDialog,
-            deliveryDateTimeCalendar[Calendar.HOUR_OF_DAY],
-            deliveryDateTimeCalendar[Calendar.MINUTE], true
-        )
-            .show()
-    }
-
-    // установка начальных даты и времени
-    private fun setInitialDateTime() {
-        deliveryDateTIT.setText(
-            DateUtils.formatDateTime(
-                activity,
-                deliveryDateTimeCalendar.timeInMillis,
-                DateUtils.FORMAT_SHOW_DATE
-            )
-        )
-
-        deliveryTimeTIT.setText(
-            DateUtils.formatDateTime(
-                activity,
-                deliveryDateTimeCalendar.timeInMillis,
-                DateUtils.FORMAT_SHOW_TIME
-            )
-        )
-    }*/
 }

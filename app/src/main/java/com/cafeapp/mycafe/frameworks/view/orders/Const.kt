@@ -11,6 +11,6 @@ class OrderType {
 }
 class SelectedOrder {
     companion object {
-        var currentOrder:OrdersEntity = OrdersEntity()
+        lateinit var currentOrder:OrdersEntity
     }
 }
