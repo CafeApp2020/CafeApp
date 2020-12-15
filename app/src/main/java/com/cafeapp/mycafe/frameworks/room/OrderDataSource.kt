@@ -1,10 +1,12 @@
 package com.cafeapp.mycafe.frameworks.room
 
+import com.cafeapp.mycafe.entities.OrderDishEntityModify
 import com.cafeapp.mycafe.use_case.data.IOrderDataSource
 import io.reactivex.Completable
+import io.reactivex.Observable
 import io.reactivex.Single
 
-class RoomOrderDataSource(val orderDao: OrderDao) : IOrderDataSource {
+class OrderDataSource(val orderDao: OrderDao) : IOrderDataSource {
      override fun deleteOrder(order: OrdersEntity): Completable {
        return orderDao.delete(order)
     }
@@ -27,5 +29,13 @@ class RoomOrderDataSource(val orderDao: OrderDao) : IOrderDataSource {
 
     override fun updateOrder(orderEntity: OrdersEntity): Completable {
         return orderDao.update(orderEntity)
+    }
+
+    override fun insertOrderListId(orderDishEntityList: MutableList<OrderDishEntity>): Completable {
+        return orderDao.insertAll(orderDishEntityList)
+    }
+
+    override fun getOrderDishList(orderId: Long): Observable<List<OrderDishEntityModify>> {
+        return orderDao.getOrderDishList(orderId)
     }
 }

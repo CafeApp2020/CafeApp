@@ -6,7 +6,7 @@ import com.less.repository.db.room.CategoryEntity
 import io.reactivex.Completable
 import io.reactivex.Single
 
-class RoomCategoryDataSource(val categoryDao: CategoryDao): ICategoryDataSource {
+class CategoryDataSource(val categoryDao: CategoryDao): ICategoryDataSource {
     override fun deleteCategory(category: CategoryEntity): Completable {
         TODO("Not yet implemented")
     }

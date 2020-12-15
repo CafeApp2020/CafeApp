@@ -66,12 +66,21 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
+                    android:id="@+id/checked_IV"
+                    style="@style/ListElementCheckedImageView"
+                    android:contentDescription="@string/on_stop_list"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/dish_weight_textview"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:visibility="invisible" />
+
+                <ImageView
                     android:id="@+id/dish_view_holder_inStopList_IV"
                     style="@style/ListElementStopImageView"
                     android:contentDescription="@string/on_stop_list"
                     android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/dish_weight_textview"
+                    app:layout_constraintEnd_toStartOf="@+id/checked_IV"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView

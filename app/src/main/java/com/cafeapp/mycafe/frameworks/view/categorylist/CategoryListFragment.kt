@@ -7,8 +7,11 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cafeapp.mycafe.R
+import com.cafeapp.mycafe.frameworks.room.OrdersEntity
+import com.cafeapp.mycafe.frameworks.view.delivery.OrderType
 import com.cafeapp.mycafe.interface_adapters.viewmodels.categories.CategoryViewModel
 import com.cafeapp.mycafe.use_case.utils.MsgState
 import com.cafeapp.mycafe.use_case.utils.SharedMsg
@@ -18,13 +21,30 @@ import com.less.repository.db.room.CategoryEntity
 import kotlinx.android.synthetic.main.fragment_categorylist.view.*
 import org.koin.androidx.scope.currentScope
 
+enum class WorkMode() {
+    MenuCreate,
+    OrderSelect
+}
+
 // Экран для отображения категорий блюд
 class CategoryListFragment : Fragment() {
+    private var workMode:WorkMode=WorkMode.MenuCreate // режим работы: создание/редактирование меню либо выбор блюд для заказа
     private lateinit var categoryListAdapter: CategoryListRVAdapter
     private val categoryListViewModel: CategoryViewModel by currentScope.inject()
 
     private val sharedModel by lazy {
         activity?.let { ViewModelProvider(it).get(SharedViewModel::class.java) }
+    }
+
+    companion object {
+       var orderEntity:OrdersEntity?=null
+       var selectedDishListForOrder= mutableListOf<Long>() //ID выбранных в текущем заказе блюд
+       fun getCurrentOrderType():MsgState {
+          return when (orderEntity?.ordertype) {
+              OrderType.DELIVERY -> MsgState.DELEVERYOPEN
+              else -> MsgState.DELEVERYOPEN
+          }
+       }
     }
 
     private val listener: OnCategoryListItemClickListener =
@@ -62,24 +82,48 @@ class CategoryListFragment : Fragment() {
 
        initViews(view)
        initViewModelObserver()
+       initSharedModelObserver()
        categoryListViewModel.getCategories()  // break point
     }
 
     private fun initViewModelObserver() {
-        categoryListViewModel.categoryViewState.observe(viewLifecycleOwner, { state ->
-               state.error?.let {
-                    Toast.makeText(context,state.error.message, Toast.LENGTH_LONG).show()
-                    return@observe
-                }
-                state.categoryList?.let { categoryList ->
+        categoryListViewModel.categoryViewState.observe(viewLifecycleOwner) { state ->
+            state.error?.let {
+                Toast.makeText(context,state.error.message, Toast.LENGTH_LONG).show()
+                return@observe
+            }
+            state.categoryList?.let { categoryList ->
                 categoryListAdapter.setCategoryList(categoryList) //здесь происходит баг, break point , при нажатии кнопки назад с других экранов, выполняется почему-то два раза
             }
-        })
+        }
     }
 
     private fun initViews(view: View) {
         initRecyclerView(view)
         initFabButton()
+    }
+
+    private fun initSharedModelObserver() {
+        sharedModel?.getSelected()?.observe(viewLifecycleOwner) { msg ->
+            when (msg.stateName) {
+                MsgState.SELECTDISHTOORDER -> {
+                    if (msg.value is OrdersEntity) {
+                        orderEntity= msg.value
+                        selectedDishListForOrder.clear()
+                        workMode = WorkMode.OrderSelect
+                        initSelectOrderMode()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun initSelectOrderMode() {
+        val fab = activity?.findViewById<FloatingActionButton>(R.id.activityFab)
+        fab?.setImageResource(R.drawable.ic_list_add_check_24)
+        fab?.setOnClickListener {
+            sharedModel?.select(SharedMsg(getCurrentOrderType(), mapOf(orderEntity to selectedDishListForOrder)))
+        }
     }
 
     private fun initRecyclerView(view: View) {
@@ -95,10 +139,18 @@ class CategoryListFragment : Fragment() {
         val fab =
             activity?.findViewById<FloatingActionButton>(R.id.activityFab)
 
-        fab?.setImageResource(android.R.drawable.ic_input_add)
-        fab?.setOnClickListener {
-            sharedModel?.select(SharedMsg(MsgState.ADDCATEGORY,
-                -1L))
+        if (workMode==WorkMode.OrderSelect)
+            initSelectOrderMode()
+        else {
+            fab?.setImageResource(android.R.drawable.ic_input_add)
+            fab?.setOnClickListener {
+                sharedModel?.select(
+                    SharedMsg(
+                        MsgState.ADDCATEGORY,
+                        -1L
+                    )
+                )
+            }
         }
     }
 
@@ -113,7 +165,8 @@ class CategoryListFragment : Fragment() {
     private fun onCategoryClickBehavior(categoryId: Long) {
         sharedModel?.select(
             SharedMsg(
-                MsgState.DISHESLIST,
+                if (workMode==WorkMode.MenuCreate) MsgState.DISHESLIST // открываем списко блюд либо для редактирвоания
+                else MsgState.OPENFORORDER,   // либо для добавления в заказ
                 categoryId
             )
         )

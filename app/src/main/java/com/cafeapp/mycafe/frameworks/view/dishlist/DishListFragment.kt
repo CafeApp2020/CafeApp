@@ -7,8 +7,11 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cafeapp.mycafe.R
+import com.cafeapp.mycafe.frameworks.view.categorylist.CategoryListFragment
+import com.cafeapp.mycafe.frameworks.view.categorylist.WorkMode
 import com.cafeapp.mycafe.interface_adapters.viewmodels.dishes.DishViewModel
 import com.cafeapp.mycafe.use_case.utils.MsgState
 import com.cafeapp.mycafe.use_case.utils.SharedMsg
@@ -18,9 +21,12 @@ import com.less.repository.db.room.CategoryEntity
 import com.less.repository.db.room.DishesEntity
 import kotlinx.android.synthetic.main.fragment_dishlist.view.*
 import org.koin.androidx.scope.currentScope
+import java.util.*
+import kotlin.collections.HashMap
 
 // Экран для отображения списка блюд
 class DishListFragment : Fragment() {
+    private var workMode:WorkMode=WorkMode.MenuCreate // режим работы: создание/редактирование меню либо выбор блюд для заказа
     var currentCategoryID: Long = 0
     private lateinit var dishListAdapter: DishListRVAdapter
 
@@ -31,13 +37,24 @@ class DishListFragment : Fragment() {
             }
 
             override fun onDishClick(dishId: Long) {
-                editClick(dishId)
+                if (workMode==WorkMode.MenuCreate)
+                    editClick(dishId)
+                else
+                    addDishToOrder(dishId)
             }
 
             override fun onRemoveDishButtonClick(dish: DishesEntity) {
                 removeClick(dish)
             }
         }
+
+    private fun addDishToOrder(dishId:Long) {
+        with (CategoryListFragment.selectedDishListForOrder) {
+          if (!remove(dishId))
+              add(dishId)
+            dishListAdapter.updateSelectedDishList(this)
+        }
+   }
 
     private val dishListViewModel: DishViewModel by currentScope.inject()
 
@@ -86,47 +103,69 @@ class DishListFragment : Fragment() {
 
     private fun initViewModelObserver() {
         try {
-             dishListViewModel.dishViewState.observe(viewLifecycleOwner, { state ->
-                 if (state.error!=null)
-                    {Toast.makeText(context,state.error.message,Toast.LENGTH_LONG).show()
-                        return@observe
-                    }
-                  if (state.saveOk )
-                    dishListViewModel.getDishList(currentCategoryID)
-                  state.dishList?.let { dishList ->
-                       dishListAdapter.setDishList(dishList) //здесь происходит баг, break point, при нажатии кнопки назад с других экранов, не запрашивает данные у бд
-               }
-            })
+             dishListViewModel.dishViewState.observe(viewLifecycleOwner) { state ->
+                 if (state.error!=null) {Toast.makeText(context,state.error.message,Toast.LENGTH_LONG).show()
+                     return@observe
+                 }
+                 if (state.saveOk )
+                     dishListViewModel.getDishList(currentCategoryID)
+                 state.dishList?.let { dList ->
+                     dishListAdapter.setDishList(dList)
+                 }
+             }
         } catch (e: Exception) {
             sharedModel?.select(SharedMsg(MsgState.CATEGORYLISTOPEN, currentCategoryID))
         }
     }
 
+    private fun loadDishFromCategory(categoryIdAny:Any) {
+        if (categoryIdAny is CategoryEntity) {
+            currentCategoryID = categoryIdAny.id
+            dishListViewModel.getDishList(categoryIdAny.id)
+            categoryIdAny.name.let { name ->
+                sharedModel?.select(
+                    SharedMsg(
+                        MsgState.SETTOOLBARTITLE,
+                        name
+                    )
+                )
+            }
+        }
+    }
+
+    private fun loadDishFromCategoryId(categorId:Any) {
+        if (categorId is Long) {
+            currentCategoryID = categorId
+            dishListViewModel.getDishList(categorId)  // break point
+        }
+    }
+
+    private fun openForOrder(categorId:Any) {
+        if (categorId is Long) {
+          //  Toast.makeText(context, "id=" + categorId, Toast.LENGTH_LONG).show()
+            workMode=WorkMode.OrderSelect
+            loadDishFromCategoryId(categorId)
+            val fab = activity?.findViewById<FloatingActionButton>(R.id.activityFab)
+            fab?.setImageResource(R.drawable.ic_list_add_check_24)
+            dishListAdapter.updateSelectedDishList(CategoryListFragment.selectedDishListForOrder)
+            fab?.setOnClickListener {
+                 sharedModel?.select(SharedMsg(CategoryListFragment.getCurrentOrderType(),
+                     mapOf(CategoryListFragment.orderEntity to CategoryListFragment.selectedDishListForOrder)))
+            }
+        }
+    }
+
     private fun initSharedModelObserver() {
-        sharedModel?.getSelected()?.observe(viewLifecycleOwner, { msg ->
+        sharedModel?.getSelected()?.observe(viewLifecycleOwner) { msg ->
             when (msg.stateName) {
                 MsgState.DISHESLIST -> {
-                    if (msg.value is CategoryEntity) {
-                        currentCategoryID = msg.value.id
-                        dishListViewModel.getDishList(msg.value.id) // break point
-                        msg.value.name.let { name ->
-                            sharedModel?.select(
-                                SharedMsg(
-                                    MsgState.SETTOOLBARTITLE,
-                                    name
-                                )
-                            )
-                        }
-                    }
-
-                    if (msg.value is Long) {
-                        currentCategoryID = msg.value
-                        dishListViewModel.getDishList(msg.value)  // break point
-                    }
+                    loadDishFromCategory(msg.value)
+                    loadDishFromCategoryId(msg.value)
                 }
-            }
-        })
-    }
+                MsgState.OPENFORORDER -> openForOrder(msg.value)
+             }
+          }
+        }
 
     private fun editClick(id: Long) {
         sharedModel?.select(SharedMsg(MsgState.OPENDISH, id))
