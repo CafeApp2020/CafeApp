@@ -29,4 +29,5 @@
     <color name="violet">#e1bee7</color>
     <color name="pink">#f8bbd0</color>
     <color name="imageBackgroundColor">#DCF4F1</color>
+    <color name="add_photo">#5A5555</color>
 </resources>

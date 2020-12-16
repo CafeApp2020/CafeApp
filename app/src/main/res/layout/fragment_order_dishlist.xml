@@ -2,55 +2,64 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingStart="@dimen/marginDefault"
+    android:paddingEnd="@dimen/default_padding"
+    android:layout_marginBottom="@dimen/bottom_menu_height">
 
-    <Button
-        android:id="@+id/addDihesBtn"
-        android:layout_width="wrap_content"
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/add_dish_to_order"
+        android:layout_marginStart="@dimen/marginDefault"
+        app:layout_constraintHeight_max="@dimen/dishList_in_order_max_height"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="8dp"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
-        app:layout_constraintTop_toBottomOf="@+id/totalLLC"/>
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/dishListRW"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </FrameLayout>
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/totalLLC"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="20dp"
+        android:layout_gravity="bottom"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/dishListRW" >
+        android:layout_marginStart="@dimen/marginDefault"
+        android:layout_marginTop="@dimen/marginDefault"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout">
+
         <TextView
             android:id="@+id/totalTitleTW"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_width="@dimen/zero"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:text="Итого:" />
+            android:layout_weight="1"
+            android:text="@string/total"
+            android:textStyle="bold" />
+
         <TextView
             android:id="@+id/totalSummTW"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_width="@dimen/zero"
             android:layout_height="wrap_content"
-            android:gravity="right"
-            android:textStyle="bold"
-            android:text="---" />
+            android:layout_weight="1"
+            android:gravity="end"
+            android:textStyle="bold" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/dishListRW"
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/addDihesBtn"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="@color/secondary_secondary"
+        android:text="@string/add_dish_to_order"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/totalLLC" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

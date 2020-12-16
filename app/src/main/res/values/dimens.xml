@@ -56,4 +56,9 @@
     <dimen name="add_category_color_margin">4dp</dimen>
     <dimen name="buttons_height">40dp</dimen>
     <dimen name="marginDefault">10dp</dimen>
+    <dimen name="min_separator_height">1dp</dimen>
+    <dimen name="add_dish_photo_height">155dp</dimen>
+    <dimen name="description_height">100dp</dimen>
+    <dimen name="dish_count">35dp</dimen>
+    <dimen name="dishList_in_order_max_height">420dp</dimen>
 </resources>
