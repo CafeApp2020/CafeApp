@@ -60,5 +60,5 @@
     <dimen name="add_dish_photo_height">155dp</dimen>
     <dimen name="description_height">100dp</dimen>
     <dimen name="dish_count">35dp</dimen>
-    <dimen name="dishList_in_order_max_height">420dp</dimen>
+    <dimen name="dishList_in_order_max_height">370dp</dimen>
 </resources>

@@ -24,41 +24,54 @@
 
     </FrameLayout>
 
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/totalLLC"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:orientation="horizontal"
-        android:layout_marginStart="@dimen/marginDefault"
-        android:layout_marginTop="@dimen/marginDefault"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/frameLayout">
-
-        <TextView
-            android:id="@+id/totalTitleTW"
-            android:layout_width="@dimen/zero"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/total"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/totalSummTW"
-            android:layout_width="@dimen/zero"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="end"
-            android:textStyle="bold" />
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
     <Button
         android:id="@+id/addDihesBtn"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/secondary_secondary"
         android:text="@string/add_dish_to_order"
+        android:textColor="@color/secondary_secondary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout" />
+
+    <RelativeLayout
+        android:id="@+id/totalLLC"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginStart="@dimen/marginDefault"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addDihesBtn">
+
+        <TextView
+            android:id="@+id/totalTitleTW"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/total"
+            style="@style/CafeTextStyle.Body"
+            android:textStyle="bold"
+            android:layout_marginEnd="@dimen/marginDefault"
+            android:layout_toStartOf="@+id/totalSummTW"/>
+
+        <TextView
+            android:id="@+id/totalSummTW"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/CafeTextStyle.Body"
+            android:gravity="end"
+            android:layout_alignParentEnd="true"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/payedButton"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/payed"
+        android:textColor="@color/secondary_secondary"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/totalLLC" />
 
