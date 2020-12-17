@@ -139,4 +139,9 @@
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/secondary_secondary</item>
     </style>
+
+
+    <style name="ErrorText" parent="TextAppearance.AppCompat.Small">
+        <item name="android:textColor">@color/alerts_alert</item>
+    </style>
 </resources>

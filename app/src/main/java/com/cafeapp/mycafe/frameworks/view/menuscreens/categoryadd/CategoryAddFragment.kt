@@ -1,4 +1,4 @@
-package com.cafeapp.mycafe.frameworks.view.categoryadd
+package com.cafeapp.mycafe.frameworks.view.menuscreens.categoryadd
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,9 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.cafeapp.mycafe.R
 import com.cafeapp.mycafe.interface_adapters.viewmodels.categories.CategoryViewModel
-import com.cafeapp.mycafe.use_case.utils.MsgState
-import com.cafeapp.mycafe.use_case.utils.SharedMsg
-import com.cafeapp.mycafe.use_case.utils.SharedViewModel
+import com.cafeapp.mycafe.use_case.utils.*
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.less.repository.db.room.CategoryEntity
 import kotlinx.android.synthetic.main.fragment_addcategory.*
@@ -37,8 +35,41 @@ class CategoryAddFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
-        val root = inflater.inflate(R.layout.fragment_addcategory, container, false)
+        return inflater.inflate(R.layout.fragment_addcategory, container, false)
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        initCategoryViewModelObserver()
+        initSharedViewModelObserver()
+        initFab()
+
+        checkEditTextFocus(categoryNameTIT, getString(R.string.enter_category_name))
+    }
+
+    private fun initFab() {
+        val fab = activity?.findViewById<FloatingActionButton>(R.id.activityFab)
+
+        fab?.setImageResource(android.R.drawable.ic_menu_save)
+        fab?.setOnClickListener {
+            saveCategory()
+        }
+    }
+
+    private fun initSharedViewModelObserver() {
+        sharedModel?.getSelected()?.observe(viewLifecycleOwner, { msg ->
+            when (msg.stateName) {
+                MsgState.ADDCATEGORY ->
+                    if (msg.value is Long)
+                        if (msg.value > -1) {  //"Выбрана категория с id= " + msg.value + " для редактирования. Если id=-1 добавляем новую категорию",
+                            loadEditableCategory(msg.value)
+                        } else currentCategoryId = -1L
+            }
+        })
+    }
+
+    private fun initCategoryViewModelObserver() {
         categoryViewModel.categoryViewState.observe(viewLifecycleOwner, {
             when {
                 it.saveErr != null -> {
@@ -60,29 +91,10 @@ class CategoryAddFragment : Fragment() {
                 }
             }
         })
-
-        sharedModel?.getSelected()?.observe(viewLifecycleOwner, { msg ->
-            when (msg.stateName) {
-                MsgState.ADDCATEGORY ->
-                    if (msg.value is Long)
-                        if (msg.value > -1) {  //"Выбрана категория с id= " + msg.value + " для редактирования. Если id=-1 добавляем новую категорию",
-                            loadEditableCategory(msg.value)
-                        } else currentCategoryId = -1L
-            }
-        })
-
-        val fab = activity?.findViewById<FloatingActionButton>(R.id.activityFab)
-
-        fab?.setImageResource(android.R.drawable.ic_menu_save)
-        fab?.setOnClickListener {
-            saveCategory()
-        }
-
-        return root
     }
 
     private fun saveCategory() {
-        if (!categoryNameTIT.text.toString().isNullOrBlank()) {
+        if (!isError(categoryNameTIT, getString(R.string.enter_category_name))) {
             val category = CategoryEntity(
                 name = categoryNameTIT.text.toString(),
                 description = descriptionTIT.text.toString(),
@@ -93,13 +105,6 @@ class CategoryAddFragment : Fragment() {
                 category.id = currentCategoryId
 
             categoryViewModel.saveCategory(category)
-        } else {
-            Toast.makeText(
-                activity,
-                getString(R.string.required_fields_is_blank),
-                Toast.LENGTH_SHORT
-            )
-                .show()
         }
     }
 

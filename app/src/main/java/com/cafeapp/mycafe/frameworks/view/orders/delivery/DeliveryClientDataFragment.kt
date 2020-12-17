@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
@@ -15,13 +16,13 @@ import com.cafeapp.mycafe.frameworks.view.utils.CalendarUtility
 import com.cafeapp.mycafe.interface_adapters.viewmodels.orders.OrderViewModel
 import com.cafeapp.mycafe.use_case.utils.MsgState
 import com.cafeapp.mycafe.use_case.utils.SharedViewModel
+import com.cafeapp.mycafe.use_case.utils.isError
 import kotlinx.android.synthetic.main.fragment_delivery_client_data.*
 
-
-class DeliveryClientDataFragment(val orderViewModel: OrderViewModel) : Fragment() {
+class DeliveryClientDataFragment(private val orderViewModel: OrderViewModel) : Fragment() {
     companion object {
-        lateinit var deliveryDateTimeCalendar : CalendarUtility
-      }
+        lateinit var deliveryDateTimeCalendar: CalendarUtility
+    }
 
     private val sharedModel by lazy {
         activity?.let { ViewModelProvider(it).get(SharedViewModel::class.java) }
@@ -30,7 +31,7 @@ class DeliveryClientDataFragment(val orderViewModel: OrderViewModel) : Fragment(
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         initSharedModelObserver()
         return inflater.inflate(R.layout.fragment_delivery_client_data, container, false)
@@ -38,28 +39,32 @@ class DeliveryClientDataFragment(val orderViewModel: OrderViewModel) : Fragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         deliveryDateTimeCalendar = activity?.let {
-             CalendarUtility(it, deliveryDateTIT, deliveryTimeTIT)}!!
+            CalendarUtility(it, deliveryDateTIT, deliveryTimeTIT)
+        }!!
 
         deliveryTimeTIT.setOnFocusChangeListener { view: View, focused: Boolean ->
-           if (focused) deliveryDateTimeCalendar.setTime(view)
-           else saveDelivery()
+            if (focused) deliveryDateTimeCalendar.setTime(view)
+            else saveDelivery()
         }
 
         deliveryDateTIT.setOnFocusChangeListener { view: View, focused: Boolean ->
             if (focused) deliveryDateTimeCalendar.setDate(view)
             else saveDelivery()
         }
-        onFocusChange(customerNameTIT)
-        onFocusChange(customerPhoneTIT)
-        onFocusChange(customerAddressTIL)
+
+        onFocusChange(customerNameTIT, getString(R.string.enter_customer_name))
+        onFocusChange(customerPhoneTIT, getString(R.string.enter_phone_number))
+        onFocusChange(customerAddressTIT, getString(R.string.enter_address))
     }
 
-    private fun onFocusChange(view:View)  {
-        view.setOnFocusChangeListener{ view:View, focused: Boolean ->
-               if (!focused) {
-                   saveDelivery()
-               }
-           }
+    private fun onFocusChange(textView: TextView, message: String) {
+        textView.setOnFocusChangeListener { view: View, focused: Boolean ->
+            if (!focused) {
+                if (!isError(textView, message)) {
+                    saveDelivery()
+                }
+            }
+        }
     }
 
     private fun initSharedModelObserver() {
@@ -70,25 +75,25 @@ class DeliveryClientDataFragment(val orderViewModel: OrderViewModel) : Fragment(
                     saveDelivery()
                 }
                 MsgState.DELEVERYOPEN -> {
-                 if (msg.value is OrdersEntity)
-                     viewSetData(msg.value)
-                 if (msg.value is Map<*, *>)
-                     loadDeliveryFromDishes(msg.value)
+                    if (msg.value is OrdersEntity)
+                        viewSetData(msg.value)
+                    if (msg.value is Map<*, *>)
+                        loadDeliveryFromDishes(msg.value)
                 }
             }
         }
     }
 
     private fun loadDeliveryFromDishes(value: Any) {
-        val selectedDishMap = value as Map<OrdersEntity,  MutableList<Long>>
+        val selectedDishMap = value as Map<OrdersEntity, MutableList<Long>>
         val iterator: Iterator<OrdersEntity> = selectedDishMap.keys.iterator()
         val order = iterator.next()
         viewSetData(order)
     }
 
     private fun viewSetData(order: OrdersEntity) {
-        order?.let {
-            SelectedOrder.currentOrder=order
+        order.let {
+            SelectedOrder.currentOrder = order
             customerNameTIT.setText(order.customername)
             customerPhoneTIT.setText(order.customerphone)
             customerAddressTIT.setText(order.customeraddress)
@@ -102,20 +107,22 @@ class DeliveryClientDataFragment(val orderViewModel: OrderViewModel) : Fragment(
     }
 
     private fun saveDelivery() {
-        val customerName=customerNameTIT?.let{customerNameTIT.text.toString()} ?: ""
-        val customerphone=customerPhoneTIT?.let{customerPhoneTIT.text.toString()} ?: ""
-        val customeraddress=customerAddressTIT?.let{customerAddressTIT.text.toString()} ?: ""
+        val customerName = customerNameTIT?.let { customerNameTIT.text.toString() } ?: ""
+        val customerPhone = customerPhoneTIT?.let { customerPhoneTIT.text.toString() } ?: ""
+        val customerAddress = customerAddressTIT?.let { customerAddressTIT.text.toString() } ?: ""
 
-        var orderDelivery = OrdersEntity(
+        val orderDelivery = OrdersEntity(
             customername = customerName,
-            customerphone = customerphone,
-            customeraddress = customeraddress,
+            customerphone = customerPhone,
+            customeraddress = customerAddress,
             deliverydatetime = deliveryDateTimeCalendar.calendar.time,
-            ordertype= OrderType.DELIVERY
+            ordertype = OrderType.DELIVERY
         )
-        if (SelectedOrder.currentOrder.id>0)
-            orderDelivery.id= SelectedOrder.currentOrder.id
-        SelectedOrder.currentOrder =orderDelivery
+
+        if (SelectedOrder.currentOrder.id > 0)
+            orderDelivery.id = SelectedOrder.currentOrder.id
+
+        SelectedOrder.currentOrder = orderDelivery
         orderViewModel.saveDelivery(orderDelivery)
     }
 }

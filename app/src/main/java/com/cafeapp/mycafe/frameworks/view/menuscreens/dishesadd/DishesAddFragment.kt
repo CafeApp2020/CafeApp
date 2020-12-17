@@ -1,4 +1,4 @@
-package com.cafeapp.mycafe.frameworks.view.dishesadd
+package com.cafeapp.mycafe.frameworks.view.menuscreens.dishesadd
 
 import android.content.Intent
 import android.os.Bundle
@@ -13,9 +13,7 @@ import androidx.lifecycle.observe
 import com.cafeapp.mycafe.R
 import com.cafeapp.mycafe.frameworks.picasso.setImage
 import com.cafeapp.mycafe.interface_adapters.viewmodels.dishes.DishViewModel
-import com.cafeapp.mycafe.use_case.utils.MsgState
-import com.cafeapp.mycafe.use_case.utils.SharedMsg
-import com.cafeapp.mycafe.use_case.utils.SharedViewModel
+import com.cafeapp.mycafe.use_case.utils.*
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.less.repository.db.room.DishesEntity
 import kotlinx.android.synthetic.main.fragment_dishesadd.*
@@ -23,121 +21,13 @@ import org.koin.androidx.scope.currentScope
 
 // Экран для добавления/редактирования блюда
 class DishesAddFragment : Fragment() {
-    var currentCategoryID: Long = -1L
+    private var currentCategoryID: Long = -1L
     private var currentDishId: Long = -1L
+    private var currentImagePath: String = ""
     private val dishViewModel: DishViewModel by currentScope.inject()
-    var currentImagePath: String = ""
 
     private val sharedModel by lazy {
         activity?.let { ViewModelProvider(it).get(SharedViewModel::class.java) }
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View? {
-        val root = inflater.inflate(R.layout.fragment_dishesadd, container, false)
-
-        dishViewModel.dishViewState.observe(viewLifecycleOwner) { state ->
-            state.error?.let { error ->
-                Toast.makeText(activity, error.message, Toast.LENGTH_LONG).show()
-                return@observe
-            }
-
-            if (state.saveOk) {
-                Toast.makeText(activity, getString(R.string.saveok_title), Toast.LENGTH_LONG).show()
-
-                state.dish?.category_id?.let { category_id ->
-                    sharedModel?.select(SharedMsg(MsgState.DISHESLIST, category_id))
-                }
-            }
-
-            if (state.loadOk) {
-                state.dish?.let { dish -> showDish(dish) }
-            }
-        }
-
-        sharedModel?.getSelected()?.observe(viewLifecycleOwner) { msg ->
-            when (msg.stateName) {
-                MsgState.ADDDISH ->
-                    if (msg.value is Long) {
-                        currentCategoryID = msg.value
-                    }
-                MsgState.EDITDISH ->
-                    if (msg.value is Long) {
-                        dishViewModel.getDish(msg.value)
-                        currentDishId = msg.value
-                    }
-            }
-        }
-
-        val fab = activity?.findViewById<FloatingActionButton>(R.id.activityFab)
-
-        fab?.setImageResource(android.R.drawable.ic_menu_save)
-        fab?.setOnClickListener {
-            saveDish()
-        }
-        return root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        fragment_dish_image_imageview.setOnClickListener { showSelectionDialog() }
-    }
-
-    private fun showDish(dish: DishesEntity) {
-        dish.name?.let { name -> sharedModel?.select(SharedMsg(MsgState.SETTOOLBARTITLE, name)) }
-
-        currentCategoryID = dish.category_id
-        dishNameTIT.setText(dish.name)
-        priceTIT.setText(dish.price.toString())
-        weightTIT.setText(dish.weight.toString())
-        descriptionTIT.setText(dish.description)
-
-        val imagePath = dish.imagepath.toString()
-
-        if (imagePath.isNotEmpty()) {
-            currentImagePath = imagePath
-            setImage(imagePath, fragment_dish_image_imageview)
-        }
-    }
-
-    private fun saveDish() {
-        if (!dishNameTIT.text.toString().isNullOrBlank() && !priceTIT.text.toString()
-                .isNullOrBlank()
-        ) {
-            val dish: DishesEntity?
-
-            if (weightTIT.text.toString().isEmpty()) {
-                weightTIT.setText(getString(R.string.weight_not_specified))
-            }
-
-            dish = DishesEntity(
-                category_id = currentCategoryID,
-                name = dishNameTIT.text.toString(),
-                description = descriptionTIT.text.toString(),
-                price = priceTIT.text.toString().toFloat(),
-                weight = weightTIT.text.toString().toFloat(),
-                imagepath = currentImagePath
-            )
-
-            if (currentDishId > 0)  // обновляем блюдо иначе добавляем новое
-                dish.id = currentDishId
-
-            dish.let { dishViewModel.saveDish(dish) }
-        } else {
-            Toast.makeText(
-                activity,
-                getString(R.string.required_fields_is_blank),
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-    }
-
-    private fun showSelectionDialog() {
-        val dialog = ImageSelectionDialogFragment.newInstance()
-        dialog.show(childFragmentManager, "ImageSelectionDialogFragment")
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -163,6 +53,121 @@ class DishesAddFragment : Fragment() {
                 }
             }
         }
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
+    ): View? {
+        return inflater.inflate(R.layout.fragment_dishesadd, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        initDishViewModel()
+        initSharedViewModel()
+        initFab()
+
+        fragment_dish_image_imageview.setOnClickListener { showSelectionDialog() }
+
+        checkEditTextFocus(dishNameTIT, getString(R.string.enter_dish_name))
+        checkEditTextFocus(priceTIT, getString(R.string.enter_price))
+    }
+
+    private fun initDishViewModel() {
+        dishViewModel.dishViewState.observe(viewLifecycleOwner) { state ->
+            state.error?.let { error ->
+                Toast.makeText(activity, error.message, Toast.LENGTH_LONG).show()
+                return@observe
+            }
+
+            if (state.saveOk) {
+                Toast.makeText(activity, getString(R.string.saveok_title), Toast.LENGTH_LONG).show()
+
+                state.dish?.category_id?.let { category_id ->
+                    sharedModel?.select(SharedMsg(MsgState.DISHESLIST, category_id))
+                }
+            }
+
+            if (state.loadOk) {
+                state.dish?.let { dish -> showDish(dish) }
+            }
+        }
+    }
+
+    private fun initSharedViewModel() {
+        sharedModel?.getSelected()?.observe(viewLifecycleOwner) { msg ->
+            when (msg.stateName) {
+                MsgState.ADDDISH ->
+                    if (msg.value is Long) {
+                        currentCategoryID = msg.value
+                    }
+                MsgState.EDITDISH ->
+                    if (msg.value is Long) {
+                        dishViewModel.getDish(msg.value)
+                        currentDishId = msg.value
+                    }
+            }
+        }
+    }
+
+    private fun initFab() {
+        val fab = activity?.findViewById<FloatingActionButton>(R.id.activityFab)
+
+        fab?.setImageResource(android.R.drawable.ic_menu_save)
+        fab?.setOnClickListener {
+            saveDish()
+        }
+    }
+
+    private fun showDish(dish: DishesEntity) {
+        dish.name?.let { name -> sharedModel?.select(SharedMsg(MsgState.SETTOOLBARTITLE, name)) }
+
+        currentCategoryID = dish.category_id
+        dishNameTIT.setText(dish.name)
+        priceTIT.setText(dish.price.toString())
+        weightTIT.setText(dish.weight.toString())
+        descriptionTIT.setText(dish.description)
+
+        val imagePath = dish.imagepath.toString()
+
+        if (imagePath.isNotEmpty()) {
+            currentImagePath = imagePath
+            setImage(imagePath, fragment_dish_image_imageview)
+        }
+    }
+
+    private fun saveDish() {
+        if (!isError(dishNameTIT, getString(R.string.enter_dish_name)) &&
+            !isError(priceTIT, getString(R.string.enter_price))
+        ) {
+            val dish: DishesEntity?
+
+            if (weightTIT.text.toString().isEmpty()) {
+                weightTIT.setText(getString(R.string.weight_not_specified))
+            }
+
+            dish = DishesEntity(
+                category_id = currentCategoryID,
+                name = dishNameTIT.text.toString(),
+                description = descriptionTIT.text.toString(),
+                price = priceTIT.text.toString().toFloat(),
+                weight = weightTIT.text.toString().toFloat(),
+                imagepath = currentImagePath
+            )
+
+            if (currentDishId > 0)  // обновляем блюдо иначе добавляем новое
+                dish.id = currentDishId
+
+            dish.let { dishViewModel.saveDish(dish) }
+        }
+    }
+
+    private fun showSelectionDialog() {
+        val dialog = ImageSelectionDialogFragment.newInstance()
+        dialog.show(childFragmentManager, "ImageSelectionDialogFragment")
     }
 
     companion object {

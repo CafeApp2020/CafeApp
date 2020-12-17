@@ -1,4 +1,4 @@
-package com.cafeapp.mycafe.frameworks.view.dishlist
+package com.cafeapp.mycafe.frameworks.view.menuscreens.dishlist
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,8 +10,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cafeapp.mycafe.R
-import com.cafeapp.mycafe.frameworks.view.categorylist.CategoryListFragment
-import com.cafeapp.mycafe.frameworks.view.categorylist.WorkMode
+import com.cafeapp.mycafe.frameworks.view.menuscreens.categorylist.CategoryListFragment
+import com.cafeapp.mycafe.frameworks.view.menuscreens.categorylist.WorkMode
 import com.cafeapp.mycafe.interface_adapters.viewmodels.dishes.DishViewModel
 import com.cafeapp.mycafe.use_case.utils.MsgState
 import com.cafeapp.mycafe.use_case.utils.SharedMsg
@@ -22,7 +22,6 @@ import com.less.repository.db.room.DishesEntity
 import kotlinx.android.synthetic.main.fragment_dishlist.view.*
 import org.koin.androidx.scope.currentScope
 import java.util.*
-import kotlin.collections.HashMap
 
 // Экран для отображения списка блюд
 class DishListFragment : Fragment() {

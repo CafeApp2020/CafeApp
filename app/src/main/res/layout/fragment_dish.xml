@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".frameworks.view.dish.DishFragment">
+    tools:context=".frameworks.view.menuscreens.dish.DishFragment">
 
     <ImageView
         android:id="@+id/fragment_dish_image_imageview"

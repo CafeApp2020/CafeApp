@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -9,7 +9,10 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/customerNameTIL"
-        style="@style/customerDataField">
+        style="@style/customerDataField"
+        app:errorEnabled="true"
+        app:errorTextAppearance="@style/ErrorText">
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/customerNameTIT"
             android:layout_width="match_parent"
@@ -19,18 +22,24 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/customerPhoneTIL"
-        style="@style/customerDataField">
+        style="@style/customerDataField"
+        app:errorEnabled="true"
+        app:errorTextAppearance="@style/ErrorText">
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/customerPhoneTIT"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:inputType="numberDecimal"
-            android:hint="@string/phonenumbertitle" />
+            android:hint="@string/phonenumbertitle"
+            android:inputType="numberDecimal" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/customerAddressTIL"
-        style="@style/customerDataField">
+        style="@style/customerDataField"
+        app:errorEnabled="true"
+        app:errorTextAppearance="@style/ErrorText">
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/customerAddressTIT"
             android:layout_width="match_parent"
@@ -43,33 +52,37 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/marginDefault"
         android:orientation="horizontal">
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/deliveryDateTIL"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="@dimen/zero"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/marginDefault"
-            android:layout_height="wrap_content">
+            android:layout_weight="1">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/deliveryDateTIT"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:editable="false"
-                android:hint="@string/deliverydatetitle"/>
+                android:hint="@string/deliverydatetitle" />
         </com.google.android.material.textfield.TextInputLayout>
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/deliveryTimeTIL"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="@dimen/zero"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/marginDefault"
-            android:layout_height="wrap_content">
+            android:layout_weight="1">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/deliveryTimeTIT"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:editable="false"
-                android:hint="@string/deliverytimetitle"/>
+                android:hint="@string/deliverytimetitle" />
         </com.google.android.material.textfield.TextInputLayout>
     </androidx.appcompat.widget.LinearLayoutCompat>
 </androidx.appcompat.widget.LinearLayoutCompat>
