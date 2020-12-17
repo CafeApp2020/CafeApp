@@ -71,4 +71,7 @@
     <string name="order_cost">Сумма: %1$s</string>
     <string name="order_type_takeaway">Самовывоз</string>
     <string name="order_type_table">Стол %1$s</string>
+    <string name="total">Итого:</string>
+    <string name="minus">-</string>
+    <string name="plus">+</string>
 </resources>

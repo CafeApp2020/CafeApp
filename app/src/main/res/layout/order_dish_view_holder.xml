@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/list_element_normal_height">
+    <TextView
+        android:id="@+id/dishNameTW"
+        android:layout_width="@dimen/zero"
+        android:layout_weight="3"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/priceTW"
+        android:layout_width="@dimen/zero"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/decDishCount"
+        style="@style/changeDishCount"
+        android:text="@string/minus"/>
+
+    <TextView
+        android:id="@+id/dishCountTW"
+        android:layout_width="@dimen/dish_count"
+        android:gravity="center"
+         android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/incDishCount"
+        style="@style/changeDishCount"
+        android:text="@string/plus"/>
+</LinearLayout>

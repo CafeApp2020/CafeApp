@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.cafeapp.mycafe.R
 import com.cafeapp.mycafe.entities.OrderDishEntityModify
-import kotlinx.android.synthetic.main.order_dish_item.view.*
+import kotlinx.android.synthetic.main.order_dish_view_holder.view.*
 
 class OrdersDishListRVAdapter() :
     RecyclerView.Adapter<OrdersDishListRVAdapter.ViewHolder>() {
@@ -24,7 +24,7 @@ class OrdersDishListRVAdapter() :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(
         LayoutInflater.from(parent.context).inflate(
-            R.layout.order_dish_item, parent, false
+            R.layout.order_dish_view_holder, parent, false
         )
     )
 

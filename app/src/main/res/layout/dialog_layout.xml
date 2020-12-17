@@ -7,16 +7,16 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginTop="@dimen/min_margin"
+        android:layout_marginBottom="@dimen/min_margin"
         android:gravity="center"
         android:text="@string/header_add_photo"
-        android:textColor="#5A5555" />
+        android:textColor="@color/add_photo" />
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#5A5555" />
+        android:layout_height="@dimen/min_separator_height"
+        android:background="@color/add_photo" />
 
     <TextView
         android:id="@+id/get_from_gallery_textView"
@@ -25,7 +25,7 @@
 
     <View
         android:layout_width="wrap_content"
-        android:layout_height="1dp"
+        android:layout_height="@dimen/min_separator_height"
         android:background="@drawable/separator" />
 
     <TextView
@@ -36,7 +36,7 @@
     <View
         android:id="@+id/separator"
         android:layout_width="wrap_content"
-        android:layout_height="1dp"
+        android:layout_height="@dimen/min_separator_height"
         android:background="@drawable/separator" />
 
     <TextView
