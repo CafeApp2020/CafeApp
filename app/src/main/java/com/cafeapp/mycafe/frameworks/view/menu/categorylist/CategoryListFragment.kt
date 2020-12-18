@@ -1,4 +1,4 @@
-package com.cafeapp.mycafe.frameworks.view.menuscreens.categorylist
+package com.cafeapp.mycafe.frameworks.view.menu.categorylist
 
 import android.os.Bundle
 import android.view.LayoutInflater

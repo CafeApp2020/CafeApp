@@ -46,7 +46,10 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="@dimen/list_element_normal_height"
-            app:cardCornerRadius="@dimen/zero">
+            android:layout_marginTop="@dimen/card_margin"
+            android:layout_marginBottom="@dimen/card_margin"
+            app:cardCornerRadius="@dimen/zero"
+            app:cardElevation="@dimen/card_elevation">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -68,10 +71,10 @@
                     android:id="@+id/checked_IV"
                     style="@style/ListElementCheckedImageView"
                     android:contentDescription="@string/on_stop_list"
+                    android:visibility="invisible"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/dish_weight_textview"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:visibility="invisible" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
                     android:id="@+id/dish_view_holder_inStopList_IV"
@@ -87,7 +90,7 @@
                     style="@style/CafeTextStyle.Body"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/category_card_margin"
+                    android:layout_marginEnd="@dimen/card_margin"
                     android:textSize="@dimen/body_body1"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/dish_price_textview"
@@ -98,7 +101,7 @@
                     style="@style/CafeTextStyle.Body"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/category_card_margin"
+                    android:layout_marginEnd="@dimen/card_margin"
                     android:textSize="@dimen/body_body1"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

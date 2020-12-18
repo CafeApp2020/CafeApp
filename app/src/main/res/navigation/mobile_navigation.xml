@@ -13,7 +13,7 @@
 
     <fragment
         android:id="@+id/nav_categorylist"
-        android:name="com.cafeapp.mycafe.frameworks.view.menuscreens.categorylist.CategoryListFragment"
+        android:name="com.cafeapp.mycafe.frameworks.view.menu.categorylist.CategoryListFragment"
         android:label="@string/dishmenu_title"
         tools:layout="@layout/fragment_categorylist" />
 
@@ -25,25 +25,25 @@
 
     <fragment
         android:id="@+id/nav_categoryadd"
-        android:name="com.cafeapp.mycafe.frameworks.view.menuscreens.categoryadd.CategoryAddFragment"
+        android:name="com.cafeapp.mycafe.frameworks.view.menu.categoryadd.CategoryAddFragment"
         android:label="@string/category"
         tools:layout="@layout/fragment_addcategory" />
 
     <fragment
         android:id="@+id/nav_dishesadd"
-        android:name="com.cafeapp.mycafe.frameworks.view.menuscreens.dishesadd.DishesAddFragment"
+        android:name="com.cafeapp.mycafe.frameworks.view.menu.dishesadd.DishesAddFragment"
         android:label="@string/dishesadd_title"
         tools:layout="@layout/fragment_dishesadd" />
 
     <fragment
         android:id="@+id/nav_disheslist"
-        android:name="com.cafeapp.mycafe.frameworks.view.menuscreens.dishlist.DishListFragment"
+        android:name="com.cafeapp.mycafe.frameworks.view.menu.dishlist.DishListFragment"
         android:label="Список блюд"
         tools:layout="@layout/fragment_dishlist" />
 
     <fragment
         android:id="@+id/nav_dish"
-        android:name="com.cafeapp.mycafe.frameworks.view.menuscreens.dish.DishFragment"
+        android:name="com.cafeapp.mycafe.frameworks.view.menu.dish.DishFragment"
         android:label="@string/dish"
         tools:layout="@layout/fragment_dish" />
 

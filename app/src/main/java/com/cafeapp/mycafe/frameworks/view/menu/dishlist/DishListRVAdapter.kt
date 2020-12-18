@@ -1,4 +1,4 @@
-package com.cafeapp.mycafe.frameworks.view.menuscreens.dishlist
+package com.cafeapp.mycafe.frameworks.view.menu.dishlist
 
 import android.content.Context
 import android.view.LayoutInflater
