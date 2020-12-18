@@ -5,12 +5,12 @@ import com.cafeapp.mycafe.frameworks.room.CafeDataBase
 import com.cafeapp.mycafe.frameworks.room.CategoryDataSource
 import com.cafeapp.mycafe.frameworks.room.DishDataSource
 import com.cafeapp.mycafe.frameworks.room.OrderDataSource
-import com.cafeapp.mycafe.frameworks.view.categoryadd.CategoryAddFragment
-import com.cafeapp.mycafe.frameworks.view.categorylist.CategoryListFragment
+import com.cafeapp.mycafe.frameworks.view.menuscreens.categoryadd.CategoryAddFragment
+import com.cafeapp.mycafe.frameworks.view.menuscreens.categorylist.CategoryListFragment
 import com.cafeapp.mycafe.frameworks.view.orders.delivery.DeliveryMainFragment
-import com.cafeapp.mycafe.frameworks.view.dish.DishFragment
-import com.cafeapp.mycafe.frameworks.view.dishesadd.DishesAddFragment
-import com.cafeapp.mycafe.frameworks.view.dishlist.DishListFragment
+import com.cafeapp.mycafe.frameworks.view.menuscreens.dish.DishFragment
+import com.cafeapp.mycafe.frameworks.view.menuscreens.dishesadd.DishesAddFragment
+import com.cafeapp.mycafe.frameworks.view.menuscreens.dishlist.DishListFragment
 import com.cafeapp.mycafe.frameworks.view.orders.orderList.OrderListFragment
 import com.cafeapp.mycafe.interface_adapters.viewmodels.categories.CategoryViewModel
 import com.cafeapp.mycafe.interface_adapters.viewmodels.orders.OrderViewModel

@@ -23,14 +23,6 @@
                 android:orientation="horizontal">
 
                 <ImageButton
-                    android:id="@+id/category_view_holder_edit_IB1"
-                    style="@style/ListElementButton.EditElementButton"
-                    android:contentDescription="@string/list_element_edit_category_button"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/category_view_holder_edit_IB"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageButton
                     android:id="@+id/category_view_holder_edit_IB"
                     style="@style/ListElementButton.EditElementButton"
                     android:contentDescription="@string/list_element_edit_category_button"
@@ -84,8 +76,8 @@
                 style="@style/CafeTextStyle.Body"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/category_text_margin"
-                android:layout_marginStart="@dimen/default_margin"/>
+                android:layout_marginStart="@dimen/default_margin"
+                android:layout_marginTop="@dimen/category_text_margin" />
 
             <ImageView
                 android:id="@+id/category_view_holder_inStopList_IV"

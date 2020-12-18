@@ -1,4 +1,4 @@
-package com.cafeapp.mycafe.frameworks.view.dishesadd
+package com.cafeapp.mycafe.frameworks.view.menuscreens.dishesadd
 
 import android.content.Intent
 import android.os.Bundle

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".frameworks.view.dish.DishFragment">
+    tools:context=".frameworks.view.menuscreens.dish.DishFragment">
 
     <ImageView
         android:id="@+id/fragment_dish_image_imageview"
@@ -13,7 +13,7 @@
         android:layout_height="@dimen/add_dish_photo_height"
         android:background="@color/imageBackgroundColor"
         android:contentDescription="@string/dish_picture"
-        android:src="@drawable/ic_96px_add_photo"/>
+        android:src="@drawable/ic_96px_add_photo" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/dishNameTIL"
@@ -22,13 +22,15 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/default_margin"
         android:layout_marginTop="@dimen/marginDefault"
-        android:layout_marginEnd="@dimen/default_margin">
+        android:layout_marginEnd="@dimen/default_margin"
+        app:errorEnabled="true"
+        app:errorTextAppearance="@style/ErrorText">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/dishNameTIT"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="@string/dish_name"/>
+            android:hint="@string/dish_name" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -46,14 +48,16 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/marginDefault"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            app:errorEnabled="true"
+            app:errorTextAppearance="@style/ErrorText">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/priceTIT"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="@string/price"
-                android:inputType="numberDecimal"/>
+                android:inputType="numberDecimal" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -68,7 +72,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="@string/weight"
-                android:inputType="numberDecimal"/>
+                android:inputType="numberDecimal" />
         </com.google.android.material.textfield.TextInputLayout>
     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -85,7 +89,7 @@
             android:id="@+id/descriptionTIT"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="@string/enter_dish_descripton"/>
+            android:hint="@string/enter_dish_descripton" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
@@ -94,6 +98,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/default_margin"
         android:layout_marginTop="@dimen/marginDefault"
-        android:text="@string/required_field"/>
+        android:text="@string/required_field" />
 
 </LinearLayout>

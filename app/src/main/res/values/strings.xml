@@ -41,6 +41,12 @@
     <string name="list_element_remove_stop_button">Кнопка убирающая из стоп-листа</string>
     <string name="required_field">*Поля обязательны для заполнения</string>
     <string name="required_fields_is_blank">Введите обязательные поля</string>
+    <string name="enter_category_name">Введите название категории</string>
+    <string name="enter_dish_name">Введите название блюда</string>
+    <string name="enter_price">Введите цену</string>
+    <string name="enter_customer_name">Введите имя покупателя</string>
+    <string name="enter_phone_number">Введите номер телефона</string>
+    <string name="enter_address">Введите адрес</string>
     <string name="enter_dish_descripton">Введите описание блюда</string>
     <string name="dish_photo">Фото блюда</string>
     <string name="weight_not_specified">0</string>

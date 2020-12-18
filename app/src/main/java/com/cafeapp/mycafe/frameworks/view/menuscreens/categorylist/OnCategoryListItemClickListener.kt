@@ -1,4 +1,4 @@
-package com.cafeapp.mycafe.frameworks.view.categorylist
+package com.cafeapp.mycafe.frameworks.view.menuscreens.categorylist
 
 import com.less.repository.db.room.CategoryEntity
 

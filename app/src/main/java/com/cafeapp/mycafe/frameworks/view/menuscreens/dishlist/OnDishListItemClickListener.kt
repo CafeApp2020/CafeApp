@@ -1,4 +1,4 @@
-package com.cafeapp.mycafe.frameworks.view.dishlist
+package com.cafeapp.mycafe.frameworks.view.menuscreens.dishlist
 
 import com.less.repository.db.room.DishesEntity
 
