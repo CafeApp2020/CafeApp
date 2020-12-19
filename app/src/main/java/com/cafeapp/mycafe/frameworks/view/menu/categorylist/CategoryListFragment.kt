@@ -21,14 +21,15 @@ import com.less.repository.db.room.CategoryEntity
 import kotlinx.android.synthetic.main.fragment_categorylist.view.*
 import org.koin.androidx.scope.currentScope
 
-enum class WorkMode() {
+enum class WorkMode {
     MenuCreate,
     OrderSelect
 }
 
 // Экран для отображения категорий блюд
 class CategoryListFragment : Fragment() {
-    private var workMode:WorkMode=WorkMode.MenuCreate // режим работы: создание/редактирование меню либо выбор блюд для заказа
+    private var workMode: WorkMode =
+        WorkMode.MenuCreate // режим работы: создание/редактирование меню либо выбор блюд для заказа
     private lateinit var categoryListAdapter: CategoryListRVAdapter
     private val categoryListViewModel: CategoryViewModel by currentScope.inject()
 
@@ -37,14 +38,15 @@ class CategoryListFragment : Fragment() {
     }
 
     companion object {
-       var orderEntity:OrdersEntity?=null
-       var selectedDishListForOrder= mutableListOf<Long>() //ID выбранных в текущем заказе блюд
-       fun getCurrentOrderType():MsgState {
-          return when (orderEntity?.ordertype) {
-              OrderType.DELIVERY -> MsgState.DELEVERYOPEN
-              else -> MsgState.DELEVERYOPEN
-          }
-       }
+        var orderEntity: OrdersEntity? = null
+        var selectedDishListForOrder = mutableListOf<Long>() //ID выбранных в текущем заказе блюд
+        fun getCurrentOrderType(): MsgState {
+            return when (orderEntity?.ordertype) {
+                OrderType.DELIVERY -> MsgState.DELEVERYOPEN
+                OrderType.TAKEAWAY -> MsgState.TAKEAWAYOPEN
+                else -> MsgState.DELEVERYOPEN
+            }
+        }
     }
 
     private val listener: OnCategoryListItemClickListener =
@@ -80,20 +82,20 @@ class CategoryListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-       initViews(view)
-       initViewModelObserver()
-       initSharedModelObserver()
-       categoryListViewModel.getCategories()  // break point
+        initViews(view)
+        initViewModelObserver()
+        initSharedModelObserver()
+        categoryListViewModel.getCategories()
     }
 
     private fun initViewModelObserver() {
         categoryListViewModel.categoryViewState.observe(viewLifecycleOwner) { state ->
             state.error?.let {
-                Toast.makeText(context,state.error.message, Toast.LENGTH_LONG).show()
+                Toast.makeText(context, state.error.message, Toast.LENGTH_LONG).show()
                 return@observe
             }
             state.categoryList?.let { categoryList ->
-                categoryListAdapter.setCategoryList(categoryList) //здесь происходит баг, break point , при нажатии кнопки назад с других экранов, выполняется почему-то два раза
+                categoryListAdapter.setCategoryList(categoryList)
             }
         }
     }
@@ -108,7 +110,7 @@ class CategoryListFragment : Fragment() {
             when (msg.stateName) {
                 MsgState.SELECTDISHTOORDER -> {
                     if (msg.value is OrdersEntity) {
-                        orderEntity= msg.value
+                        orderEntity = msg.value
                         selectedDishListForOrder.clear()
                         workMode = WorkMode.OrderSelect
                         initSelectOrderMode()
@@ -120,9 +122,11 @@ class CategoryListFragment : Fragment() {
 
     private fun initSelectOrderMode() {
         val fab = activity?.findViewById<FloatingActionButton>(R.id.activityFab)
+
         fab?.setImageResource(R.drawable.ic_list_add_check_24)
         fab?.setOnClickListener {
-            sharedModel?.select(SharedMsg(getCurrentOrderType(), mapOf(orderEntity to selectedDishListForOrder)))
+            sharedModel?.select(SharedMsg(getCurrentOrderType(),
+                mapOf(orderEntity to selectedDishListForOrder)))
         }
     }
 
@@ -139,7 +143,7 @@ class CategoryListFragment : Fragment() {
         val fab =
             activity?.findViewById<FloatingActionButton>(R.id.activityFab)
 
-        if (workMode==WorkMode.OrderSelect)
+        if (workMode == WorkMode.OrderSelect)
             initSelectOrderMode()
         else {
             fab?.setImageResource(android.R.drawable.ic_input_add)
@@ -165,7 +169,7 @@ class CategoryListFragment : Fragment() {
     private fun onCategoryClickBehavior(categoryId: Long) {
         sharedModel?.select(
             SharedMsg(
-                if (workMode==WorkMode.MenuCreate) MsgState.DISHESLIST // открываем списко блюд либо для редактирвоания
+                if (workMode == WorkMode.MenuCreate) MsgState.DISHESLIST // открываем списко блюд либо для редактирвоания
                 else MsgState.OPENFORORDER,   // либо для добавления в заказ
                 categoryId
             )

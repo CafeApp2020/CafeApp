@@ -52,4 +52,10 @@
         android:name="com.cafeapp.mycafe.frameworks.view.orders.delivery.DeliveryMainFragment"
         android:label="@string/newdeliverytitle"
         tools:layout="@layout/fragment_delivery_client_data" />
+
+    <fragment
+        android:id="@+id/nav_takeawayadd"
+        android:name="com.cafeapp.mycafe.frameworks.view.orders.takeaway.TakeawayMainFragment"
+        android:label="@string/new_takeaway_order"
+        tools:layout="@layout/fragment_takeaway_client_data" />
 </navigation>

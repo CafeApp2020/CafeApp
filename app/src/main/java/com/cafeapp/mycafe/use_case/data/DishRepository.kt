@@ -11,7 +11,7 @@ class DishRepository(val dataSource: IDishDataSource) : IDishRepository {
     }
 
     override fun getActiveDishList(category_id: Long): Single<List<DishesEntity?>?>? {
-        return dataSource.getActiveDishList(category_id)  // break point
+        return dataSource.getActiveDishList(category_id)
     }
 
     override fun getDishList(category_id: Long): Single<List<DishesEntity?>?>? {

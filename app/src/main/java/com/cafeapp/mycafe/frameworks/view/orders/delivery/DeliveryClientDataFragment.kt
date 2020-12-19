@@ -97,10 +97,10 @@ class DeliveryClientDataFragment(private val orderViewModel: OrderViewModel) : F
             customerNameTIT.setText(order.customername)
             customerPhoneTIT.setText(order.customerphone)
             customerAddressTIT.setText(order.customeraddress)
-            deliveryDateTIT.setText(order.deliverydatetime?.let { it1 ->
+            deliveryDateTIT.setText(order.dateTime?.let { it1 ->
                 CalendarUtility.getDateStr(it1)
             })
-            deliveryTimeTIT.setText(order.deliverydatetime?.let { it1 ->
+            deliveryTimeTIT.setText(order.dateTime?.let { it1 ->
                 CalendarUtility.getTimeStr(it1)
             })
         }
@@ -115,7 +115,7 @@ class DeliveryClientDataFragment(private val orderViewModel: OrderViewModel) : F
             customername = customerName,
             customerphone = customerPhone,
             customeraddress = customerAddress,
-            deliverydatetime = deliveryDateTimeCalendar.calendar.time,
+            dateTime = deliveryDateTimeCalendar.calendar.time,
             ordertype = OrderType.DELIVERY
         )
 
@@ -123,6 +123,6 @@ class DeliveryClientDataFragment(private val orderViewModel: OrderViewModel) : F
             orderDelivery.id = SelectedOrder.currentOrder.id
 
         SelectedOrder.currentOrder = orderDelivery
-        orderViewModel.saveDelivery(orderDelivery)
+        orderViewModel.saveOrder(orderDelivery)
     }
 }

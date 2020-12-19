@@ -52,7 +52,7 @@ class OrderInteractor(val repository: IOrderRepository) : IOrderInteractor {
         return repository.getOrderDishList(orderId)
     }
 
-    override fun getTotalSumm(dishList: List<OrderDishEntityModify>): Double {
+    override fun getTotalSum(dishList: List<OrderDishEntityModify>): Double {
             var summ_=0.0
             for (orderDishEntityModify in dishList) {
                 orderDishEntityModify.dishPrice?.let {

@@ -1,5 +1,6 @@
 package com.cafeapp.mycafe.interface_adapters.viewmodels.orders
 
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -21,40 +22,40 @@ class OrderViewModel(private val orderInteractor: IOrderInteractor) : ViewModel(
         compositeDisposable.clear()
     }
 
-    fun saveDelivery(orderDelivery: OrdersEntity) {
-        orderDelivery.ordertype= OrderType.DELIVERY
-        if (orderDelivery.id==0L)
-            addNewDelivery(orderDelivery)
+    fun saveOrder(orderDelivery: OrdersEntity) {
+        if (orderDelivery.id == 0L)
+            addNewOrder(orderDelivery)
         else
-            editDelivery (orderDelivery)
+            editOrder(orderDelivery)
     }
 
-    private fun addNewDelivery(orderDelivery: OrdersEntity) {
+    private fun addNewOrder(orderDelivery: OrdersEntity) {
         compositeDisposable.add(
             orderInteractor.saveOrder(orderDelivery)!!
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     { orderId ->
-                        modifyDeliveryAddViewState.value= OrderViewState(saveOk = true, ordersEntityID =orderId)
+                        modifyDeliveryAddViewState.value =
+                            OrderViewState(saveOk = true, ordersEntityID = orderId)
                     },
                     { error ->
-                        modifyDeliveryAddViewState.value= OrderViewState(error =error)
+                        modifyDeliveryAddViewState.value = OrderViewState(error = error)
                     })
         )
     }
 
-    private fun editDelivery(orderDelivery: OrdersEntity) {
+    private fun editOrder(orderDelivery: OrdersEntity) {
         compositeDisposable.add(
-            orderInteractor.updateOrder(orderDelivery)!!
+            orderInteractor.updateOrder(orderDelivery)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     {
-                        modifyDeliveryAddViewState.value= OrderViewState(saveOk = true)
+                        modifyDeliveryAddViewState.value = OrderViewState(saveOk = true)
                     },
                     { error ->
-                        modifyDeliveryAddViewState.value= OrderViewState(error =error)
+                        modifyDeliveryAddViewState.value = OrderViewState(error = error)
                     })
         )
     }
@@ -65,39 +66,44 @@ class OrderViewModel(private val orderInteractor: IOrderInteractor) : ViewModel(
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                    {dishList ->
-                        dishList?.let {modifyDeliveryAddViewState.value= OrderViewState(
-                            orderDishEntityModifyList = dishList) }
+                    { dishList ->
+                        dishList?.let {
+                            modifyDeliveryAddViewState.value = OrderViewState(
+                                orderDishEntityModifyList = dishList)
+                        }
                     },
                     { error ->
-                        modifyDeliveryAddViewState.value= OrderViewState(error =error)
+                        modifyDeliveryAddViewState.value = OrderViewState(error = error)
                     })
         )
     }
 
     fun insertSelDishIdList(order: OrdersEntity, selectedDishList: MutableList<Long>) {
         compositeDisposable.add(
-            orderInteractor.insertOrderListId(order.id, selectedDishList)!!
+            orderInteractor.insertOrderListId(order.id, selectedDishList)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                    {dishList ->
-                        dishList?.let {modifyDeliveryAddViewState.value= OrderViewState(
-                            orderDishEntityModifyList = dishList) }
+                    { dishList ->
+                        dishList?.let {
+                            modifyDeliveryAddViewState.value = OrderViewState(
+                                orderDishEntityModifyList = dishList)
+                        }
                     },
                     { error ->
-                        modifyDeliveryAddViewState.value= OrderViewState(error =error)
+                        modifyDeliveryAddViewState.value = OrderViewState(error = error)
                     })
         )
     }
 
-    fun loadOrder(orderId:Long) {
+    fun loadOrder(orderId: Long) {
         compositeDisposable.add(
             orderInteractor.loadOrder(orderId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    modifyDeliveryAddViewState.value = OrderViewState(loadOk = true, ordersEntity=it)
+                    modifyDeliveryAddViewState.value =
+                        OrderViewState(loadOk = true, ordersEntity = it)
                 }, {
                     modifyDeliveryAddViewState.value = OrderViewState(error = it)
                 })
@@ -118,7 +124,7 @@ class OrderViewModel(private val orderInteractor: IOrderInteractor) : ViewModel(
         )
     }
 
-    fun getTotalSumm(dishList: List<OrderDishEntityModify>): Double {
-       return orderInteractor.getTotalSumm(dishList)
+    fun getTotalSum(dishList: List<OrderDishEntityModify>): Double {
+        return orderInteractor.getTotalSum(dishList)
     }
 }

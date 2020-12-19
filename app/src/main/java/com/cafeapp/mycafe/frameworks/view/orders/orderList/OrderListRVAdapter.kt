@@ -6,9 +6,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.cafeapp.mycafe.R
 import com.cafeapp.mycafe.frameworks.room.OrdersEntity
+import com.cafeapp.mycafe.frameworks.view.delivery.OrderType
 import kotlinx.android.synthetic.main.order_view_holder.view.*
 
-class OrderListRVAdapter(val getFunc: (OrdersEntity) -> Unit) :
+class OrderListRVAdapter(private val getFunc: (OrdersEntity) -> Unit) :
     RecyclerView.Adapter<OrderListRVAdapter.ViewHolder>() {
     var data: List<OrdersEntity?>? = mutableListOf()
         set(value) {
@@ -30,34 +31,61 @@ class OrderListRVAdapter(val getFunc: (OrdersEntity) -> Unit) :
 
     inner class ViewHolder(itemView: View, val getFunc: (OrdersEntity) -> Unit) :
         RecyclerView.ViewHolder(itemView) {
+
+        private var order: OrdersEntity? = null
+
         fun bind(data: OrdersEntity) = with(itemView) {
-            deliveryOrder(data)
+            order = data
+
+            initOrder()
+
             itemView.setOnClickListener {
                 getFunc(data)
             }
-         }
+        }
 
-        fun deliveryOrder(data: OrdersEntity) = with(itemView) {
+        private fun initOrder() {
+            when (order?.ordertype) {
+                OrderType.DELIVERY -> {
+                    deliveryOrder()
+                }
+
+                OrderType.TAKEAWAY -> {
+                    takeAwayOrder()
+                }
+
+                OrderType.INROOM -> {
+                    tableOrder()
+                }
+            }
+        }
+
+        private fun deliveryOrder() = with(itemView) {
             orderTypeTW.text = context.getString(R.string.order_type_delivery)
-            orderAddressTW.text = data.customeraddress
-            setOrder(data)
+            orderAddressTW.text = order?.customeraddress
+            setOrder()
         }
 
-        fun takeAwayOrder(data: OrdersEntity) = with(itemView) {
+        private fun takeAwayOrder() = with(itemView) {
             orderTypeTW.text = context.getString(R.string.order_type_takeaway)
-            setOrder(data)
+            setOrder()
         }
 
-        fun tableOrder(data: OrdersEntity) = with(itemView) {
-            orderTypeTW.text = context.getString(R.string.order_type_table, data.tableid.toString())
-            setOrder(data);
+        private fun tableOrder() = with(itemView) {
+            orderTypeTW.text =
+                context.getString(R.string.order_type_table, order?.tableid.toString())
+            setOrder()
         }
 
-        fun setOrder(data: OrdersEntity) = with(itemView) {
-            customerNameTW.text = data.customername
-            orderTimeTW.text = context.getString(R.string.order_date_time, data.orderdatetime.toString())
-            orderCostTW.text = context.getString(R.string.order_cost, data.orderdatetime.toString())
-            orderPayedTW.text = if(data.paided)
+        private fun setOrder() = with(itemView) {
+            customerNameTW.text = order?.customername
+            orderTimeTW.text =
+                context.getString(R.string.order_date_time, order?.orderdatetime.toString())
+
+            orderCostTW.text =
+                context.getString(R.string.order_cost, order?.orderdatetime.toString())
+
+            orderPayedTW.text = if (order!!.paided)
                 context.getString(R.string.payed)
             else context.getString(
                 R.string.not_payed)

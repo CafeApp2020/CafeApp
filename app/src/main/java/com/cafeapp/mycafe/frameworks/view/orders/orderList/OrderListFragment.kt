@@ -37,44 +37,57 @@ class OrderListFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         val root = inflater.inflate(R.layout.fragment_orderlist, container, false)
 
         initRecyclerView(root)
         initSharedModelObserver()
 
-        val fab=activity?.findViewById<FloatingActionButton>(R.id.activityFab)
+        val fab = activity?.findViewById<FloatingActionButton>(R.id.activityFab)
         fab?.setImageResource(android.R.drawable.ic_input_add)
         fab?.setOnClickListener {
             val selectOrderTypeFragment = OrderTypeFragment()
-            activity?.let { it1 -> selectOrderTypeFragment.show(it1.supportFragmentManager, selectOrderTypeFragment.tag) }
+            activity?.let { it1 ->
+                selectOrderTypeFragment.show(it1.supportFragmentManager,
+                    selectOrderTypeFragment.tag)
+            }
         }
 
         orderViewModel?.orderViewState.observe(viewLifecycleOwner) { state ->
-                state.error?.let { error ->
-                    Toast.makeText(activity, error?.message, Toast.LENGTH_LONG).show()
-                    return@observe
-                }
-
-               if (state.loadOk)
-               state.ordersEntity?.let {orderEntity->
-                   openOrder(orderEntity)
-               }
-
-                state.orderList?.let { dishList ->
-                    orderListAdapter.data = dishList
-                }
+            state.error?.let { error ->
+                Toast.makeText(activity, error?.message, Toast.LENGTH_LONG).show()
+                return@observe
             }
+
+            if (state.loadOk)
+                state.ordersEntity?.let { orderEntity ->
+                    openOrder(orderEntity)
+                }
+
+            state.orderList?.let { dishList ->
+                orderListAdapter.data = dishList
+            }
+        }
 
         orderViewModel.getOrderList()
         return root
     }
 
     private fun openOrder(ordersEntity: OrdersEntity) {
-      if (ordersEntity.ordertype== OrderType.DELIVERY) {
-           sharedModel?.select(SharedMsg(MsgState.DELEVERYOPEN, ordersEntity))
-       }
+        when (ordersEntity.ordertype) {
+            OrderType.DELIVERY -> {
+                sharedModel?.select(SharedMsg(MsgState.DELEVERYOPEN, ordersEntity))
+            }
+
+            OrderType.TAKEAWAY -> {
+                sharedModel?.select(SharedMsg(MsgState.TAKEAWAYOPEN, ordersEntity))
+            }
+
+            OrderType.INROOM -> {
+
+            }
+        }
     }
 
     private fun initSharedModelObserver() {

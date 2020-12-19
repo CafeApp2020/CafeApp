@@ -18,7 +18,7 @@ import com.cafeapp.mycafe.use_case.utils.SharedViewModel
 import kotlinx.android.synthetic.main.fragment_order_dishlist.*
 import kotlinx.android.synthetic.main.fragment_order_dishlist.view.*
 
-class OrdersDishListFragment(val orderViewModel: OrderViewModel) : Fragment() {
+class OrdersDishListFragment(private val orderViewModel: OrderViewModel) : Fragment() {
     private lateinit var ordersDishListRVAdapter: OrdersDishListRVAdapter
 
     private val sharedModel by lazy {
@@ -28,20 +28,21 @@ class OrdersDishListFragment(val orderViewModel: OrderViewModel) : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
-       val root = inflater.inflate(R.layout.fragment_order_dishlist, container, false)
+        val root = inflater.inflate(R.layout.fragment_order_dishlist, container, false)
         initRecyclerView(root)
         initSharedModelObserver()
 
-        orderViewModel.orderViewState.observe(viewLifecycleOwner) { deliveryViewState ->
-            deliveryViewState.orderDishEntityModifyList?.let {
-              it?.let {ordersDishListRVAdapter.setDishList(it)
-                  totalSummTW.text=orderViewModel.getTotalSumm(it).toString() + " ₽"
-              }
+        orderViewModel.orderViewState.observe(viewLifecycleOwner) { orderViewState ->
+            orderViewState.orderDishEntityModifyList?.let {
+                it.let {
+                    ordersDishListRVAdapter.setDishList(it)
+                    totalSummTW.text = orderViewModel.getTotalSum(it).toString() + " ₽"
+                }
             }
         }
-       return root
+        return root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -57,17 +58,23 @@ class OrdersDishListFragment(val orderViewModel: OrderViewModel) : Fragment() {
                     if (msg.value is OrdersEntity)
                         loadDishList(msg.value)
                 }
+
+                MsgState.TAKEAWAYOPEN -> {
+                    if (msg.value is OrdersEntity)
+                        loadDishList(msg.value)
+                }
             }
         }
     }
 
-    fun loadDishList(ordersEntity: OrdersEntity) {
+    private fun loadDishList(ordersEntity: OrdersEntity) {
         orderViewModel.loadDishList(ordersEntity)
     }
 
     private fun initRecyclerView(view: View) {
         ordersDishListRVAdapter = OrdersDishListRVAdapter()
-        view.dishListRW.apply {
+
+        view.dishListRV.apply {
             adapter = ordersDishListRVAdapter
             layoutManager = LinearLayoutManager(activity)
         }
