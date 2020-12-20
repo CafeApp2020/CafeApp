@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.chauthai.swipereveallayout.SwipeRevealLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:id="@+id/swipe_categoryViewHolder"
+android:layout_width="match_parent"
+android:layout_height="@dimen/list_element_normal_height"
+app:dragEdge="right"
+app:mode="same_level">
+
+<!-- Your secondary layout here -->
+<FrameLayout
+    android:layout_width="@dimen/swipe_menu_width"
+    android:layout_height="match_parent">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/list_element_normal_height"
+        app:cardCornerRadius="@dimen/zero">
+
+        <ImageButton
+            android:id="@+id/removeTableIB"
+            style="@style/ListElementButton.RemoveElementButton"
+            android:layout_gravity="end"
+            android:contentDescription="@string/list_element_delete_button" />
+
+        <ImageButton
+            android:id="@+id/editTableIB"
+            style="@style/ListElementButton.EditElementButton"
+            android:contentDescription="@string/list_element_edit_category_button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/category_view_holder_addInStopList_IB"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.cardview.widget.CardView>
+</FrameLayout>
+
+<!-- Your main layout here -->
+<FrameLayout
+    android:id="@+id/dish_view_holder_leftSide"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/list_element_normal_height"
+        app:cardCornerRadius="@dimen/zero"
+        app:cardElevation="@dimen/card_elevation">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/list_element_normal_height"
+            android:paddingStart="@dimen/list_element_normal_padding"
+            android:paddingEnd="@dimen/list_element_normal_padding">
+            <TextView
+                android:id="@+id/tableNameTW"
+                style="@style/CafeTextStyle.Body"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/body_body1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</FrameLayout>
+</com.chauthai.swipereveallayout.SwipeRevealLayout>

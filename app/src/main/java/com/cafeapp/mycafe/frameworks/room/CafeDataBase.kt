@@ -8,10 +8,15 @@ import com.less.repository.db.room.CategoryEntity
 import com.less.repository.db.room.DishesDao
 import com.less.repository.db.room.DishesEntity
 
-@Database(entities = arrayOf(CategoryEntity::class, DishesEntity::class, OrdersEntity::class, OrderDishEntity::class), version = 1, exportSchema = false)
+@Database(entities = arrayOf(CategoryEntity::class,
+                             DishesEntity::class,
+                             OrdersEntity::class,
+                             OrderDishEntity::class,
+                             TableEntity::class), version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class CafeDataBase : RoomDatabase() {
      abstract fun categoryDao(): CategoryDao
      abstract fun dishesDao(): DishesDao
      abstract fun orderDao(): OrderDao
+     abstract fun tablesDao(): TablesDao
 }

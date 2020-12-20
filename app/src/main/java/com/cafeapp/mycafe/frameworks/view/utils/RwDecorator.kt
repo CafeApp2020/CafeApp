@@ -12,6 +12,8 @@ class RecyclerViewUtil {
         fun addDecorator(context: Context, rw: RecyclerView) {
             val decorator = DividerItemDecoration(context, LinearLayoutManager.VERTICAL)
             decorator.setDrawable(ContextCompat.getDrawable(context, R.drawable.items_divider)!!)
+            for (i in 0 until rw.itemDecorationCount)
+                rw.removeItemDecoration(rw.getItemDecorationAt(i))
             rw.addItemDecoration(decorator)
         }
     }

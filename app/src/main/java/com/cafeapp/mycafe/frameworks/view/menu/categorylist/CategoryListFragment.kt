@@ -33,6 +33,7 @@ class CategoryListFragment : Fragment() {
         WorkMode.MenuCreate // режим работы: создание/редактирование меню либо выбор блюд для заказа
     private lateinit var categoryListAdapter: CategoryListRVAdapter
     private val categoryListViewModel: CategoryViewModel by currentScope.inject()
+    private var categoryListRwFirstInit = true
 
     private val sharedModel by lazy {
         activity?.let { ViewModelProvider(it).get(SharedViewModel::class.java) }
@@ -137,7 +138,8 @@ class CategoryListFragment : Fragment() {
         view.categoryListRV.apply {
             layoutManager = LinearLayoutManager(activity)
             adapter = categoryListAdapter
-            RecyclerViewUtil.addDecorator(context,this)
+            RecyclerViewUtil.addDecorator(context, this)
+            categoryListRwFirstInit=false
         }
     }
 

@@ -93,9 +93,9 @@ class DishListFragment : Fragment() {
         dishlist_recyclerview.apply {
             adapter = dishListAdapter
             layoutManager = LinearLayoutManager(activity)
-            RecyclerViewUtil.addDecorator(context,this)
+                RecyclerViewUtil.addDecorator(context, this)
+            }
         }
-    }
 
     private fun initFabButton() {
         val fab = activity?.findViewById<FloatingActionButton>(R.id.activityFab)

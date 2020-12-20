@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/add_table_title"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginTop="@dimen/marginDefault"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:text="@string/add_table_title" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tableNameTIL"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginTop="@dimen/marginDefault"
+        android:layout_marginEnd="@dimen/default_margin">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tableNameTIT"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/table_name_title" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/saveTableBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:textColor="@color/secondary_secondary"
+        android:layout_marginEnd="@dimen/default_margin"
+        android:layout_marginTop="@dimen/marginDefault"
+        android:text="@string/ok_title" />
+</LinearLayout>
