@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/bottom_menu_height"
-    tools:context=".frameworks.view.menuscreens.dishlist.DishListFragment">
+    tools:context=".frameworks.view.menu.dishlist.DishListFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/dishlist_recyclerview"

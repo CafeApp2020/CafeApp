@@ -61,14 +61,14 @@
     <string name="in_room_title">В зале</string>
     <string name="take_away_title">На вынос</string>
     <string name="delevery_title">Доставка</string>
-    <string name="customername">Покупатель имя</string>
-    <string name="phonenumbertitle">Телефон</string>
+    <string name="customer_name">Покупатель имя</string>
+    <string name="phone_number_title">Телефон</string>
     <string name="customeraddresstitle">Адрес доставки</string>
-    <string name="deliverytimetitle">Время доставки</string>
+    <string name="time_title">Время</string>
     <string name="newdeliverytitle">Новая доставка</string>
     <string name="client_title">Клиент</string>
     <string name="order_title">Заказ</string>
-    <string name="deliverydatetitle">Дата доставки</string>
+    <string name="date_title">Дата</string>
     <string name="add_dish_to_order">Добавить блюдо</string>
     <string name="order_type_delivery">Доставка</string>
     <string name="payed">Оплачен</string>
@@ -80,4 +80,6 @@
     <string name="total">Итого:</string>
     <string name="minus">-</string>
     <string name="plus">+</string>
+    <string name="new_takeaway_order">Самовывоз</string>
+    <string name="near_time">На ближайшее время</string>
 </resources>

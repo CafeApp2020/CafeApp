@@ -5,8 +5,8 @@ import com.cafeapp.mycafe.frameworks.room.OrdersEntity
 
 class OrderViewState(
     val delOk: Boolean = false,
-    val ordersEntityID:Long=0,
-    val orderDishEntityModifyList: List<OrderDishEntityModify>? =null,
+    val ordersEntityID: Long = 0,
+    val orderDishEntityModifyList: List<OrderDishEntityModify>? = null,
     val ordersEntity: OrdersEntity? = null,
     val orderList: List<OrdersEntity?>? = null,
     val error: Throwable? = null,

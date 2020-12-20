@@ -17,7 +17,7 @@ class OrdersDishListRVAdapter() :
         }
 
     fun setDishList(updateDishList: List<OrderDishEntityModify?>) {
-        this.data=updateDishList
+        this.data = updateDishList
         notifyDataSetChanged()
     }
 
@@ -40,13 +40,10 @@ class OrdersDishListRVAdapter() :
             setData(data)
         }
 
-        fun setData(data: OrderDishEntityModify) = with(itemView) {
+        private fun setData(data: OrderDishEntityModify) = with(itemView) {
             dishNameTW.text = data.dishName
             priceTW.text = data.dishPrice.toString() + " ₽"
             dishCountTW.text = data.dishCount.toString()
         }
-
     }
 }
-
-

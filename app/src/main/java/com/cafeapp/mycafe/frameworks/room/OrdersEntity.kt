@@ -21,13 +21,15 @@ class OrdersEntity(
     // телефон заказчика
     var customerphone: String? = null,
 
-    @field:ColumnInfo(name = "deliveryaddress")
+    @field:ColumnInfo(name = "address")
     // адрес доставки
     var customeraddress: String? = null,
 
-    @field:ColumnInfo(name = "deliverydatetime")
+    @field:ColumnInfo(name = "datetime")
     // дата-время доставки
-    var deliverydatetime: Date? = null,
+    var dateTime: Date? = null,
+
+    var isNearTime: Boolean? = null,
 
     @field:ColumnInfo(name = "tableid")
     // id стола из таблицы со столами
@@ -38,8 +40,8 @@ class OrdersEntity(
     var ordertype: Int? = null,
 
     @field:ColumnInfo(name = "paided")
-  // зака оплачен/не оплачен
-   var paided: Boolean = false
+    // зака оплачен/не оплачен
+    var paided: Boolean = false,
 ) {
     @field:PrimaryKey(autoGenerate = true)
     @field:ColumnInfo(name = "id")

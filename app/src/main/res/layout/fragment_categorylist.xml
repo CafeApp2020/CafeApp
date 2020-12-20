@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/bottom_menu_height"
-    tools:context=".frameworks.view.menuscreens.categorylist.CategoryListFragment">
+    tools:context=".frameworks.view.menu.categorylist.CategoryListFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/categoryListRV"

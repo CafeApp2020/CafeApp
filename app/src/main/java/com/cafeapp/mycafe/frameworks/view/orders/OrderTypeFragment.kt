@@ -13,12 +13,16 @@ import com.cafeapp.mycafe.use_case.utils.SharedViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.fragment_ordertype_select.*
 
-class OrderTypeFragment: BottomSheetDialogFragment() {
+class OrderTypeFragment : BottomSheetDialogFragment() {
     private val sharedModel by lazy {
         activity?.let { ViewModelProvider(it).get(SharedViewModel::class.java) }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
+    ): View? {
         return inflater.inflate(R.layout.fragment_ordertype_select, container, false)
     }
 
@@ -26,11 +30,12 @@ class OrderTypeFragment: BottomSheetDialogFragment() {
         super.onActivityCreated(savedInstanceState)
 
         select_navigation_view.setNavigationItemSelectedListener { menuItem ->
-            when (menuItem!!.itemId) {
-                R.id.nav_inroom ->  Toast.makeText(activity,"nav_inroom",Toast.LENGTH_LONG).show()
-                R.id.nav_takeaway -> Toast.makeText(activity,"nav_takeaway",Toast.LENGTH_LONG).show()
-                R.id.nav_delevery -> sharedModel?.select(SharedMsg(MsgState.DELIVERYADD , -1L))
+            when (menuItem.itemId) {
+                R.id.nav_inroom -> Toast.makeText(activity, "nav_inroom", Toast.LENGTH_LONG).show()
+                R.id.nav_takeaway -> sharedModel?.select(SharedMsg(MsgState.TAKEAWAYADD, -1L))
+                R.id.nav_delevery -> sharedModel?.select(SharedMsg(MsgState.DELIVERYADD, -1L))
             }
+
             dismiss()
             true
         }

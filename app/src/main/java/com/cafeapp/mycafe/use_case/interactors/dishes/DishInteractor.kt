@@ -15,7 +15,7 @@ class DishInteractor(val repository: IDishRepository) : IDishInteractor {
     }
 
     override fun getActiveDishList(category_id: Long): Single<List<DishesEntity?>?>? {
-        return repository.getActiveDishList(category_id)  // break point
+        return repository.getActiveDishList(category_id)
     }
 
     override fun getDishList(category_id: Long): Single<List<DishesEntity?>?>? {

@@ -4,13 +4,14 @@ import com.cafeapp.mycafe.frameworks.room.OrdersEntity
 
 class OrderType {
     companion object {
-       val INROOM:Int=1
-       val TAKEAWAY:Int=2
-       val  DELIVERY:Int=3
+        val INROOM: Int = 1
+        val TAKEAWAY: Int = 2
+        val DELIVERY: Int = 3
     }
 }
+
 class SelectedOrder {
     companion object {
-        lateinit var currentOrder:OrdersEntity
+        lateinit var currentOrder: OrdersEntity
     }
 }
