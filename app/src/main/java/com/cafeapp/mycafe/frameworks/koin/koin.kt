@@ -30,7 +30,7 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 val application = module {
-    single { Room.databaseBuilder(get(), CafeDataBase::class.java, "cafedb7").build() }
+    single { Room.databaseBuilder(get(), CafeDataBase::class.java, "cafedb9").build() }
     single { get<CafeDataBase>().categoryDao() }
     single { get<CafeDataBase>().dishesDao() }
     single { get<CafeDataBase>().orderDao() }

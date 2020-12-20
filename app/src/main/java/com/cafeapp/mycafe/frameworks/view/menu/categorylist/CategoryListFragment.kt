@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.cafeapp.mycafe.R
 import com.cafeapp.mycafe.frameworks.room.OrdersEntity
 import com.cafeapp.mycafe.frameworks.view.delivery.OrderType
+import com.cafeapp.mycafe.frameworks.view.utils.RecyclerViewUtil
 import com.cafeapp.mycafe.interface_adapters.viewmodels.categories.CategoryViewModel
 import com.cafeapp.mycafe.use_case.utils.MsgState
 import com.cafeapp.mycafe.use_case.utils.SharedMsg
@@ -136,6 +137,7 @@ class CategoryListFragment : Fragment() {
         view.categoryListRV.apply {
             layoutManager = LinearLayoutManager(activity)
             adapter = categoryListAdapter
+            RecyclerViewUtil.addDecorator(context,this)
         }
     }
 

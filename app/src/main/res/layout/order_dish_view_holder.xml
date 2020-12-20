@@ -21,10 +21,10 @@
         android:text="@string/minus"/>
 
     <TextView
-        android:id="@+id/dishCountTW"
+        android:id="@+id/dishCountTV"
         android:layout_width="@dimen/dish_count"
         android:gravity="center"
-         android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"/>
 
     <Button
         android:id="@+id/incDishCount"

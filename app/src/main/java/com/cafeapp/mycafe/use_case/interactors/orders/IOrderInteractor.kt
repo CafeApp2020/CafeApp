@@ -16,4 +16,5 @@ interface IOrderInteractor {
     fun insertOrderListId(orderId: Long, selectedDishList: MutableList<Long>): Observable<List<OrderDishEntityModify>>
     fun loadDishListForOrder(orderId: Long) : Observable<List<OrderDishEntityModify>>
     fun getTotalSum(dishList: List<OrderDishEntityModify>): Double
-    }
+    fun updateOrderDishEntityModify(orderDishEntity: OrderDishEntityModify): Completable
+}

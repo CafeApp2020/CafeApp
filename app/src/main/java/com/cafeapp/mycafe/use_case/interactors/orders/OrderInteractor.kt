@@ -60,6 +60,22 @@ class OrderInteractor(val repository: IOrderRepository) : IOrderInteractor {
             }
             return summ_
         }
+
+    override fun updateOrderDishEntityModify(orderDishEntity: OrderDishEntityModify): Completable {
+        val orderDishEntity = OrderDishEntityModifyToOrderDishEntity(orderDishEntity)
+        if (orderDishEntity.dishCount==0)
+            return repository.deleteOrderDish(orderDishEntity)
+        else
+            return repository.updateOrderDish(orderDishEntity)
     }
+
+    private fun OrderDishEntityModifyToOrderDishEntity(orderDishEntityModify: OrderDishEntityModify):OrderDishEntity {
+        val orderDishEntity = OrderDishEntity(order_id = orderDishEntityModify.order_id,
+                                              dish_id = orderDishEntityModify.dish_id,
+                                              dishCount = orderDishEntityModify.dishCount)
+        orderDishEntity.id=orderDishEntityModify.orderDishEntityId
+        return orderDishEntity
+    }
+}
 
 
