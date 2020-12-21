@@ -15,11 +15,9 @@ import com.cafeapp.mycafe.interface_adapters.viewmodels.orders.OrderViewModel
 import com.cafeapp.mycafe.use_case.utils.MsgState
 import com.cafeapp.mycafe.use_case.utils.SharedMsg
 import com.cafeapp.mycafe.use_case.utils.SharedViewModel
-import com.cafeapp.mycafe.use_case.utils.isError
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import kotlinx.android.synthetic.main.fragment_delivery_client_data.*
 import org.koin.androidx.scope.currentScope
 
 class DeliveryMainFragment : Fragment() {

@@ -10,7 +10,7 @@
         android:layout_marginTop="@dimen/marginDefault"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
+        android:textSize="@dimen/head_H2"
         android:textStyle="bold"
         android:text="@string/add_table_title" />
 
@@ -31,14 +31,31 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
-        android:id="@+id/saveTableBtn"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
-        android:textColor="@color/secondary_secondary"
-        android:layout_marginEnd="@dimen/default_margin"
-        android:layout_marginTop="@dimen/marginDefault"
-        android:text="@string/ok_title" />
+        android:layout_gravity="end"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/cancelBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:textColor="@color/secondary_secondary"
+            android:layout_marginEnd="@dimen/default_margin"
+            android:layout_marginTop="@dimen/marginDefault"
+            android:text="@string/cancel" />
+
+        <Button
+            android:id="@+id/saveTableBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:textColor="@color/secondary_secondary"
+            android:layout_marginEnd="@dimen/default_margin"
+            android:layout_marginTop="@dimen/marginDefault"
+            android:text="@string/add" />
+
+    </LinearLayout>
 </LinearLayout>

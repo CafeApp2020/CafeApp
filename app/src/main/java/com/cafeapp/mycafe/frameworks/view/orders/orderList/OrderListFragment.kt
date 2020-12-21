@@ -1,8 +1,6 @@
 package com.cafeapp.mycafe.frameworks.view.orders.orderList
 
-import android.content.ContentValues.TAG
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,7 +21,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.category_view_holder.*
 import kotlinx.android.synthetic.main.fragment_orderlist.view.*
 import org.koin.androidx.scope.currentScope
-import java.lang.Exception
 
 // Экран для отображения списка заказов
 class OrderListFragment : Fragment() {

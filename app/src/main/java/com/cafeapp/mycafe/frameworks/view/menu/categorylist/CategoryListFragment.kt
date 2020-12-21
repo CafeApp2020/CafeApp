@@ -12,7 +12,6 @@ import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cafeapp.mycafe.R
 import com.cafeapp.mycafe.frameworks.room.OrdersEntity
-import com.cafeapp.mycafe.frameworks.room.TableEntity
 import com.cafeapp.mycafe.frameworks.view.delivery.OrderType
 import com.cafeapp.mycafe.frameworks.view.utils.RecyclerViewUtil
 import com.cafeapp.mycafe.interface_adapters.viewmodels.categories.CategoryViewModel
@@ -23,7 +22,6 @@ import com.cafeapp.mycafe.use_case.utils.isError
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.less.repository.db.room.CategoryEntity
 import kotlinx.android.synthetic.main.dialog_add_category.view.*
-import kotlinx.android.synthetic.main.fragment_add_table.view.*
 import kotlinx.android.synthetic.main.fragment_categorylist.*
 import kotlinx.android.synthetic.main.fragment_categorylist.view.*
 import org.koin.androidx.scope.currentScope
@@ -92,7 +90,7 @@ class CategoryListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initViews(view)
+        initViews()
         initViewModelObserver()
         initSharedModelObserver()
         categoryListViewModel.getCategories()
@@ -112,7 +110,7 @@ class CategoryListFragment : Fragment() {
         }
     }
 
-    private fun initViews(view: View) {
+    private fun initViews() {
         initRecyclerView()
         initFabButton()
     }
@@ -221,9 +219,9 @@ class CategoryListFragment : Fragment() {
         return dialog
     }
 
-    private fun addNewCategory(tableName: String) {
+    private fun addNewCategory(name: String) {
         val categoryEntity = CategoryEntity(
-            name = tableName,
+            name = name,
             description = "",
             imagepath = "")
         categoryListViewModel.saveCategory(categoryEntity)

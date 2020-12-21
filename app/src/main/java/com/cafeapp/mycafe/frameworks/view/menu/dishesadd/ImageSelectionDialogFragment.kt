@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import com.cafeapp.mycafe.R
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import kotlinx.android.synthetic.main.dialog_layout.*
+import kotlinx.android.synthetic.main.dialog_add_photo.*
 import kotlinx.android.synthetic.main.fragment_dishesadd.*
 import java.io.File
 import java.io.IOException
@@ -29,7 +29,7 @@ class ImageSelectionDialogFragment : BottomSheetDialogFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.dialog_layout, container, false)
+        return inflater.inflate(R.layout.dialog_add_photo, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
