@@ -8,6 +8,7 @@ import com.cafeapp.mycafe.frameworks.view.orders.delivery.DeliveryMainFragment
 import com.cafeapp.mycafe.frameworks.view.menu.dish.DishFragment
 import com.cafeapp.mycafe.frameworks.view.menu.dishesadd.DishesAddFragment
 import com.cafeapp.mycafe.frameworks.view.menu.dishlist.DishListFragment
+import com.cafeapp.mycafe.frameworks.view.orders.OrdersDishListFragment
 import com.cafeapp.mycafe.frameworks.view.orders.orderList.OrderListFragment
 import com.cafeapp.mycafe.frameworks.view.orders.takeaway.TakeawayMainFragment
 import com.cafeapp.mycafe.frameworks.view.tables.TableListFragment

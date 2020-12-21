@@ -10,30 +10,29 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import com.cafeapp.mycafe.R
 import com.cafeapp.mycafe.frameworks.room.OrdersEntity
+import com.cafeapp.mycafe.frameworks.view.BaseFragment
 import com.cafeapp.mycafe.frameworks.view.delivery.OrderType
 import com.cafeapp.mycafe.frameworks.view.delivery.SelectedOrder
 import com.cafeapp.mycafe.frameworks.view.utils.CalendarUtility
 import com.cafeapp.mycafe.interface_adapters.viewmodels.orders.OrderViewModel
+import com.cafeapp.mycafe.interface_adapters.viewmodels.orders.OrderViewState
 import com.cafeapp.mycafe.use_case.utils.MsgState
+import com.cafeapp.mycafe.use_case.utils.SharedMsg
 import com.cafeapp.mycafe.use_case.utils.SharedViewModel
 import com.cafeapp.mycafe.use_case.utils.isError
 import kotlinx.android.synthetic.main.fragment_delivery_client_data.*
 
-class DeliveryClientDataFragment(private val orderViewModel: OrderViewModel) : Fragment() {
-    companion object {
+class DeliveryClientDataFragment(orderViewModel: OrderViewModel) : BaseFragment<OrderViewModel, OrderViewState>() {
+companion object {
         lateinit var deliveryDateTimeCalendar: CalendarUtility
     }
-
-    private val sharedModel by lazy {
-        activity?.let { ViewModelProvider(it).get(SharedViewModel::class.java) }
-    }
+    override val viewModel = orderViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        initSharedModelObserver()
         return inflater.inflate(R.layout.fragment_delivery_client_data, container, false)
     }
 
@@ -62,23 +61,6 @@ class DeliveryClientDataFragment(private val orderViewModel: OrderViewModel) : F
             if (!focused) {
                 if (!isError(textView, message)) {
                     saveDelivery()
-                }
-            }
-        }
-    }
-
-    private fun initSharedModelObserver() {
-        sharedModel?.getSelected()?.observe(viewLifecycleOwner) { msg ->
-            when (msg.stateName) {
-                MsgState.DELIVERYADD -> {
-                    SelectedOrder.currentOrder = OrdersEntity()
-                    saveDelivery()
-                }
-                MsgState.DELEVERYOPEN -> {
-                    if (msg.value is OrdersEntity)
-                        viewSetData(msg.value)
-                    if (msg.value is Map<*, *>)
-                        loadDeliveryFromDishes(msg.value)
                 }
             }
         }
@@ -123,6 +105,28 @@ class DeliveryClientDataFragment(private val orderViewModel: OrderViewModel) : F
             orderDelivery.id = SelectedOrder.currentOrder.id
 
         SelectedOrder.currentOrder = orderDelivery
-        orderViewModel.saveOrder(orderDelivery)
+        viewModel.saveOrder(orderDelivery)
+    }
+
+    override fun onMainFabClick() {}
+
+    override fun onViewModelMsg(state: OrderViewState) {
+        super.onViewModelMsg(state)
+    }
+
+
+    override fun onSharedMsg(msg: SharedMsg) {
+        when (msg.stateName) {
+            MsgState.DELIVERYADD -> {
+                SelectedOrder.currentOrder = OrdersEntity()
+                saveDelivery()
+            }
+            MsgState.DELEVERYOPEN -> {
+                if (msg.value is OrdersEntity)
+                    viewSetData(msg.value)
+                if (msg.value is Map<*, *>)
+                    loadDeliveryFromDishes(msg.value)
+            }
+        }
     }
 }

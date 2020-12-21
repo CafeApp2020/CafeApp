@@ -5,16 +5,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cafeapp.mycafe.R
 import com.cafeapp.mycafe.frameworks.room.TableEntity
+import com.cafeapp.mycafe.frameworks.view.BaseFragment
 import com.cafeapp.mycafe.frameworks.view.utils.RecyclerViewUtil
 import com.cafeapp.mycafe.interface_adapters.viewmodels.tables.TableViewModel
-import com.cafeapp.mycafe.use_case.utils.isError
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.cafeapp.mycafe.interface_adapters.viewmodels.tables.TableViewState
+import com.cafeapp.mycafe.use_case.utils.SharedMsg
 import kotlinx.android.synthetic.main.dialog_add_category.view.*
 import kotlinx.android.synthetic.main.dialog_add_table.*
 import kotlinx.android.synthetic.main.dialog_add_table.view.*
@@ -24,8 +22,9 @@ import kotlinx.android.synthetic.main.fragment_tablelist.*
 import kotlinx.android.synthetic.main.fragment_tablelist.view.*
 import org.koin.androidx.scope.currentScope
 
-class TableListFragment() : Fragment(), OnTableListItemClickListener {
-    private val tableViewModel: TableViewModel by currentScope.inject()
+class TableListFragment() : BaseFragment<TableViewModel, TableViewState>(),
+    OnTableListItemClickListener {
+    override val viewModel: TableViewModel by currentScope.inject()
     private lateinit var gDialog: AlertDialog
     private lateinit var tableListAdapter: TableListRVAdapter
     private var currentTableEntity: TableEntity? = null
@@ -39,39 +38,18 @@ class TableListFragment() : Fragment(), OnTableListItemClickListener {
         return root
     }
 
-    private fun initViewModelObserver() {
-        tableViewModel.tableViewState.observe(viewLifecycleOwner) { state ->
-            state.error?.let {
-                Toast.makeText(context, state.error.message, Toast.LENGTH_LONG).show()
-                return@observe
-            }
-            state.tableList?.let { tableList ->
-                initRecyclerView()
-                tableListAdapter.setTableList(tableList)
-            }
-        }
-    }
-
     private fun initRecyclerView() {
         tableListAdapter = TableListRVAdapter(TableListFragment@ this)
         tableListRW.apply {
             layoutManager = LinearLayoutManager(activity)
             adapter = tableListAdapter
-            RecyclerViewUtil.addDecorator(context, this)
-        }
+            RecyclerViewUtil.addDecorator(context, this)}
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val fab = activity?.findViewById<FloatingActionButton>(R.id.activityFab)
-        initViewModelObserver()
-        context?.let { RecyclerViewUtil.addDecorator(it, tableListRW) }
-        tableViewModel.allTable()
-        fab?.setImageResource(android.R.drawable.ic_input_add)
-        fab?.setOnClickListener {
-            gDialog = showAddTableDialog(" ")
-            gDialog.show()
-        }
+        viewModel.allTable()
+        setFabImageResource(android.R.drawable.ic_input_add)
     }
 
     private fun showAddTableDialog(defaultText: String): AlertDialog {
@@ -99,12 +77,12 @@ class TableListFragment() : Fragment(), OnTableListItemClickListener {
 
     private fun editTable(tableName: String) {
         this.currentTableEntity?.tablename = tableName
-        tableViewModel.updateTable(currentTableEntity)
+        viewModel.updateTable(currentTableEntity)
     }
 
     private fun addNewTable(tableName: String) {
         val tableEntity = TableEntity(tablename = tableName)
-        tableViewModel.addTable(tableEntity)
+        viewModel.addTable(tableEntity)
     }
 
     override fun onEditTableButtonClick(tableEntity: TableEntity) {
@@ -114,6 +92,21 @@ class TableListFragment() : Fragment(), OnTableListItemClickListener {
     }
 
     override fun onRemoveTableButtonClick(tableEntity: TableEntity) {
-        tableViewModel.removeTable(tableEntity)
+        viewModel.removeTable(tableEntity)
+    }
+
+    override fun onMainFabClick() {
+        gDialog = showAddTableDialog(" ")
+        gDialog.show()
+    }
+
+    override fun onSharedMsg(msg: SharedMsg) {}
+
+    override fun onViewModelMsg(state: TableViewState) {
+        super.onViewModelMsg(state)
+        state.tableList?.let { tableList ->
+            initRecyclerView()
+            tableListAdapter.setTableList(tableList)
+        }
     }
 }

@@ -1,19 +1,12 @@
 package com.cafeapp.mycafe.interface_adapters.viewmodels.tables
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.cafeapp.mycafe.frameworks.room.TableEntity
+import com.cafeapp.mycafe.interface_adapters.viewmodels.baseviewmodel.BaseViewModel
 import com.cafeapp.mycafe.use_case.interactors.tables.ITableInteractor
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-class TableViewModel(private val tableInteractor : ITableInteractor) : ViewModel() {
-    private val compositeDisposable: CompositeDisposable = CompositeDisposable()
-    private val modifyTableAddViewState = MutableLiveData<TableViewState>()
-    val tableViewState: LiveData<TableViewState> = modifyTableAddViewState
-
+class TableViewModel(private val tableInteractor : ITableInteractor) : BaseViewModel() {
     fun addTable(tableEntity: TableEntity) {
         compositeDisposable.add(
             tableInteractor.saveTable(tableEntity)!!
@@ -21,17 +14,12 @@ class TableViewModel(private val tableInteractor : ITableInteractor) : ViewModel
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     {
-                        modifyTableAddViewState.value =
-                            TableViewState(saveOk = true, tableList = it)
+                     modifyViewState.value =  TableViewState(saveOk = true, tableList = it)
                     },
                     { error ->
-                        modifyTableAddViewState.value = TableViewState(error = error)
+                        modifyViewState.value = TableViewState(error = error)
                     })
         )
-    }
-
-    override fun onCleared() {
-        compositeDisposable.clear()
     }
 
     fun allTable() {
@@ -41,11 +29,10 @@ class TableViewModel(private val tableInteractor : ITableInteractor) : ViewModel
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     {
-                        modifyTableAddViewState.value =
-                            TableViewState(saveOk = true, tableList = it)
+                        modifyViewState.value = TableViewState(saveOk = true, tableList = it)
                     },
                     { error ->
-                        modifyTableAddViewState.value = TableViewState(error = error)
+                        modifyViewState.value = TableViewState(error = error)
                     })
         )
     }
@@ -57,12 +44,9 @@ class TableViewModel(private val tableInteractor : ITableInteractor) : ViewModel
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     {
-                        modifyTableAddViewState.value =
-                            TableViewState(saveOk = true)
+                        modifyViewState.value = TableViewState(saveOk = true)
                     },
-                    { error ->
-                        modifyTableAddViewState.value = TableViewState(error = error)
-                    })
+                    { error -> modifyViewState.value = TableViewState(error = error)})
         )
     }
 
@@ -73,11 +57,9 @@ class TableViewModel(private val tableInteractor : ITableInteractor) : ViewModel
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     {
-                        modifyTableAddViewState.value =
-                            TableViewState(saveOk = true)
+                        modifyViewState.value = TableViewState(saveOk = true)
                     },
-                    { error ->
-                        modifyTableAddViewState.value = TableViewState(error = error)
+                    { error -> modifyViewState.value = TableViewState(error = error)
                     })
         )
     }

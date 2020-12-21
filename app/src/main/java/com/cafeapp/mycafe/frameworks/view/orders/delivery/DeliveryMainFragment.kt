@@ -10,8 +10,12 @@ import androidx.lifecycle.observe
 import androidx.viewpager2.widget.ViewPager2
 import com.cafeapp.mycafe.R
 import com.cafeapp.mycafe.frameworks.room.OrdersEntity
+import com.cafeapp.mycafe.frameworks.view.BaseFragment
 import com.cafeapp.mycafe.frameworks.view.delivery.SelectedOrder
+import com.cafeapp.mycafe.frameworks.view.menu.categorylist.WorkMode
+import com.cafeapp.mycafe.interface_adapters.viewmodels.categories.CategoryViewState
 import com.cafeapp.mycafe.interface_adapters.viewmodels.orders.OrderViewModel
+import com.cafeapp.mycafe.interface_adapters.viewmodels.orders.OrderViewState
 import com.cafeapp.mycafe.use_case.utils.MsgState
 import com.cafeapp.mycafe.use_case.utils.SharedMsg
 import com.cafeapp.mycafe.use_case.utils.SharedViewModel
@@ -20,13 +24,9 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import org.koin.androidx.scope.currentScope
 
-class DeliveryMainFragment : Fragment() {
-    private val orderViewModel: OrderViewModel by currentScope.inject()
+class DeliveryMainFragment() : BaseFragment<OrderViewModel, OrderViewState>() {
+    override val viewModel: OrderViewModel by currentScope.inject()
     private lateinit var viewPager: ViewPager2
-
-    private val sharedModel by lazy {
-        activity?.let { ViewModelProvider(it).get(SharedViewModel::class.java) }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,14 +39,11 @@ class DeliveryMainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initFub()
-        initSharedModelObserver()
-        initOrderViewModelObserver()
-
+        setFabImageResource(android.R.drawable.ic_menu_save)
         val tabLayout = view.findViewById<TabLayout>(R.id.tab_layout)
         viewPager = view.findViewById(R.id.pager)
 
-        val deliveryAddAdapter = DeliveryTapAdapter(this, orderViewModel)
+        val deliveryAddAdapter = DeliveryTapAdapter(this, viewModel)
         viewPager.adapter = deliveryAddAdapter
 
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
@@ -55,42 +52,11 @@ class DeliveryMainFragment : Fragment() {
         }.attach()
     }
 
-    private fun initFub() {
-        val fab = activity?.findViewById<FloatingActionButton>(R.id.activityFab)
-
-        with(fab!!) {
-            setImageResource(android.R.drawable.ic_menu_save)
-            setOnClickListener {
-                sharedModel?.select(SharedMsg(MsgState.RETURNSELECTEDDISHLIST, 0))
-            }
-        }
-    }
-
-    private fun initSharedModelObserver() {
-        sharedModel?.getSelected()?.observe(viewLifecycleOwner) { msg ->
-            when (msg.stateName) {
-                MsgState.DELEVERYOPEN -> {
-                    if (msg.value is Map<*, *>)
-                        insertDishesAndLoadDelivery(msg.value)
-                }
-            }
-        }
-    }
-
-    private fun initOrderViewModelObserver() {
-        orderViewModel.orderViewState.observe(viewLifecycleOwner) { deliveryViewState ->
-            when {
-                deliveryViewState.saveOk -> {
-                    if (deliveryViewState.ordersEntityID > 0) {
-                        SelectedOrder.currentOrder.id = deliveryViewState.ordersEntityID
-                    }
-                }
-            }
-
-            deliveryViewState.orderDishEntityModifyList?.let {
-                viewPager.currentItem = 1
-            }
-        }
+    override fun onViewModelMsg(state: OrderViewState) {
+        super.onViewModelMsg(state)
+       if (state.saveOk && state.ordersEntityID > 0)
+                SelectedOrder.currentOrder.id = state.ordersEntityID
+        state.orderDishEntityModifyList?.let {viewPager.currentItem = 1}
     }
 
     private fun insertDishesAndLoadDelivery(value: Any) {
@@ -104,7 +70,17 @@ class DeliveryMainFragment : Fragment() {
         }
     }
 
-    private fun insertDishList(order: OrdersEntity, selectedDishList: MutableList<Long>) {
-        orderViewModel.insertSelDishIdList(order, selectedDishList)
+    private fun insertDishList(order: OrdersEntity, selectedDishList: MutableList<Long>) =
+        viewModel.insertSelDishIdList(order, selectedDishList)
+
+    override fun onMainFabClick() {
+        sharedModel?.select(SharedMsg(MsgState.RETURNSELECTEDDISHLIST, 0))
+    }
+
+    override fun onSharedMsg(msg: SharedMsg) {
+        if (msg.stateName == MsgState.DELEVERYOPEN ) {
+          if (msg.value is Map<*, *>)
+            insertDishesAndLoadDelivery(msg.value)
+        }
     }
 }

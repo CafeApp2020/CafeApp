@@ -17,7 +17,7 @@ class CategoryListRVAdapter(private val listener: OnCategoryListItemClickListene
     private lateinit var context: Context
 
     fun setCategoryList(categoryList: List<CategoryEntity?>?) {
-        this.categoryList.clear()  // break point
+        this.categoryList.clear()
         this.categoryList.addAll(categoryList!!) // см.какие данные приходят, актуальные или нет
         notifyDataSetChanged()
     }
@@ -29,8 +29,7 @@ class CategoryListRVAdapter(private val listener: OnCategoryListItemClickListene
             LayoutInflater.from(context).inflate(
                 R.layout.category_view_holder,
                 parent,
-                false
-            )
+                false )
         )
     }
 

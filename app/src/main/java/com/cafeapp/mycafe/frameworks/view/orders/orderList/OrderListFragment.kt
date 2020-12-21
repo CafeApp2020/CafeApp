@@ -11,9 +11,14 @@ import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
 import com.cafeapp.mycafe.R
 import com.cafeapp.mycafe.frameworks.room.OrdersEntity
+import com.cafeapp.mycafe.frameworks.view.BaseFragment
 import com.cafeapp.mycafe.frameworks.view.delivery.OrderType
+import com.cafeapp.mycafe.frameworks.view.menu.categorylist.WorkMode
 import com.cafeapp.mycafe.frameworks.view.orders.OrderTypeFragment
+import com.cafeapp.mycafe.interface_adapters.viewmodels.categories.CategoryViewModel
+import com.cafeapp.mycafe.interface_adapters.viewmodels.categories.CategoryViewState
 import com.cafeapp.mycafe.interface_adapters.viewmodels.orders.OrderViewModel
+import com.cafeapp.mycafe.interface_adapters.viewmodels.orders.OrderViewState
 import com.cafeapp.mycafe.use_case.utils.MsgState
 import com.cafeapp.mycafe.use_case.utils.SharedMsg
 import com.cafeapp.mycafe.use_case.utils.SharedViewModel
@@ -23,13 +28,9 @@ import kotlinx.android.synthetic.main.fragment_orderlist.view.*
 import org.koin.androidx.scope.currentScope
 
 // Экран для отображения списка заказов
-class OrderListFragment : Fragment() {
-    private val orderViewModel: OrderViewModel by currentScope.inject()
+class OrderListFragment : BaseFragment<OrderViewModel, OrderViewState>() {
     private lateinit var orderListAdapter: OrderListRVAdapter
-
-    private val sharedModel by lazy {
-        activity?.let { ViewModelProvider(it).get(SharedViewModel::class.java) }
-    }
+    override val viewModel: OrderViewModel by currentScope.inject()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,37 +38,9 @@ class OrderListFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View? {
         val root = inflater.inflate(R.layout.fragment_orderlist, container, false)
-
         initRecyclerView(root)
-        initSharedModelObserver()
-
-        val fab = activity?.findViewById<FloatingActionButton>(R.id.activityFab)
-        fab?.setImageResource(android.R.drawable.ic_input_add)
-        fab?.setOnClickListener {
-            val selectOrderTypeFragment = OrderTypeFragment()
-            activity?.let { it1 ->
-                selectOrderTypeFragment.show(it1.supportFragmentManager,
-                    selectOrderTypeFragment.tag)
-            }
-        }
-
-        orderViewModel?.orderViewState.observe(viewLifecycleOwner) { state ->
-            state.error?.let { error ->
-                Toast.makeText(activity, error?.message, Toast.LENGTH_LONG).show()
-                return@observe
-            }
-
-            if (state.loadOk)
-                state.ordersEntity?.let { orderEntity ->
-                    openOrder(orderEntity)
-                }
-
-            state.orderList?.let { dishList ->
-                orderListAdapter.data = dishList
-            }
-        }
-
-        orderViewModel.getOrderList()
+        setFabImageResource(android.R.drawable.ic_input_add)
+        viewModel.getOrderList()
         return root
     }
 
@@ -82,13 +55,7 @@ class OrderListFragment : Fragment() {
             }
 
             OrderType.INROOM -> {
-
             }
-        }
-    }
-
-    private fun initSharedModelObserver() {
-        sharedModel?.getSelected()?.observe(viewLifecycleOwner) { msg ->
         }
     }
 
@@ -96,10 +63,31 @@ class OrderListFragment : Fragment() {
         orderListAdapter = OrderListRVAdapter {
             openOrder(it)
         }
-
         root.orderlist_recyclerview.apply {
             adapter = orderListAdapter
             layoutManager = GridLayoutManager(activity, 2)
         }
     }
+
+    override fun onMainFabClick() {
+        val selectOrderTypeFragment = OrderTypeFragment()
+        activity?.let { frActivity ->
+            selectOrderTypeFragment.show(frActivity.supportFragmentManager,
+                selectOrderTypeFragment.tag)
+        }
+    }
+
+    override fun onViewModelMsg(state: OrderViewState) {
+        super.onViewModelMsg(state)
+        if (state.loadOk)
+            state.ordersEntity?.let { orderEntity ->
+                openOrder(orderEntity)
+            }
+
+        state.orderList?.let { dishList ->
+            orderListAdapter.data = dishList
+        }
+    }
+
+    override fun onSharedMsg(msg: SharedMsg) {}
 }

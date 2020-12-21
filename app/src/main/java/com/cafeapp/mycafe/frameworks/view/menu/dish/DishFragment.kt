@@ -8,7 +8,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.cafeapp.mycafe.R
 import com.cafeapp.mycafe.frameworks.picasso.setImage
+import com.cafeapp.mycafe.frameworks.view.BaseFragment
+import com.cafeapp.mycafe.interface_adapters.viewmodels.categories.CategoryViewState
 import com.cafeapp.mycafe.interface_adapters.viewmodels.dishes.DishViewModel
+import com.cafeapp.mycafe.interface_adapters.viewmodels.dishes.DishesViewState
 import com.cafeapp.mycafe.use_case.utils.MsgState
 import com.cafeapp.mycafe.use_case.utils.SharedMsg
 import com.cafeapp.mycafe.use_case.utils.SharedViewModel
@@ -17,53 +20,29 @@ import com.less.repository.db.room.DishesEntity
 import kotlinx.android.synthetic.main.fragment_dish.*
 import org.koin.androidx.scope.currentScope
 
-class DishFragment : Fragment() {
+class DishFragment : BaseFragment<DishViewModel, DishesViewState>() {
     private var currentDishID: Long = 0
-    private val dishViewModel: DishViewModel by currentScope.inject()
-
-    private val sharedModel by lazy {
-        activity?.let { ViewModelProvider(it).get(SharedViewModel::class.java) }
-    }
+    override val viewModel: DishViewModel by currentScope.inject()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
-        val root = inflater.inflate(R.layout.fragment_dish, container, false)
+        return inflater.inflate(R.layout.fragment_dish, container, false)
+    }
 
-        dishViewModel.dishViewState.observe(viewLifecycleOwner, { state ->
-            state.dish?.let { dish ->
-                showDish(dish)
-            }
-        })
-
-        sharedModel?.getSelected()?.observe(viewLifecycleOwner, { msg ->
-            when (msg.stateName) {
-                MsgState.OPENDISH ->
-                    if (msg.value is Long) {
-                        currentDishID = msg.value
-                        loadDish(msg.value)
-                    }
-            }
-        })
-
-        val fab = activity?.findViewById<FloatingActionButton>(R.id.activityFab)
-        fab?.setImageResource(android.R.drawable.ic_menu_edit)
-        fab?.setOnClickListener {
-            sharedModel?.select(SharedMsg(MsgState.EDITDISH, currentDishID))
-        }
-
-        return root
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setFabImageResource(android.R.drawable.ic_menu_edit)
     }
 
     private fun loadDish(id: Long) {
-        dishViewModel.getDish(id)
+        viewModel.getDish(id)
     }
 
     private fun showDish(dish: DishesEntity) {
-        priceTW.text =
-            dish.price.toString() + " ₽" // временно делаем так, далее в настройках будем прописывать единицы
+        priceTW.text =  dish.price.toString() + " ₽" // временно делаем так, далее в настройках будем прописывать единицы
         weigthTW.text = dish.weight?.toInt().toString() + " гр" // аналогично
         descriptionTW.text = dish.description
         dish.name?.let { name -> sharedModel?.select(SharedMsg(MsgState.SETTOOLBARTITLE, name)) }
@@ -73,5 +52,21 @@ class DishFragment : Fragment() {
         if (imagePath.isNotEmpty()) {
             setImage(dish.imagepath.toString(), fragment_dish_image_imageview)
         }
+    }
+
+    override fun onMainFabClick() {
+        sharedModel?.select(SharedMsg(MsgState.EDITDISH, currentDishID))
+    }
+
+    override fun onSharedMsg(msg: SharedMsg) {
+        if (msg.stateName == MsgState.OPENDISH && msg.value is Long) {
+           currentDishID = msg.value
+          loadDish(msg.value)
+        }
+    }
+
+    override fun onViewModelMsg(state: DishesViewState) {
+        super.onViewModelMsg(state)
+        state.dish?.let { dish ->   showDish(dish) }
     }
 }

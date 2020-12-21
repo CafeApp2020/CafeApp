@@ -11,21 +11,20 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.cafeapp.mycafe.R
 import com.cafeapp.mycafe.entities.OrderDishEntityModify
 import com.cafeapp.mycafe.frameworks.room.OrdersEntity
+import com.cafeapp.mycafe.frameworks.view.BaseFragment
 import com.cafeapp.mycafe.frameworks.view.delivery.SelectedOrder
 import com.cafeapp.mycafe.interface_adapters.viewmodels.orders.OrderViewModel
+import com.cafeapp.mycafe.interface_adapters.viewmodels.orders.OrderViewState
 import com.cafeapp.mycafe.use_case.utils.MsgState
 import com.cafeapp.mycafe.use_case.utils.SharedMsg
 import com.cafeapp.mycafe.use_case.utils.SharedViewModel
 import kotlinx.android.synthetic.main.fragment_order_dishlist.*
 import kotlinx.android.synthetic.main.fragment_order_dishlist.view.*
+import org.koin.androidx.scope.currentScope
 
-class OrdersDishListFragment(private val orderViewModel: OrderViewModel)
-    : Fragment(), OnOrderDishListener {
+class OrdersDishListFragment(orderViewModel: OrderViewModel): BaseFragment<OrderViewModel, OrderViewState>() , OnOrderDishListener {
     private lateinit var ordersDishListRVAdapter: OrdersDishListRVAdapter
-
-    private val sharedModel by lazy {
-        activity?.let { ViewModelProvider(it).get(SharedViewModel::class.java) }
-    }
+    override val viewModel = orderViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,18 +33,6 @@ class OrdersDishListFragment(private val orderViewModel: OrderViewModel)
     ): View {
         val root = inflater.inflate(R.layout.fragment_order_dishlist, container, false)
         initRecyclerView(root)
-        initSharedModelObserver()
-
-        orderViewModel.orderViewState.observe(viewLifecycleOwner) { orderViewState ->
-            orderViewState.orderDishEntityModifyList?.let {
-                it.let {
-                    ordersDishListRVAdapter.setDishList(it)
-                    totalSummTW.text = orderViewModel.getTotalSum(it).toString() + " ₽"
-                }
-            }
-            if (orderViewState.saveOk&&SelectedOrder.currentOrder.paided)
-                sharedModel?.select(SharedMsg(MsgState.RETURNSELECTEDDISHLIST, 0))
-        }
         return root
     }
 
@@ -55,28 +42,12 @@ class OrdersDishListFragment(private val orderViewModel: OrderViewModel)
         }
         payedButton?.setOnClickListener {
             SelectedOrder.currentOrder.paided=true
-            orderViewModel.changePayedStatus(SelectedOrder.currentOrder)
-        }
-    }
-
-    private fun initSharedModelObserver() {
-        sharedModel?.getSelected()?.observe(viewLifecycleOwner) { msg ->
-            when (msg.stateName) {
-                MsgState.DELEVERYOPEN -> {
-                    if (msg.value is OrdersEntity)
-                        loadDishList(msg.value)
-                }
-
-                MsgState.TAKEAWAYOPEN -> {
-                    if (msg.value is OrdersEntity)
-                        loadDishList(msg.value)
-                }
-            }
+            viewModel.changePayedStatus(SelectedOrder.currentOrder)
         }
     }
 
     private fun loadDishList(ordersEntity: OrdersEntity) {
-        orderViewModel.loadDishList(ordersEntity)
+        viewModel.loadDishList(ordersEntity)
     }
 
     private fun initRecyclerView(view: View) {
@@ -89,8 +60,34 @@ class OrdersDishListFragment(private val orderViewModel: OrderViewModel)
     }
 
     override fun onDishCountChangeButtonClick(orderDishEntity: OrderDishEntityModify) {
-        orderViewModel.updateOrderDishEntityModify(orderDishEntity)
+        viewModel.updateOrderDishEntityModify(orderDishEntity)
     }
 
+    override fun onViewModelMsg(state: OrderViewState) {
+        super.onViewModelMsg(state)
+        state.orderDishEntityModifyList?.let {
+            it.let {
+                ordersDishListRVAdapter.setDishList(it)
+                totalSummTW.text = viewModel.getTotalSum(it).toString() + " ₽"
+            }
+        }
+        if (state.saveOk&&SelectedOrder.currentOrder.paided)
+            sharedModel?.select(SharedMsg(MsgState.RETURNSELECTEDDISHLIST, 0))
+    }
 
+    override fun onMainFabClick() {
+    }
+
+    override fun onSharedMsg(msg: SharedMsg) {
+        when (msg.stateName) {
+            MsgState.DELEVERYOPEN -> {
+                if (msg.value is OrdersEntity)
+                    loadDishList(msg.value)
+            }
+            MsgState.TAKEAWAYOPEN -> {
+                if (msg.value is OrdersEntity)
+                    loadDishList(msg.value)
+            }
+        }
+    }
 }

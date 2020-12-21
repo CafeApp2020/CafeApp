@@ -142,7 +142,7 @@ class DishListRVAdapter(private val listener: OnDishListItemClickListener) :
             if (dish.in_stop_list)
                 showStopListButtons()
             else
-            hideStopListButtons()
+                hideStopListButtons()
         }
 
         private fun showCheckedDish() = with(itemView) {
