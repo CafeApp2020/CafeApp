@@ -8,7 +8,7 @@ import com.cafeapp.mycafe.R
 import com.cafeapp.mycafe.entities.OrderDishEntityModify
 import kotlinx.android.synthetic.main.order_dish_view_holder.view.*
 
-class OrdersDishListRVAdapter() :
+class OrdersDishListRVAdapter(val listener: OnOrderDishListener) :
     RecyclerView.Adapter<OrdersDishListRVAdapter.ViewHolder>() {
     var data: List<OrderDishEntityModify?>? = mutableListOf()
         set(value) {
@@ -34,16 +34,29 @@ class OrdersDishListRVAdapter() :
 
     override fun getItemCount(): Int = data!!.size
 
-    inner class ViewHolder(itemView: View) :
-        RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(itemView: View) :   RecyclerView.ViewHolder(itemView) {
+        lateinit var orderDishEntityModify: OrderDishEntityModify
+
         fun bind(data: OrderDishEntityModify) = with(itemView) {
+            orderDishEntityModify=data
             setData(data)
+            onDishCountChangeClick()
+        }
+
+        private fun onDishCountChangeClick() = with(itemView) {
+            incDishCount.setOnClickListener {dishCountChange(orderDishEntityModify.dishCount++)}
+            decDishCount.setOnClickListener {dishCountChange(orderDishEntityModify.dishCount--)}
+        }
+
+        private fun dishCountChange(count:Int) {
+            itemView.dishCountTV.text= orderDishEntityModify.dishCount.toString()
+            listener.onDishCountChangeButtonClick(orderDishEntityModify)
         }
 
         private fun setData(data: OrderDishEntityModify) = with(itemView) {
             dishNameTW.text = data.dishName
             priceTW.text = data.dishPrice.toString() + " ₽"
-            dishCountTW.text = data.dishCount.toString()
+            dishCountTV.text = data.dishCount.toString()
         }
     }
 }

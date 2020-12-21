@@ -1,10 +1,7 @@
 package com.prof.dz.frameworks.koin
 
 import androidx.room.Room
-import com.cafeapp.mycafe.frameworks.room.CafeDataBase
-import com.cafeapp.mycafe.frameworks.room.CategoryDataSource
-import com.cafeapp.mycafe.frameworks.room.DishDataSource
-import com.cafeapp.mycafe.frameworks.room.OrderDataSource
+import com.cafeapp.mycafe.frameworks.room.*
 import com.cafeapp.mycafe.frameworks.view.menu.categoryadd.CategoryAddFragment
 import com.cafeapp.mycafe.frameworks.view.menu.categorylist.CategoryListFragment
 import com.cafeapp.mycafe.frameworks.view.orders.delivery.DeliveryMainFragment
@@ -13,9 +10,11 @@ import com.cafeapp.mycafe.frameworks.view.menu.dishesadd.DishesAddFragment
 import com.cafeapp.mycafe.frameworks.view.menu.dishlist.DishListFragment
 import com.cafeapp.mycafe.frameworks.view.orders.orderList.OrderListFragment
 import com.cafeapp.mycafe.frameworks.view.orders.takeaway.TakeawayMainFragment
+import com.cafeapp.mycafe.frameworks.view.tables.TableListFragment
 import com.cafeapp.mycafe.interface_adapters.viewmodels.categories.CategoryViewModel
 import com.cafeapp.mycafe.interface_adapters.viewmodels.orders.OrderViewModel
 import com.cafeapp.mycafe.interface_adapters.viewmodels.dishes.DishViewModel
+import com.cafeapp.mycafe.interface_adapters.viewmodels.tables.TableViewModel
 import com.cafeapp.mycafe.use_case.data.*
 import com.cafeapp.mycafe.use_case.interactors.categories.CategoryInteractor
 import com.cafeapp.mycafe.use_case.interactors.categories.ICategoryInteractor
@@ -23,23 +22,29 @@ import com.cafeapp.mycafe.use_case.interactors.dishes.DishInteractor
 import com.cafeapp.mycafe.use_case.interactors.dishes.IDishInteractor
 import com.cafeapp.mycafe.use_case.interactors.orders.IOrderInteractor
 import com.cafeapp.mycafe.use_case.interactors.orders.OrderInteractor
+import com.cafeapp.mycafe.use_case.interactors.tables.ITableInteractor
+import com.cafeapp.mycafe.use_case.interactors.tables.TableInteractor
 import com.cafeapp.mycafe.use_case.repositories.ICategoryRepository
 import com.cafeapp.mycafe.use_case.repositories.IDishRepository
 import com.cafeapp.mycafe.use_case.repositories.IOrderRepository
+import com.cafeapp.mycafe.use_case.repositories.ITableRepository
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 val application = module {
-    single { Room.databaseBuilder(get(), CafeDataBase::class.java, "cafedb7").build() }
+    single { Room.databaseBuilder(get(), CafeDataBase::class.java, "cafedb18").build() }
     single { get<CafeDataBase>().categoryDao() }
     single { get<CafeDataBase>().dishesDao() }
     single { get<CafeDataBase>().orderDao() }
+    single { get<CafeDataBase>().tablesDao()}
     single<ICategoryDataSource> { CategoryDataSource(get()) }
     single<ICategoryRepository> { CategoryRepository(get()) }
     single<IDishDataSource> { DishDataSource(get()) }
     single<IDishRepository> { DishRepository(get()) }
     single<IOrderDataSource> { OrderDataSource(get()) }
     single<IOrderRepository> { OrderRepository(get()) }
+    single<ITableDataSource> { TableDataSource(get()) }
+    single<ITableRepository> { TableRepository(get()) }
 }
 
 val categoryListViewModel = module {
@@ -97,3 +102,12 @@ val takeawayAddViewModel = module {
         scoped { OrderViewModel(get()) }
     }
 }
+
+val tableViewModel = module {
+    scope(named<TableListFragment>()) {
+        scoped<ITableInteractor> { TableInteractor(get()) }
+        scoped { TableViewModel(get()) }
+    }
+}
+
+

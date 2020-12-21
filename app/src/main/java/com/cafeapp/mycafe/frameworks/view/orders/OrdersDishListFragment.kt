@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cafeapp.mycafe.R
+import com.cafeapp.mycafe.entities.OrderDishEntityModify
 import com.cafeapp.mycafe.frameworks.room.OrdersEntity
 import com.cafeapp.mycafe.frameworks.view.delivery.SelectedOrder
 import com.cafeapp.mycafe.interface_adapters.viewmodels.orders.OrderViewModel
@@ -18,7 +19,8 @@ import com.cafeapp.mycafe.use_case.utils.SharedViewModel
 import kotlinx.android.synthetic.main.fragment_order_dishlist.*
 import kotlinx.android.synthetic.main.fragment_order_dishlist.view.*
 
-class OrdersDishListFragment(private val orderViewModel: OrderViewModel) : Fragment() {
+class OrdersDishListFragment(private val orderViewModel: OrderViewModel)
+    : Fragment(), OnOrderDishListener {
     private lateinit var ordersDishListRVAdapter: OrdersDishListRVAdapter
 
     private val sharedModel by lazy {
@@ -41,6 +43,8 @@ class OrdersDishListFragment(private val orderViewModel: OrderViewModel) : Fragm
                     totalSummTW.text = orderViewModel.getTotalSum(it).toString() + " ₽"
                 }
             }
+            if (orderViewState.saveOk&&SelectedOrder.currentOrder.paided)
+                sharedModel?.select(SharedMsg(MsgState.RETURNSELECTEDDISHLIST, 0))
         }
         return root
     }
@@ -48,6 +52,10 @@ class OrdersDishListFragment(private val orderViewModel: OrderViewModel) : Fragm
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         addDihesBtn.setOnClickListener {
             sharedModel?.select(SharedMsg(MsgState.SELECTDISHTOORDER, SelectedOrder.currentOrder))
+        }
+        payedButton?.setOnClickListener {
+            SelectedOrder.currentOrder.paided=true
+            orderViewModel.changePayedStatus(SelectedOrder.currentOrder)
         }
     }
 
@@ -72,11 +80,17 @@ class OrdersDishListFragment(private val orderViewModel: OrderViewModel) : Fragm
     }
 
     private fun initRecyclerView(view: View) {
-        ordersDishListRVAdapter = OrdersDishListRVAdapter()
+        ordersDishListRVAdapter = OrdersDishListRVAdapter(OrdersDishListFragment@this)
 
-        view.dishListRV.apply {
+        view.dishListRW.apply {
             adapter = ordersDishListRVAdapter
             layoutManager = LinearLayoutManager(activity)
         }
     }
+
+    override fun onDishCountChangeButtonClick(orderDishEntity: OrderDishEntityModify) {
+        orderViewModel.updateOrderDishEntityModify(orderDishEntity)
+    }
+
+
 }

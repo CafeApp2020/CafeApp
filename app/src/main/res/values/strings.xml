@@ -82,4 +82,7 @@
     <string name="plus">+</string>
     <string name="new_takeaway_order">Самовывоз</string>
     <string name="near_time">На ближайшее время</string>
+    <string name="ok_title">Готово</string>
+    <string name="table_name_title">Название стола</string>
+    <string name="add_table_title">Добавление стола</string>
 </resources>

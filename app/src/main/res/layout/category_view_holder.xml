@@ -69,8 +69,6 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="@dimen/list_element_normal_height"
-            android:layout_marginTop="@dimen/card_margin"
-            android:layout_marginBottom="@dimen/card_margin"
             app:cardCornerRadius="@dimen/zero"
             app:cardElevation="@dimen/card_elevation">
 

@@ -16,4 +16,6 @@ interface IOrderRepository {
     fun updateOrder(orderEntity: OrdersEntity): Completable
     fun insertOrderListId(orderDishEntityList: MutableList<OrderDishEntity>): Completable
     fun getOrderDishList(orderId:Long): Observable<List<OrderDishEntityModify>>
+    fun updateOrderDish(orderDishEntity: OrderDishEntity): Completable
+    fun deleteOrderDish(orderDishEntity: OrderDishEntity): Completable
 }

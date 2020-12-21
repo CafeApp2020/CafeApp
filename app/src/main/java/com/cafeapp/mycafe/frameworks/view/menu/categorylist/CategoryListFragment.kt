@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.cafeapp.mycafe.R
 import com.cafeapp.mycafe.frameworks.room.OrdersEntity
 import com.cafeapp.mycafe.frameworks.view.delivery.OrderType
+import com.cafeapp.mycafe.frameworks.view.utils.RecyclerViewUtil
 import com.cafeapp.mycafe.interface_adapters.viewmodels.categories.CategoryViewModel
 import com.cafeapp.mycafe.use_case.utils.MsgState
 import com.cafeapp.mycafe.use_case.utils.SharedMsg
@@ -32,6 +33,7 @@ class CategoryListFragment : Fragment() {
         WorkMode.MenuCreate // режим работы: создание/редактирование меню либо выбор блюд для заказа
     private lateinit var categoryListAdapter: CategoryListRVAdapter
     private val categoryListViewModel: CategoryViewModel by currentScope.inject()
+    private var categoryListRwFirstInit = true
 
     private val sharedModel by lazy {
         activity?.let { ViewModelProvider(it).get(SharedViewModel::class.java) }
@@ -136,6 +138,8 @@ class CategoryListFragment : Fragment() {
         view.categoryListRV.apply {
             layoutManager = LinearLayoutManager(activity)
             adapter = categoryListAdapter
+            RecyclerViewUtil.addDecorator(context, this)
+            categoryListRwFirstInit=false
         }
     }
 

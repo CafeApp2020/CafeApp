@@ -62,4 +62,5 @@
     <dimen name="description_height">100dp</dimen>
     <dimen name="dish_count">35dp</dimen>
     <dimen name="dishList_in_order_max_height">370dp</dimen>
+    <dimen name="rw_margin">10px</dimen>
 </resources>

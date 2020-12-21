@@ -11,7 +11,7 @@ import com.less.repository.db.room.DishesEntity
             parentColumns = arrayOf("id"),
             childColumns = arrayOf("dish_id"),
             onDelete = CASCADE)))
-class OrderDishEntity(
+data class OrderDishEntity(
     @field:ColumnInfo(name = "order_id")
     var order_id: Long = 0,
     @field:ColumnInfo(name = "dish_id")

@@ -5,13 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.cafeapp.mycafe.R
 import com.cafeapp.mycafe.frameworks.view.menu.categorylist.CategoryListFragment
 import com.cafeapp.mycafe.frameworks.view.menu.categorylist.WorkMode
+import com.cafeapp.mycafe.frameworks.view.utils.RecyclerViewUtil
 import com.cafeapp.mycafe.interface_adapters.viewmodels.dishes.DishViewModel
 import com.cafeapp.mycafe.use_case.utils.MsgState
 import com.cafeapp.mycafe.use_case.utils.SharedMsg
@@ -19,6 +23,7 @@ import com.cafeapp.mycafe.use_case.utils.SharedViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.less.repository.db.room.CategoryEntity
 import com.less.repository.db.room.DishesEntity
+import kotlinx.android.synthetic.main.fragment_dishlist.*
 import kotlinx.android.synthetic.main.fragment_dishlist.view.*
 import org.koin.androidx.scope.currentScope
 import java.util.*
@@ -78,18 +83,19 @@ class DishListFragment : Fragment() {
     }
 
     private fun initViews(view: View) {
-        initRecyclerView(view)
+        initRecyclerView()
         initFabButton()
     }
 
-    private fun initRecyclerView(view: View) {
+    private fun initRecyclerView() {
         dishListAdapter = DishListRVAdapter(listener)
 
-        view.dishlist_recyclerview.apply {
+        dishlist_recyclerview.apply {
             adapter = dishListAdapter
             layoutManager = LinearLayoutManager(activity)
+                RecyclerViewUtil.addDecorator(context, this)
+            }
         }
-    }
 
     private fun initFabButton() {
         val fab = activity?.findViewById<FloatingActionButton>(R.id.activityFab)
@@ -109,6 +115,7 @@ class DishListFragment : Fragment() {
                  if (state.saveOk )
                      dishListViewModel.getDishList(currentCategoryID)
                  state.dishList?.let { dList ->
+                     initRecyclerView()
                      dishListAdapter.setDishList(dList)
                  }
              }
@@ -141,7 +148,6 @@ class DishListFragment : Fragment() {
 
     private fun openForOrder(categorId:Any) {
         if (categorId is Long) {
-          //  Toast.makeText(context, "id=" + categorId, Toast.LENGTH_LONG).show()
             workMode=WorkMode.OrderSelect
             loadDishFromCategoryId(categorId)
             val fab = activity?.findViewById<FloatingActionButton>(R.id.activityFab)

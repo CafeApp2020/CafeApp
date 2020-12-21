@@ -40,4 +40,12 @@ class OrderRepository(val dataSource: IOrderDataSource) : IOrderRepository {
     override fun getOrderDishList(orderId: Long): Observable<List<OrderDishEntityModify>> {
         return dataSource.getOrderDishList(orderId)
     }
+
+    override fun updateOrderDish(orderDishEntity: OrderDishEntity): Completable {
+        return dataSource.updateOrderDish(orderDishEntity)
+    }
+
+    override fun deleteOrderDish(orderDishEntity: OrderDishEntity): Completable {
+        return dataSource.deleteOrderDish(orderDishEntity)
+    }
 }

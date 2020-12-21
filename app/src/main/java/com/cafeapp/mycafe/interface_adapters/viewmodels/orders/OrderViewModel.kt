@@ -1,12 +1,10 @@
 package com.cafeapp.mycafe.interface_adapters.viewmodels.orders
 
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.cafeapp.mycafe.entities.OrderDishEntityModify
 import com.cafeapp.mycafe.frameworks.room.OrdersEntity
-import com.cafeapp.mycafe.frameworks.view.delivery.OrderType
 import com.cafeapp.mycafe.use_case.interactors.orders.IOrderInteractor
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -96,20 +94,6 @@ class OrderViewModel(private val orderInteractor: IOrderInteractor) : ViewModel(
         )
     }
 
-    fun loadOrder(orderId: Long) {
-        compositeDisposable.add(
-            orderInteractor.loadOrder(orderId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    modifyDeliveryAddViewState.value =
-                        OrderViewState(loadOk = true, ordersEntity = it)
-                }, {
-                    modifyDeliveryAddViewState.value = OrderViewState(error = it)
-                })
-        )
-    }
-
 
     fun getOrderList() {
         compositeDisposable.add(
@@ -126,5 +110,22 @@ class OrderViewModel(private val orderInteractor: IOrderInteractor) : ViewModel(
 
     fun getTotalSum(dishList: List<OrderDishEntityModify>): Double {
         return orderInteractor.getTotalSum(dishList)
+    }
+
+    fun changePayedStatus(order: OrdersEntity) {
+        editOrder(order)
+    }
+
+    fun updateOrderDishEntityModify(orderDishEntity: OrderDishEntityModify) {
+        compositeDisposable.add(
+            orderInteractor.updateOrderDishEntityModify(orderDishEntity)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    modifyDeliveryAddViewState.value = OrderViewState(saveOk = true)
+                }, {
+                    modifyDeliveryAddViewState.value = OrderViewState(error = it)
+                })
+        )
     }
 }

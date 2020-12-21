@@ -9,7 +9,7 @@ import io.reactivex.Single
 
 @Dao
 interface OrderDao {
-    @Query("SELECT * FROM OrdersEntity")
+    @Query("SELECT * FROM OrdersEntity where paided=0")
     fun all(): Single<List<OrdersEntity?>?>?
 
     @Query("SELECT * FROM OrdersEntity where ordertype=:deliveryType")
@@ -30,9 +30,15 @@ interface OrderDao {
     @Update
     fun update(entity: OrdersEntity): Completable
 
-    @Query("SELECT OrderDishEntity.order_id, OrderDishEntity.dish_id, " +
-                  "OrderDishEntity.dishCount, DishesEntity.name as dishName, DishesEntity.price as dishPrice" +
-                  " FROM OrderDishEntity Left Join DishesEntity on OrderDishEntity.dish_id=DishesEntity.id" +
-                  " where OrderDishEntity.order_id=:orderId")
+    @Query("SELECT OrderDishEntity.id as orderDishEntityId, OrderDishEntity.order_id, OrderDishEntity.dish_id, " +
+            "OrderDishEntity.dishCount, DishesEntity.name as dishName, DishesEntity.price as dishPrice" +
+            " FROM OrderDishEntity Left Join DishesEntity on OrderDishEntity.dish_id=DishesEntity.id" +
+            " where OrderDishEntity.order_id=:orderId")
     fun getOrderDishList(orderId: Long): Observable<List<OrderDishEntityModify>>
+
+    @Update
+    fun updateOrderDish(orderDishEntity: OrderDishEntity): Completable
+
+    @Delete
+    fun deleteOrderDish(orderDishEntity: OrderDishEntity): Completable
 }
