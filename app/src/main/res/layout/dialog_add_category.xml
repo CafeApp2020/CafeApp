@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/mandatoryTW"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginTop="@dimen/marginDefault"
+        style="@style/CafeTextStyle.Headline_1"
+        android:text="@string/add_category"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/categoryNameTIL"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_margin"
+        android:layout_marginTop="@dimen/marginDefault"
+        android:layout_marginEnd="@dimen/default_margin">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/categoryNameTIT"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/category_name" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/cancelBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:textColor="@color/secondary_secondary"
+            android:layout_marginEnd="@dimen/default_margin"
+            android:layout_marginTop="@dimen/marginDefault"
+            android:text="@string/cancel" />
+
+        <Button
+            android:id="@+id/saveCatBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:textColor="@color/secondary_secondary"
+            android:layout_marginEnd="@dimen/default_margin"
+            android:layout_marginTop="@dimen/marginDefault"
+            android:text="@string/add" />
+
+    </LinearLayout>
+
+</LinearLayout>

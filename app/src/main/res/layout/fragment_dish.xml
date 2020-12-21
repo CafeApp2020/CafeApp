@@ -13,7 +13,7 @@
         android:layout_height="@dimen/dish_card_picture_height"
         android:contentDescription="@string/dish_picture"
         android:scaleType="centerCrop"
-        android:src="@drawable/dishtemp"/>
+        android:src="@drawable/dish"/>
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/linearLayoutCompat"

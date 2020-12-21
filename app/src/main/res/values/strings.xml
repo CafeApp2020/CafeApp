@@ -27,7 +27,7 @@
     <string name="hint_cost">Цена</string>
     <string name="hint_weight">Вес</string>
     <string name="hint_description">Примечание</string>
-    <string name="add_category">Add category</string>
+    <string name="add_category">Добавить категорию</string>
     <string name="dish_picture">Dish picture</string>
     <string name="save_dish">Save dish</string>
     <string name="add_dish">Add dish</string>
@@ -85,4 +85,6 @@
     <string name="ok_title">Готово</string>
     <string name="table_name_title">Название стола</string>
     <string name="add_table_title">Добавление стола</string>
+    <string name="add">добавить</string>
+    <string name="text_category_name">Введите название категории</string>
 </resources>
