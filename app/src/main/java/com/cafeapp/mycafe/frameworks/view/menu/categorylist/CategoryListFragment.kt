@@ -1,5 +1,6 @@
 package com.cafeapp.mycafe.frameworks.view.menu.categorylist
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,8 +18,11 @@ import com.cafeapp.mycafe.interface_adapters.viewmodels.categories.CategoryViewM
 import com.cafeapp.mycafe.use_case.utils.MsgState
 import com.cafeapp.mycafe.use_case.utils.SharedMsg
 import com.cafeapp.mycafe.use_case.utils.SharedViewModel
+import com.cafeapp.mycafe.use_case.utils.isError
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.less.repository.db.room.CategoryEntity
+import kotlinx.android.synthetic.main.dialog_add_category.view.*
+import kotlinx.android.synthetic.main.fragment_categorylist.*
 import kotlinx.android.synthetic.main.fragment_categorylist.view.*
 import org.koin.androidx.scope.currentScope
 
@@ -34,6 +38,8 @@ class CategoryListFragment : Fragment() {
     private lateinit var categoryListAdapter: CategoryListRVAdapter
     private val categoryListViewModel: CategoryViewModel by currentScope.inject()
     private var categoryListRwFirstInit = true
+    private lateinit var gDialog: AlertDialog
+    private var categoryListLastElement: Int = 0
 
     private val sharedModel by lazy {
         activity?.let { ViewModelProvider(it).get(SharedViewModel::class.java) }
@@ -84,7 +90,7 @@ class CategoryListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initViews(view)
+        initViews()
         initViewModelObserver()
         initSharedModelObserver()
         categoryListViewModel.getCategories()
@@ -97,13 +103,15 @@ class CategoryListFragment : Fragment() {
                 return@observe
             }
             state.categoryList?.let { categoryList ->
+                initRecyclerView()
+                categoryListLastElement = categoryList.size
                 categoryListAdapter.setCategoryList(categoryList)
             }
         }
     }
 
-    private fun initViews(view: View) {
-        initRecyclerView(view)
+    private fun initViews() {
+        initRecyclerView()
         initFabButton()
     }
 
@@ -132,10 +140,10 @@ class CategoryListFragment : Fragment() {
         }
     }
 
-    private fun initRecyclerView(view: View) {
+    private fun initRecyclerView() {
         categoryListAdapter = CategoryListRVAdapter(listener)
 
-        view.categoryListRV.apply {
+        categoryListRV.apply {
             layoutManager = LinearLayoutManager(activity)
             adapter = categoryListAdapter
             RecyclerViewUtil.addDecorator(context, this)
@@ -152,12 +160,8 @@ class CategoryListFragment : Fragment() {
         else {
             fab?.setImageResource(android.R.drawable.ic_input_add)
             fab?.setOnClickListener {
-                sharedModel?.select(
-                    SharedMsg(
-                        MsgState.ADDCATEGORY,
-                        -1L
-                    )
-                )
+                gDialog = showAddCategoryDialog("")
+                gDialog.show()
             }
         }
     }
@@ -192,5 +196,36 @@ class CategoryListFragment : Fragment() {
     private fun onRemoveCategoryButtonClickBehavior(category: CategoryEntity) {
         category.isDeleted = true
         categoryListViewModel.saveCategory(category)
+    }
+
+    private fun showAddCategoryDialog(defaultText: String): AlertDialog {
+        val builder: AlertDialog.Builder = AlertDialog.Builder(activity)
+        val inflater = requireActivity().layoutInflater
+        val view: View = inflater.inflate(R.layout.dialog_add_category, null)
+        builder.setView(view)
+        view.categoryNameTIT.setText(defaultText)
+        val dialog = builder.create()
+        view.cancelBtn.setOnClickListener {
+            gDialog.dismiss()
+        }
+        view.saveCatBtn.setOnClickListener {
+            view.categoryNameTIT?.let {
+                if(!isError(view.categoryNameTIT, getString(R.string.text_category_name))){
+                    addNewCategory(it.text.toString())
+                    gDialog.dismiss()
+                }
+            }
+        }
+        return dialog
+    }
+
+    private fun addNewCategory(name: String) {
+        val categoryEntity = CategoryEntity(
+            name = name,
+            description = "",
+            imagepath = "")
+        categoryListViewModel.saveCategory(categoryEntity)
+        categoryListViewModel.getCategories()
+        categoryListAdapter.notifyItemInserted(categoryListLastElement)
     }
 }

@@ -7,8 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.cafeapp.mycafe.R
 import com.cafeapp.mycafe.frameworks.room.TableEntity
-import kotlinx.android.synthetic.main.dish_view_holder.view.*
-import kotlinx.android.synthetic.main.table_item.view.*
+import kotlinx.android.synthetic.main.table_view_holder.view.*
 
 class TableListRVAdapter(private val onTableListItemClickListener: OnTableListItemClickListener) :
     RecyclerView.Adapter<TableListRVAdapter.TableViewHolder>() {
@@ -26,7 +25,7 @@ class TableListRVAdapter(private val onTableListItemClickListener: OnTableListIt
 
         return TableViewHolder(
             LayoutInflater.from(context).inflate(
-                R.layout.table_item,
+                R.layout.table_view_holder,
                 parent,
                 false
             )
