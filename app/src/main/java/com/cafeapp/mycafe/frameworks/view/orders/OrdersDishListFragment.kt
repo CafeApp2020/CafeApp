@@ -22,9 +22,13 @@ import kotlinx.android.synthetic.main.fragment_order_dishlist.*
 import kotlinx.android.synthetic.main.fragment_order_dishlist.view.*
 import org.koin.androidx.scope.currentScope
 
-class OrdersDishListFragment(orderViewModel: OrderViewModel): BaseFragment<OrderViewModel, OrderViewState>() , OnOrderDishListener {
+class OrdersDishListFragment(private val orderViewModel: OrderViewModel)
+    : Fragment(), OnOrderDishListener {
     private lateinit var ordersDishListRVAdapter: OrdersDishListRVAdapter
-    override val viewModel = orderViewModel
+
+    private val sharedModel by lazy {
+        activity?.let { ViewModelProvider(it).get(SharedViewModel::class.java) }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,6 +37,19 @@ class OrdersDishListFragment(orderViewModel: OrderViewModel): BaseFragment<Order
     ): View {
         val root = inflater.inflate(R.layout.fragment_order_dishlist, container, false)
         initRecyclerView(root)
+        initSharedModelObserver()
+
+        orderViewModel.viewState.observe(viewLifecycleOwner) { orderViewState  ->
+            orderViewState as OrderViewState
+            orderViewState.orderDishEntityModifyList?.let {
+                it.let {
+                    ordersDishListRVAdapter.setDishList(it)
+                    totalSummTW.text = orderViewModel.getTotalSum(it).toString() + " ₽"
+                }
+            }
+            if (orderViewState.saveOk&&SelectedOrder.currentOrder.paided)
+                sharedModel?.select(SharedMsg(MsgState.RETURNSELECTEDDISHLIST, 0))
+        }
         return root
     }
 
@@ -42,12 +59,28 @@ class OrdersDishListFragment(orderViewModel: OrderViewModel): BaseFragment<Order
         }
         payedButton?.setOnClickListener {
             SelectedOrder.currentOrder.paided=true
-            viewModel.changePayedStatus(SelectedOrder.currentOrder)
+            orderViewModel.changePayedStatus(SelectedOrder.currentOrder)
+        }
+    }
+
+    private fun initSharedModelObserver() {
+        sharedModel?.getSelected()?.observe(viewLifecycleOwner) { msg ->
+            when (msg.stateName) {
+                MsgState.DELEVERYOPEN -> {
+                    if (msg.value is OrdersEntity)
+                        loadDishList(msg.value)
+                }
+
+                MsgState.TAKEAWAYOPEN -> {
+                    if (msg.value is OrdersEntity)
+                        loadDishList(msg.value)
+                }
+            }
         }
     }
 
     private fun loadDishList(ordersEntity: OrdersEntity) {
-        viewModel.loadDishList(ordersEntity)
+        orderViewModel.loadDishList(ordersEntity)
     }
 
     private fun initRecyclerView(view: View) {
@@ -60,34 +93,9 @@ class OrdersDishListFragment(orderViewModel: OrderViewModel): BaseFragment<Order
     }
 
     override fun onDishCountChangeButtonClick(orderDishEntity: OrderDishEntityModify) {
-        viewModel.updateOrderDishEntityModify(orderDishEntity)
-    }
-
-    override fun onViewModelMsg(state: OrderViewState) {
-        super.onViewModelMsg(state)
-        state.orderDishEntityModifyList?.let {
-            it.let {
-                ordersDishListRVAdapter.setDishList(it)
-                totalSummTW.text = viewModel.getTotalSum(it).toString() + " ₽"
-            }
-        }
-        if (state.saveOk&&SelectedOrder.currentOrder.paided)
-            sharedModel?.select(SharedMsg(MsgState.RETURNSELECTEDDISHLIST, 0))
-    }
-
-    override fun onMainFabClick() {
-    }
-
-    override fun onSharedMsg(msg: SharedMsg) {
-        when (msg.stateName) {
-            MsgState.DELEVERYOPEN -> {
-                if (msg.value is OrdersEntity)
-                    loadDishList(msg.value)
-            }
-            MsgState.TAKEAWAYOPEN -> {
-                if (msg.value is OrdersEntity)
-                    loadDishList(msg.value)
-            }
-        }
+        orderViewModel.updateOrderDishEntityModify(orderDishEntity)
     }
 }
+
+
+

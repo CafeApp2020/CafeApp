@@ -13,6 +13,7 @@ import com.cafeapp.mycafe.frameworks.room.OrdersEntity
 import com.cafeapp.mycafe.frameworks.view.BaseFragment
 import com.cafeapp.mycafe.frameworks.view.delivery.SelectedOrder
 import com.cafeapp.mycafe.frameworks.view.menu.categorylist.WorkMode
+import com.cafeapp.mycafe.interface_adapters.viewmodels.categories.CategoryViewModel
 import com.cafeapp.mycafe.interface_adapters.viewmodels.categories.CategoryViewState
 import com.cafeapp.mycafe.interface_adapters.viewmodels.orders.OrderViewModel
 import com.cafeapp.mycafe.interface_adapters.viewmodels.orders.OrderViewState
