@@ -11,13 +11,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.cafeapp.mycafe.R
 import com.cafeapp.mycafe.entities.OrderDishEntityModify
 import com.cafeapp.mycafe.frameworks.room.OrdersEntity
+import com.cafeapp.mycafe.frameworks.view.BaseFragment
 import com.cafeapp.mycafe.frameworks.view.delivery.SelectedOrder
 import com.cafeapp.mycafe.interface_adapters.viewmodels.orders.OrderViewModel
+import com.cafeapp.mycafe.interface_adapters.viewmodels.orders.OrderViewState
 import com.cafeapp.mycafe.use_case.utils.MsgState
 import com.cafeapp.mycafe.use_case.utils.SharedMsg
 import com.cafeapp.mycafe.use_case.utils.SharedViewModel
 import kotlinx.android.synthetic.main.fragment_order_dishlist.*
 import kotlinx.android.synthetic.main.fragment_order_dishlist.view.*
+import org.koin.androidx.scope.currentScope
 
 class OrdersDishListFragment(private val orderViewModel: OrderViewModel)
     : Fragment(), OnOrderDishListener {
@@ -36,7 +39,8 @@ class OrdersDishListFragment(private val orderViewModel: OrderViewModel)
         initRecyclerView(root)
         initSharedModelObserver()
 
-        orderViewModel.orderViewState.observe(viewLifecycleOwner) { orderViewState ->
+        orderViewModel.viewState.observe(viewLifecycleOwner) { orderViewState  ->
+            orderViewState as OrderViewState
             orderViewState.orderDishEntityModifyList?.let {
                 it.let {
                     ordersDishListRVAdapter.setDishList(it)
@@ -91,6 +95,7 @@ class OrdersDishListFragment(private val orderViewModel: OrderViewModel)
     override fun onDishCountChangeButtonClick(orderDishEntity: OrderDishEntityModify) {
         orderViewModel.updateOrderDishEntityModify(orderDishEntity)
     }
-
-
 }
+
+
+

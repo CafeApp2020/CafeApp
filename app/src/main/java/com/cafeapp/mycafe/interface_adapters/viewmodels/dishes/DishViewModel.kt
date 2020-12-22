@@ -1,19 +1,12 @@
 package com.cafeapp.mycafe.interface_adapters.viewmodels.dishes
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import com.cafeapp.mycafe.interface_adapters.viewmodels.baseviewmodel.BaseViewModel
 import com.cafeapp.mycafe.use_case.interactors.dishes.IDishInteractor
 import com.less.repository.db.room.DishesEntity
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-class DishViewModel(private val dishInteractor: IDishInteractor) : ViewModel() {
-    private val compositeDisposable: CompositeDisposable = CompositeDisposable()
-    private val modifyDishViewState = MutableLiveData<DishesViewState>()
-
-    val dishViewState: LiveData<DishesViewState> = modifyDishViewState
+class DishViewModel(private val dishInteractor: IDishInteractor) : BaseViewModel() {
 
     fun getDishList(category_id: Long) {
         compositeDisposable.add(
@@ -21,9 +14,9 @@ class DishViewModel(private val dishInteractor: IDishInteractor) : ViewModel() {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    modifyDishViewState.value = DishesViewState(dishList=it, loadOk = true)  // break point
+                    modifyViewState.value = DishesViewState(dishList=it)
                 }, {
-                    error ->modifyDishViewState.value = DishesViewState(error = error)
+                    error ->modifyViewState.value = DishesViewState(error = error)
                 })
         )
     }
@@ -35,12 +28,10 @@ class DishViewModel(private val dishInteractor: IDishInteractor) : ViewModel() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     {
-                        modifyDishViewState.value =
-                            DishesViewState(dish = savedDish, saveOk = true)
+                        modifyViewState.value =  DishesViewState(dish = savedDish, saveOk = true)
                     },
                     { error ->
-                        modifyDishViewState.value =
-                            DishesViewState(error = error)
+                        modifyViewState.value = DishesViewState(error = error)
                     })
         )
     }
@@ -52,12 +43,10 @@ class DishViewModel(private val dishInteractor: IDishInteractor) : ViewModel() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     {
-                       modifyDishViewState.value =
-                      DishesViewState(dish = editableDish, saveOk = true)
+                       modifyViewState.value = DishesViewState(dish = editableDish, saveOk = true)
                     },
                     { error ->
-                        modifyDishViewState.value =
-                            DishesViewState(error = error)
+                        modifyViewState.value =  DishesViewState(error = error)
                     })
         )
     }
@@ -75,14 +64,10 @@ class DishViewModel(private val dishInteractor: IDishInteractor) : ViewModel() {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    modifyDishViewState.value = DishesViewState(dish=it, loadOk = true)
+                    modifyViewState.value = DishesViewState(dish=it, loadOk = true)
                 }, {
-                    modifyDishViewState.value = DishesViewState(error = it)
+                    modifyViewState.value = DishesViewState(error = it)
                 })
         )
-    }
-
-    override fun onCleared() {
-        compositeDisposable.clear()
     }
 }

@@ -126,3 +126,118 @@ class DeliveryClientDataFragment(private val orderViewModel: OrderViewModel) : F
         orderViewModel.saveOrder(orderDelivery)
     }
 }
+
+
+/*
+class DeliveryClientDataFragment(private val orderViewModel: OrderViewModel) : BaseFragment<OrderViewModel, OrderViewState>() {
+companion object {
+        lateinit var deliveryDateTimeCalendar: CalendarUtility
+    }
+
+    override val viewModel = orderViewModel
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
+    ): View {
+        return inflater.inflate(R.layout.fragment_delivery_client_data, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        deliveryDateTimeCalendar = activity?.let {
+            CalendarUtility(it, deliveryDateTIT, deliveryTimeTIT)
+        }!!
+
+        deliveryTimeTIT.setOnFocusChangeListener { view: View, focused: Boolean ->
+            if (focused) deliveryDateTimeCalendar.setTime(view)
+            else saveDelivery()
+        }
+
+        deliveryDateTIT.setOnFocusChangeListener { view: View, focused: Boolean ->
+            if (focused) deliveryDateTimeCalendar.setDate(view)
+            else saveDelivery()
+        }
+
+
+
+        onFocusChange(customerNameTIT, getString(R.string.enter_customer_name))
+        onFocusChange(customerPhoneTIT, getString(R.string.enter_phone_number))
+        onFocusChange(customerAddressTIT, getString(R.string.enter_address))
+    }
+
+    private fun onFocusChange(textView: TextView, message: String) {
+        textView.setOnFocusChangeListener { view: View, focused: Boolean ->
+            if (!focused) {
+                if (!isError(textView, message)) {
+                    saveDelivery()
+                }
+            }
+        }
+    }
+
+    private fun loadDeliveryFromDishes(value: Any) {
+        val selectedDishMap = value as Map<OrdersEntity, MutableList<Long>>
+        val iterator: Iterator<OrdersEntity> = selectedDishMap.keys.iterator()
+        val order = iterator.next()
+        viewSetData(order)
+    }
+
+    private fun viewSetData(order: OrdersEntity) {
+        order.let {
+            SelectedOrder.currentOrder = order
+            customerNameTIT.setText(order.customername)
+            customerPhoneTIT.setText(order.customerphone)
+            customerAddressTIT.setText(order.customeraddress)
+            deliveryDateTIT.setText(order.dateTime?.let { it1 ->
+                CalendarUtility.getDateStr(it1)
+            })
+            deliveryTimeTIT.setText(order.dateTime?.let { it1 ->
+                CalendarUtility.getTimeStr(it1)
+            })
+        }
+    }
+
+    private fun saveDelivery() {
+        val customerName = customerNameTIT?.let { customerNameTIT.text.toString() } ?: ""
+        val customerPhone = customerPhoneTIT?.let { customerPhoneTIT.text.toString() } ?: ""
+        val customerAddress = customerAddressTIT?.let { customerAddressTIT.text.toString() } ?: ""
+
+        val orderDelivery = OrdersEntity(
+            customername = customerName,
+            customerphone = customerPhone,
+            customeraddress = customerAddress,
+            dateTime = deliveryDateTimeCalendar.calendar.time,
+            ordertype = OrderType.DELIVERY
+        )
+
+        if (SelectedOrder.currentOrder.id > 0)
+            orderDelivery.id = SelectedOrder.currentOrder.id
+
+        SelectedOrder.currentOrder = orderDelivery
+        viewModel.saveOrder(orderDelivery)
+    }
+
+    override fun onMainFabClick() {}
+
+    override fun onViewModelMsg(state: OrderViewState) {
+        super.onViewModelMsg(state)
+
+    }
+
+
+    override fun onSharedMsg(msg: SharedMsg) {
+        when (msg.stateName) {
+            MsgState.DELIVERYADD -> {
+                SelectedOrder.currentOrder = OrdersEntity()
+                saveDelivery()
+            }
+            MsgState.DELEVERYOPEN -> {
+                if (msg.value is OrdersEntity)
+                    viewSetData(msg.value)
+                if (msg.value is Map<*, *>)
+                    loadDeliveryFromDishes(msg.value)
+            }
+        }
+    }
+}*/

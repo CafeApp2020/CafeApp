@@ -9,8 +9,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.cafeapp.mycafe.R
 import com.cafeapp.mycafe.frameworks.room.OrdersEntity
+import com.cafeapp.mycafe.frameworks.view.BaseFragment
 import com.cafeapp.mycafe.frameworks.view.delivery.SelectedOrder
+import com.cafeapp.mycafe.interface_adapters.viewmodels.categories.CategoryViewState
 import com.cafeapp.mycafe.interface_adapters.viewmodels.orders.OrderViewModel
+import com.cafeapp.mycafe.interface_adapters.viewmodels.orders.OrderViewState
 import com.cafeapp.mycafe.use_case.utils.MsgState
 import com.cafeapp.mycafe.use_case.utils.SharedMsg
 import com.cafeapp.mycafe.use_case.utils.SharedViewModel
@@ -22,15 +25,9 @@ import kotlinx.android.synthetic.main.fragment_takeaway_client_data.*
 import kotlinx.android.synthetic.main.fragment_takeaway_client_data.view.*
 import org.koin.androidx.scope.currentScope
 
-class TakeawayMainFragment : Fragment() {
-    private val orderViewModel: OrderViewModel by currentScope.inject()
+class TakeawayMainFragment : BaseFragment<OrderViewModel, OrderViewState>() {
+    override val viewModel: OrderViewModel by currentScope.inject()
     private lateinit var viewPager: ViewPager2
-
-    private val sharedViewModel by lazy {
-        activity?.let {
-            ViewModelProvider(it).get(SharedViewModel::class.java)
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,9 +40,7 @@ class TakeawayMainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initFab()
-        initSharedViewModelObserver()
-        initOrderViewModelObserver()
+        setFabImageResource(android.R.drawable.ic_menu_save)
         initTabLayout()
     }
 
@@ -53,7 +48,7 @@ class TakeawayMainFragment : Fragment() {
         val tabLayout = view?.findViewById<TabLayout>(R.id.fragment_takeaway_tab_layout)
         viewPager = view?.findViewById(R.id.fragment_takeaway_pager)!!
 
-        val takeawayAdapter = TakeawayTapAdapter(this, orderViewModel)
+        val takeawayAdapter = TakeawayTapAdapter(this, viewModel)
         viewPager.adapter = takeawayAdapter
 
         TabLayoutMediator(tabLayout!!, viewPager) { tab, position ->
@@ -62,42 +57,11 @@ class TakeawayMainFragment : Fragment() {
         }.attach()
     }
 
-    private fun initFab() {
-        val fab = activity?.findViewById<FloatingActionButton>(R.id.activityFab)
-
-        with(fab!!) {
-            setImageResource(android.R.drawable.ic_menu_save)
-            setOnClickListener {
-                sharedViewModel?.select(SharedMsg(MsgState.RETURNSELECTEDDISHLIST, 0))
-            }
-        }
-    }
-
-    private fun initSharedViewModelObserver() {
-        sharedViewModel?.getSelected()?.observe(viewLifecycleOwner) {
-            when (it.stateName) {
-                MsgState.TAKEAWAYOPEN -> {
-                    if (it.value is Map<*, *>)
-                        insertDishesAndLoadOrder(it.value)
-                }
-            }
-        }
-    }
-
-    private fun initOrderViewModelObserver() {
-        orderViewModel.orderViewState.observe(viewLifecycleOwner) {
-            when {
-                it.saveOk -> {
-                    if (it.ordersEntityID > 0) {
-                        SelectedOrder.currentOrder.id = it.ordersEntityID
-                    }
-                }
-            }
-
-            it.orderDishEntityModifyList?.let {
-                viewPager.currentItem = 1
-            }
-        }
+    override fun onViewModelMsg(state: OrderViewState) {
+        super.onViewModelMsg(state)
+        if (state.saveOk &&  state.ordersEntityID > 0)
+            SelectedOrder.currentOrder.id = state.ordersEntityID
+        state.orderDishEntityModifyList?.let { viewPager.currentItem = 1}
     }
 
     private fun insertDishesAndLoadOrder(value: Any) {
@@ -105,13 +69,21 @@ class TakeawayMainFragment : Fragment() {
         val iterator: Iterator<OrdersEntity> = selectedDishMap.keys.iterator()
         val order = iterator.next()
         val dishIdList = selectedDishMap.get(order)
-
         dishIdList?.let {
             insertDishList(order, dishIdList)
         }
     }
 
     private fun insertDishList(order: OrdersEntity, selectedDishList: MutableList<Long>) {
-        orderViewModel.insertSelDishIdList(order, selectedDishList)
+        viewModel.insertSelDishIdList(order, selectedDishList)
+    }
+
+    override fun onMainFabClick() {
+        sharedModel?.select(SharedMsg(MsgState.RETURNSELECTEDDISHLIST, 0))
+    }
+
+    override fun onSharedMsg(msg: SharedMsg) {
+        if (msg.stateName == MsgState.TAKEAWAYOPEN && msg.value is Map<*, *>)
+              insertDishesAndLoadOrder(msg.value)
     }
 }

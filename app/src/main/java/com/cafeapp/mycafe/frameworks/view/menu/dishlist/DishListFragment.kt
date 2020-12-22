@@ -13,10 +13,14 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.cafeapp.mycafe.R
+import com.cafeapp.mycafe.frameworks.view.BaseFragment
 import com.cafeapp.mycafe.frameworks.view.menu.categorylist.CategoryListFragment
 import com.cafeapp.mycafe.frameworks.view.menu.categorylist.WorkMode
 import com.cafeapp.mycafe.frameworks.view.utils.RecyclerViewUtil
+import com.cafeapp.mycafe.interface_adapters.viewmodels.categories.CategoryViewModel
+import com.cafeapp.mycafe.interface_adapters.viewmodels.categories.CategoryViewState
 import com.cafeapp.mycafe.interface_adapters.viewmodels.dishes.DishViewModel
+import com.cafeapp.mycafe.interface_adapters.viewmodels.dishes.DishesViewState
 import com.cafeapp.mycafe.use_case.utils.MsgState
 import com.cafeapp.mycafe.use_case.utils.SharedMsg
 import com.cafeapp.mycafe.use_case.utils.SharedViewModel
@@ -29,10 +33,11 @@ import org.koin.androidx.scope.currentScope
 import java.util.*
 
 // Экран для отображения списка блюд
-class DishListFragment : Fragment() {
+class DishListFragment : BaseFragment<DishViewModel, DishesViewState>() {
     private var workMode:WorkMode=WorkMode.MenuCreate // режим работы: создание/редактирование меню либо выбор блюд для заказа
     var currentCategoryID: Long = 0
     private lateinit var dishListAdapter: DishListRVAdapter
+    override val viewModel: DishViewModel by currentScope.inject()
 
     private val listener: OnDishListItemClickListener =
         object : OnDishListItemClickListener {
@@ -60,12 +65,6 @@ class DishListFragment : Fragment() {
         }
    }
 
-    private val dishListViewModel: DishViewModel by currentScope.inject()
-
-    private val sharedModel by lazy {
-        activity?.let { ViewModelProvider(it).get(SharedViewModel::class.java) }
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -76,15 +75,12 @@ class DishListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         initViews(view)
-        initViewModelObserver()
-        initSharedModelObserver()
     }
 
     private fun initViews(view: View) {
         initRecyclerView()
-        initFabButton()
+        setFabImageResource(android.R.drawable.ic_input_add)
     }
 
     private fun initRecyclerView() {
@@ -95,46 +91,30 @@ class DishListFragment : Fragment() {
             layoutManager = LinearLayoutManager(activity)
                 RecyclerViewUtil.addDecorator(context, this)
             }
+         dishListAdapter.updateSelectedDishList(CategoryListFragment.selectedDishListForOrder)
         }
 
-    private fun initFabButton() {
-        val fab = activity?.findViewById<FloatingActionButton>(R.id.activityFab)
-
-        fab?.setImageResource(android.R.drawable.ic_input_add)
-        fab?.setOnClickListener {
-            sharedModel?.select(SharedMsg(MsgState.ADDDISH, currentCategoryID))
-        }
-    }
-
-    private fun initViewModelObserver() {
+    override fun onViewModelMsg(state: DishesViewState) {
+        super.onViewModelMsg(state)
         try {
-             dishListViewModel.dishViewState.observe(viewLifecycleOwner) { state ->
-                 if (state.error!=null) {Toast.makeText(context,state.error.message,Toast.LENGTH_LONG).show()
-                     return@observe
-                 }
-                 if (state.saveOk )
-                     dishListViewModel.getDishList(currentCategoryID)
-                 state.dishList?.let { dList ->
-                     initRecyclerView()
-                     dishListAdapter.setDishList(dList)
-                 }
-             }
-        } catch (e: Exception) {
+               if (state.saveOk )
+                   viewModel.getDishList(currentCategoryID)
+                state.dishList?.let { dList ->
+                    initRecyclerView()
+                    dishListAdapter.setDishList(dList)
+                }
+            }
+           catch (e: Exception) {
             sharedModel?.select(SharedMsg(MsgState.CATEGORYLISTOPEN, currentCategoryID))
         }
     }
 
     private fun loadDishFromCategory(categoryIdAny:Any) {
-        if (categoryIdAny is CategoryEntity) {
+       if (categoryIdAny is CategoryEntity) {
             currentCategoryID = categoryIdAny.id
-            dishListViewModel.getDishList(categoryIdAny.id)
-            categoryIdAny.name.let { name ->
-                sharedModel?.select(
-                    SharedMsg(
-                        MsgState.SETTOOLBARTITLE,
-                        name
-                    )
-                )
+            viewModel.getDishList(categoryIdAny.id)
+           categoryIdAny.name.let { name ->
+                sharedModel?.select( SharedMsg(MsgState.SETTOOLBARTITLE, name))
             }
         }
     }
@@ -142,7 +122,7 @@ class DishListFragment : Fragment() {
     private fun loadDishFromCategoryId(categorId:Any) {
         if (categorId is Long) {
             currentCategoryID = categorId
-            dishListViewModel.getDishList(categorId)  // break point
+            viewModel.getDishList(categorId)
         }
     }
 
@@ -160,29 +140,31 @@ class DishListFragment : Fragment() {
         }
     }
 
-    private fun initSharedModelObserver() {
-        sharedModel?.getSelected()?.observe(viewLifecycleOwner) { msg ->
-            when (msg.stateName) {
-                MsgState.DISHESLIST -> {
-                    loadDishFromCategory(msg.value)
-                    loadDishFromCategoryId(msg.value)
-                }
-                MsgState.OPENFORORDER -> openForOrder(msg.value)
-             }
-          }
-        }
-
     private fun editClick(id: Long) {
         sharedModel?.select(SharedMsg(MsgState.OPENDISH, id))
     }
 
     private fun changeStopListClick(currentDish: DishesEntity, stopState: Boolean) {
         currentDish.in_stop_list = stopState
-        dishListViewModel.editDish(currentDish)
+        viewModel.editDish(currentDish)
     }
 
     private fun removeClick(currentDish: DishesEntity) {
         currentDish.deleted = true
-        dishListViewModel.editDish(currentDish)
+        viewModel.editDish(currentDish)
+    }
+
+    override fun onMainFabClick() {
+        sharedModel?.select(SharedMsg(MsgState.ADDDISH, currentCategoryID))
+    }
+
+    override fun onSharedMsg(msg: SharedMsg) {
+        when (msg.stateName) {
+         MsgState.DISHESLIST ->
+                {CategoryListFragment.selectedDishListForOrder = mutableListOf<Long>()
+                 loadDishFromCategory(msg.value)
+                 loadDishFromCategoryId(msg.value)}
+         MsgState.OPENFORORDER -> openForOrder(msg.value)
+         }
     }
 }
