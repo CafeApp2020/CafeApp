@@ -29,7 +29,8 @@ class OrdersEntity(
     // дата-время доставки
     var dateTime: Date? = null,
 
-    var isNearTime: Boolean? = null,
+    @field:ColumnInfo(name = "isNearTime")
+    var isNearTime: Boolean? = true,
 
     @field:ColumnInfo(name = "tableid")
     // id стола из таблицы со столами

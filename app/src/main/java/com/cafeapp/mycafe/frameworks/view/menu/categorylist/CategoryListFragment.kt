@@ -85,6 +85,9 @@ class CategoryListFragment() : BaseFragment<CategoryViewModel, CategoryViewState
 
     override fun onViewModelMsg(state: CategoryViewState) {
         super.onViewModelMsg(state)
+        state.category?.let {
+            viewModel.getCategories()
+        }
         state.categoryList?.let { categoryList ->
             initRecyclerView()
             categoryListLastElement = categoryList.size
@@ -167,7 +170,6 @@ class CategoryListFragment() : BaseFragment<CategoryViewModel, CategoryViewState
             description = "",
             imagepath = "")
         viewModel.saveCategory(categoryEntity)
-        viewModel.getCategories()
         categoryListAdapter.notifyItemInserted(categoryListLastElement)
     }
 
