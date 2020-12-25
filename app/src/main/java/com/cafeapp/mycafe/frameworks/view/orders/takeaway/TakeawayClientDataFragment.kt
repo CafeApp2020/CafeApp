@@ -166,12 +166,12 @@ class TakeawayClientDataFragment(private val orderViewModel: OrderViewModel) : F
             ordertype = OrderType.TAKEAWAY
         )
 
-        order.isNearTime = fragment_takeaway_client_data_switch.isChecked
-
         if (SelectedOrder.currentOrder.id > 0)
             order.id = SelectedOrder.currentOrder.id
 
         SelectedOrder.currentOrder = order
+        order.isNearTime = fragment_takeaway_client_data_switch?.isChecked
+
         orderViewModel.saveOrder(order)
     }
 }

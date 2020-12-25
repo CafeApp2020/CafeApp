@@ -95,8 +95,8 @@ class DishListFragment : BaseFragment<DishViewModel, DishesViewState>() {
         }
 
     override fun onViewModelMsg(state: DishesViewState) {
-        super.onViewModelMsg(state)
         try {
+               super.onViewModelMsg(state)
                if (state.saveOk )
                    viewModel.getDishList(currentCategoryID)
                 state.dishList?.let { dList ->
@@ -120,9 +120,14 @@ class DishListFragment : BaseFragment<DishViewModel, DishesViewState>() {
     }
 
     private fun loadDishFromCategoryId(categorId:Any) {
+        try {
         if (categorId is Long) {
             currentCategoryID = categorId
             viewModel.getDishList(categorId)
+        }
+        }
+        catch (e: Exception) {
+            sharedModel?.select(SharedMsg(MsgState.CATEGORYLISTOPEN, currentCategoryID))
         }
     }
 

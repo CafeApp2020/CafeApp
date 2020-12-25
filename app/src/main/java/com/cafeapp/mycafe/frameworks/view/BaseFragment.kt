@@ -26,9 +26,14 @@ abstract class BaseFragment<T : BaseViewModel, ViewState : BaseViewState>(): Fra
     }
 
     private fun initViewModelObserver() {
-        viewModel.viewState.observe(viewLifecycleOwner, {
-            onViewModelMsg(it as ViewState)
-        })
+        try {
+            viewModel.viewState.observe(viewLifecycleOwner, {
+                onViewModelMsg(it as ViewState)
+            })
+        }
+        catch (e: Exception) {
+            Toast.makeText(context, "error",Toast.LENGTH_LONG).show()
+        }
     }
 
     private fun initSharedViewModelObserver() {
